@@ -29,5 +29,6 @@ so it is likely the baby is related and important to the target.</p>
 
 ## Notes
 <p>Might have to rewrite the story because it doesn't really make any sense. How would you be in that office if you didn't already know the owner's name?
-What situation do you answer a security question without entering the account's name beforehand? Could use some work,
-but might not matter to the educational impact of the exercise .</p>
+In what situation do you answer a security question without entering the account's name beforehand? It could use some work,
+but it might not matter to the educational impact of the exercise.<be>
+Still need to flesh out all the photo descriptions, but most of them aren't important.</p>
