@@ -16,7 +16,7 @@ See what you can do to objects in the room.</p>
     - Can be picked up
     - Can be interacted to pull up a keyboard hologram for user input
         - This might be tricky to implement and design.
-        - [Rough Reference image](https://i.pinimg.com/originals/ba/3a/56/ba3a5623d90e4f060328ab5b47239ccd.jpg)
+    ![Rough Reference image](https://i.pinimg.com/originals/ba/3a/56/ba3a5623d90e4f060328ab5b47239ccd.jpg)
 - Mouse:
     - Can be picked up
 - Sticky Note:
