@@ -30,6 +30,17 @@ public class Keyboard_Parent_Example : MonoBehaviour
         }
     }
 
+    public void OnPointerClick()
+    {
+        keyboard = Keyboard_3D_Static.makeNewKeyboardObject();
+        Keyboard_3D_Static.spawnKeys(keyboard, keyboard_type, keyboard_margin_hor, keyboard_margin_ver,
+            (string charPressed, string fullString) => { keyPressed(charPressed, fullString); },
+            (string fullString) => { onSubmit(fullString); },
+            (string fullString) => { onCancel(fullString); },
+            (string fullString) => { onDestroy(fullString); }
+        );
+    }
+
     void keyPressed(string charPressed, string fullString) {
         Debug.Log("Keypressed: " + charPressed + "~~~" + fullString);
     }

@@ -242,7 +242,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d0c0c63adc216484dade241fdd975eda, type: 2}
     - target: {fileID: 919132149155446097, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
       propertyPath: m_Name
-      value: Keybaord_key
+      value: Keyboard_key
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -250,8 +254,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6943468700388125882}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3453497621370069203}
   m_SourcePrefab: {fileID: 100100000, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+--- !u!1 &366977689305558032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+  m_PrefabInstance: {fileID: 8384407772005099928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3453497621370069203
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366977689305558032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.375006, y: 0.096471995, z: 1.372454}
+  m_Center: {x: 0, y: 0.057489, z: 0}
 --- !u!4 &8345696841234255475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}

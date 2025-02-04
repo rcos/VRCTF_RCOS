@@ -86,11 +86,11 @@ public class Keyboard_3D : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
-        if (keyPrefab == null) {
-            Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_key\" not found in Resources folder");
-            return;
-        }
+        // keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
+        // if (keyPrefab == null) {
+        //     Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_key\" not found in Resources folder");
+        //     return;
+        // }
     }
 
     // Update is called once per frame
@@ -108,10 +108,7 @@ public class Keyboard_3D : MonoBehaviour
     public void invokeKeyboardSpawn(int keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
                                     System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
                                     System.Action<string> onDestroy_func) {
-        if (keyPrefab == null) {
-            Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_key\" is currently null. No keyboard keys will appear");
-            return;
-        }
+        keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
         
         onKeyPress = onKeyPress_func;
         onSubmit = onSubmit_func;

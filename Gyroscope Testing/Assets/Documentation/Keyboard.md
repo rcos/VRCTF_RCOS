@@ -1,7 +1,6 @@
 # Keyboard. By Nicholas Busaba
 
 ## Overview
-
 The script in `Assets/KeyboardScripts/Keyboard_Parent_Example.cs` shows all the function in use. All you need to do is call methods within a static class and the class will take care of everything for you.
 All code for the static class is in `Assets/KeyboardScripts/Keybaord_3D.cs` in a class called `Keyboard_3D_Static`. Here are its methods. The keyboard and keys is spawned from the prefab in `Assets/Resources/KeyboardPrefabs/*.prefab`. <br><br>
 
