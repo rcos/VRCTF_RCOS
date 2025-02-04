@@ -8,6 +8,6 @@ The scripts in `Assets/TestingScripts` allow for testing within the Unity editor
 
 Add `VREmulator.cs` to the main camera object. Can adjust sensitivity in inspector.
 
-Add `CardboardReticlePointerEmulator.cs` to `Packages/Google Cardboard XR Plugin/Runtime`.
+Add `CardboardReticlePointerEmulator.cs` to `Packages/Google Cardboard XR Plugin/Runtime`. Note that `Packages` is set to read-only, so you must do this outside Unity using your Text Editor/IDE. Doing this in File Explorer may cause Unity to ignore `CardboardReticlePointerEmulator.cs`. 
 
 Replace `CardboardReticlePointer.cs` with `CardboardReticlePointerEmulator.cs` in the CardboardReticlePointer Prefab. Set Reticle Interaction Layer Mask with Interactive.

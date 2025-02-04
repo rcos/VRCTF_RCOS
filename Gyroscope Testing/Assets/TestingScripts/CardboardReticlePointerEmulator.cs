@@ -25,7 +25,7 @@ using UnityEngine.EventSystems;
 /// <remarks>
 /// Sends messages to gazed GameObject. The reticle dilates if the object has an interactive layer.
 /// </remarks>
-public class CardboardReticlePointer : MonoBehaviour
+public class CardboardReticlePointerEmulator : MonoBehaviour
 {
     /// <summary>
     /// Sorting order to use for the reticle's renderer.
@@ -181,7 +181,7 @@ public class CardboardReticlePointer : MonoBehaviour
         }
 
         // Checks for screen touches.
-        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        if (Google.XR.Cardboard.Api.IsTriggerPressed || UnityEngine.Input.GetMouseButtonDown(0))
         {
             if (IsInteractive(_gazedAtObject))
             {
