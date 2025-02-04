@@ -1,13 +1,14 @@
-# Emulator. By Nicholas Busaba
+# Emulator. By Nicholas Busaba and David Li
 
 ## Overview
 
-The scripts in `Assets/TestingScripts` allow for testing within the Unity editor. `VREmulator.cs` allows for camera movement and `CardboardReticlePointerEmulator.cs` allows for interactions. <br><br>
+The scripts in `Assets/TestingScripts` and in `Assets\Documentation` allow for testing within the Unity editor. `VREmulator.cs` in in `Assets\TestingScripts` allows for camera movement and `Emulator_Add.sh`/`Emulator_Remove.sh` in in `Assets\Documentation` turn on/off interactions. <br> <br>
 
 ## Setup
 
+Step 1 <br>
 Add `VREmulator.cs` to the main camera object. Can adjust sensitivity in inspector.
 
-Add `CardboardReticlePointerEmulator.cs` to `Packages/Google Cardboard XR Plugin/Runtime`. Note that `Packages` is set to read-only, so you must do this outside Unity using your Text Editor/IDE. Doing this in File Explorer may cause Unity to ignore `CardboardReticlePointerEmulator.cs`. 
-
-Replace `CardboardReticlePointer.cs` with `CardboardReticlePointerEmulator.cs` in the CardboardReticlePointer Prefab. Set Reticle Interaction Layer Mask with Interactive.
+Step 2<br>
+Run `Emulator_Add.sh` in `Assets\Documentation`. It will change `CardboardReticlePointer.cs` in the Cardboard Plugin to allow interactions in the editor.
+Run `Emulator_Remove.sh` to undo the changes.
