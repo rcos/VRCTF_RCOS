@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        bool checkForFloor = Physics.Raycast(transform.position, transform.forward, out hit, 200f) && hit.transform.tag == "WalkableFloor";
+        bool checkForFloor = Physics.Raycast(transform.position, transform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
         bool checkForObstruction = true;
         if (checkForFloor) { checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f); }
         if (checkForFloor && !checkForObstruction)
