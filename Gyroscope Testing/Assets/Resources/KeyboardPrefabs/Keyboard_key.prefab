@@ -244,6 +244,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Keyboard_key
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -258,6 +262,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3453497621370069203}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2511595924537402409}
   m_SourcePrefab: {fileID: 100100000, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}
 --- !u!1 &366977689305558032 stripped
 GameObject:
@@ -285,6 +292,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.375006, y: 0.096471995, z: 1.372454}
   m_Center: {x: 0, y: 0.057489, z: 0}
+--- !u!114 &2511595924537402409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366977689305558032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901f1c1f80087ce4d91edfef4e4e0e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8345696841234255475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 718f07486a3372e46b56d8a0524de3b8, type: 3}

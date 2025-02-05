@@ -22,19 +22,19 @@ public static class Keyboard_3D_Static
                                     System.Action<string> onDestroy_func) {
         switch (keyboard_type) {
             case 0: //normal qwert keyboard
-                Keyboard_3D_Static.setScale(keyboard, new Vector3(1f, 1f, 1f));
+                Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
             case 1: //numberpad
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(0.2f, 1f, 0.4f));
                 break;
             case 2: //lowercase
-                Keyboard_3D_Static.setScale(keyboard, new Vector3(1f, 1f, 1f));
+                Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
             case 3: //uppercase
-                Keyboard_3D_Static.setScale(keyboard, new Vector3(1f, 1f, 1f));
+                Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
             case 4: //uppercase and lowercase
-                Keyboard_3D_Static.setScale(keyboard, new Vector3(1.2f, 1f, 1.2f));
+                Keyboard_3D_Static.setScale(keyboard, new Vector3(1f, 1f, 1f));
                 break;
             default:
                 Debug.LogError("Keyboard type not recognized");
@@ -82,15 +82,13 @@ public class Keyboard_3D : MonoBehaviour
     private System.Action<string> onSubmit = null;
     private System.Action<string> onCancel = null;
     private System.Action<string> onDestroy = null;
+
+    private bool showKeyHighlighted = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
-        // if (keyPrefab == null) {
-        //     Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_key\" not found in Resources folder");
-        //     return;
-        // }
+
     }
 
     // Update is called once per frame
@@ -109,6 +107,10 @@ public class Keyboard_3D : MonoBehaviour
                                     System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
                                     System.Action<string> onDestroy_func) {
         keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
+        if (keyPrefab == null) {
+            Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_key\" not found in Resources folder");
+            return;
+        }
         
         onKeyPress = onKeyPress_func;
         onSubmit = onSubmit_func;
@@ -164,8 +166,13 @@ public class Keyboard_3D : MonoBehaviour
         }
     }
 
-    void addToString() {
-        string c = KeysValuesAndSizes[currentPosition.Item2][currentPosition.Item3].Item1;
+    public void keyPressed(string key) {
+        addToString(key);
+    }
+
+    void addToString(string c = null) {
+        if (c == null) c = KeysValuesAndSizes[currentPosition.Item2][currentPosition.Item3].Item1;
+
         switch (c.ToLower()) {
             case "<--":
             case "<-":
@@ -181,13 +188,13 @@ public class Keyboard_3D : MonoBehaviour
                 if (onSubmit != null) {
                     onSubmit(currentString);
                 }
-                break;
+                return;
             case "esc":
             case "cancel":
                 if (onCancel != null) {
                     onCancel(currentString);
                 }
-                break;
+                return;
             default:
                 currentString += c;
                 break;
@@ -199,7 +206,9 @@ public class Keyboard_3D : MonoBehaviour
 
     /* Expects deltaX and deltaY to be either -1, 0, or 1. Only one parameter should have a non-zero value */
     void updatedHighlightedKey(int deltaX, int deltaY) {
+        if (!showKeyHighlighted) { return; }
         if (Allkeys == null) { return; }
+
         int x = currentPosition.Item1;
         int y = currentPosition.Item2;
         int indexX = currentPosition.Item3;
@@ -310,7 +319,7 @@ public class Keyboard_3D : MonoBehaviour
             Transform childTransform = Allkeys[rowNumber][i].transform.Find("Text (TMP)");
             childTransform.GetComponent<TextMeshPro>().text = keysAndSizes[i].Item1;
 
-            Allkeys[rowNumber][i].transform.Find("default").GetComponent<Renderer>().material.color = Color.blue;
+            //Allkeys[rowNumber][i].transform.Find("default").GetComponent<Renderer>().material.color = Color.blue;
         }
 
         transform.localScale = oldScale;
