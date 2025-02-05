@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define file name
-file="../../Library/PackageCache/com.google.xr.cardboard/Runtime/CardboardReticlePointer.cs"
+file="../Gyroscope Testing/Library/PackageCache/com.google.xr.cardboard/Runtime/CardboardReticlePointer.cs"
 newline="        if (Google.XR.Cardboard.Api.IsTriggerPressed) "
 
 temp_file=$(mktemp)

@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 :: Define file name
-set "file=../../Library/PackageCache/com.google.xr.cardboard/Runtime/CardboardReticlePointer.cs"
+set "file=../Gyroscope Testing/Library/PackageCache/com.google.xr.cardboard/Runtime/CardboardReticlePointer.cs"
 set "newline=        if (Google.XR.Cardboard.Api.IsTriggerPressed || UnityEngine.Input.GetMouseButtonDown(0)) "
 
 :: Use PowerShell to modify the file
