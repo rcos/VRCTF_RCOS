@@ -7,6 +7,9 @@ The scripts in `Assets/TestingScripts` and in `Assets\Documentation` allow for t
 ## Setup
 
 Step 1 <br>
+At the window header go to `Edit->Project Settings`. In the `Player` tab, go to the `Other Settings` section for `Settings for Android`. In configuration set `Active Input Handling` from `Input System Package (New)` to `Both`. In order to test on an actual device, revert to `Input System Package (New)`.
+
+Step 1 <br>
 Add `VREmulator.cs` to the main camera object. Can adjust sensitivity in inspector.
 
 Step 2<br>
