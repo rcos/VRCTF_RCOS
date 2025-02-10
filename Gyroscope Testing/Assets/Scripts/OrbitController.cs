@@ -29,7 +29,7 @@ using Random = UnityEngine.Random;
 public class OrbitController : MonoBehaviour
 {
     public Vector3 inpectPosition;
-    public Vector3 inspectScale;
+    public Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
 
     // The objects are about 1 meter in radius, so the min/max target distance are
     // set so that the objects are always within the room (which is about 5 meters
@@ -92,7 +92,7 @@ public class OrbitController : MonoBehaviour
         }
     }
 
-    public void smoothRotate(Quaternion direction, Vector3 axis)
+    public void smoothRotate(Quaternion direction, Vector3 axis) // Fix the format of this later cause it is currently random if statements at random places
     {
         float yAngle = direction.eulerAngles.y;
         if (direction.eulerAngles.y > 180)
@@ -105,10 +105,32 @@ public class OrbitController : MonoBehaviour
         {
             xAngle = 0 - (360 - xAngle);
         }
+        float zAngle = direction.eulerAngles.z;
         
-        Debug.Log(xAngle);
-        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
-        transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(xAngle * 50f, -300f, 300f) * Time.deltaTime);
+        if (direction.eulerAngles.z > 180)
+        {
+            zAngle = 0 - (360 - zAngle);
+        }
+        
+        Quaternion rotationX = Quaternion.Euler(xAngle, 0, 0);
+        Quaternion rotationZ = Quaternion.Euler(0, 0, zAngle);
+
+        // Combine the rotations
+        Quaternion combinedRotation = rotationX * rotationZ;
+        
+        float combinedAngle = 0f;
+        Vector3 blankAxis;
+        combinedRotation.ToAngleAxis(out combinedAngle, out blankAxis);
+
+        if (((xAngle < 0f || zAngle < 0f) && combinedAngle > 0f) || ((xAngle > 0f || zAngle > 0f) && combinedAngle < 0f))
+        {
+            combinedAngle = -combinedAngle;
+        }
+        
+        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(-yAngle * 50f, -300f, 300f) * Time.deltaTime);
+        transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
+
+        Debug.Log(xAngle + " || " + zAngle);
     }
     
     /// <summary>
