@@ -19,7 +19,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -28,6 +27,10 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class OrbitController : MonoBehaviour
 {
+    // Leftovers from sample
+    public Material InactiveMaterial;
+    public Material GazedAtMaterial;
+    
     public Vector3 inpectPosition;
     public Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
 
@@ -44,6 +47,7 @@ public class OrbitController : MonoBehaviour
     private Quaternion _startingRotation;
     private Vector3 _startingScale;
     private Camera _cam;
+    private Renderer _myRenderer;
 
 
     /// <summary>
@@ -56,6 +60,8 @@ public class OrbitController : MonoBehaviour
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
         _cam = Camera.main;
+        _myRenderer = GetComponent<Renderer>();
+        SetMaterial(false);
     }
 
     public void Update()
@@ -122,15 +128,16 @@ public class OrbitController : MonoBehaviour
         Vector3 blankAxis;
         combinedRotation.ToAngleAxis(out combinedAngle, out blankAxis);
 
-        if (((xAngle < 0f || zAngle < 0f) && combinedAngle > 0f) || ((xAngle > 0f || zAngle > 0f) && combinedAngle < 0f))
+        if (_cam.transform.rotation.eulerAngles.x < 90f)
         {
+            Debug.Log("Reversed > 0");
             combinedAngle = -combinedAngle;
         }
         
         transform.RotateAround(transform.position, yAxis, Mathf.Clamp(-yAngle * 50f, -300f, 300f) * Time.deltaTime);
         transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
 
-        Debug.Log(xAngle + " || " + zAngle);
+        Debug.Log(_cam.transform.rotation.eulerAngles.x + " | " + combinedAngle);
     }
     
     /// <summary>
@@ -138,7 +145,7 @@ public class OrbitController : MonoBehaviour
     /// </summary>
     public void OnPointerEnter()
     {
-        
+        SetMaterial(true);
     }
 
     /// <summary>
@@ -146,7 +153,7 @@ public class OrbitController : MonoBehaviour
     /// </summary>
     public void OnPointerExit()
     {
-        
+        SetMaterial(false);
     }
 
     /// <summary>
@@ -156,5 +163,13 @@ public class OrbitController : MonoBehaviour
     public void OnPointerClick()
     {
         _spinning = !_spinning;
+    }
+    
+    private void SetMaterial(bool gazedAt)
+    {
+        if (InactiveMaterial != null && GazedAtMaterial != null)
+        {
+            _myRenderer.material = gazedAt ? GazedAtMaterial : InactiveMaterial;
+        }
     }
 }
