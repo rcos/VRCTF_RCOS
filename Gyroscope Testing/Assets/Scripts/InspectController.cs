@@ -97,22 +97,22 @@ public class InspectController : MonoBehaviour
         }
     }
 
-    public void smoothRotate(Quaternion direction, Vector3 axis) // Fix the format of this later cause it is currently random if statements at random places
+    public void smoothRotate(Quaternion rotationDifference, Vector3 rotationDirection) // Fix the format of this later cause it is currently random if statements at random places
     {
-        float yAngle = direction.eulerAngles.y;
-        if (direction.eulerAngles.y > 180)
+        float yAngle = rotationDifference.eulerAngles.y;
+        if (rotationDifference.eulerAngles.y > 180)
         {
             yAngle = 0 - (360 - yAngle);
         }
-        Vector3 yAxis = new Vector3(0f, axis.y, 0f);
-        float xAngle = direction.eulerAngles.x;
-        if (direction.eulerAngles.x > 180)
+        Vector3 yAxis = new Vector3(0f, rotationDirection.y, 0f);
+        float xAngle = rotationDifference.eulerAngles.x;
+        if (rotationDifference.eulerAngles.x > 180)
         {
             xAngle = 0 - (360 - xAngle);
         }
-        float zAngle = direction.eulerAngles.z;
+        float zAngle = rotationDifference.eulerAngles.z;
         
-        if (direction.eulerAngles.z > 180)
+        if (rotationDifference.eulerAngles.z > 180)
         {
             zAngle = 0 - (360 - zAngle);
         }
