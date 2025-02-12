@@ -10,17 +10,21 @@ Also the keyboard can be interacted with by looking at the keys. It will change 
 
 ALWAYS CALL THIS FUNCTION FIRST!!!! This makes a new keyboard object and returns the gameobject to it.
 
-#### public static void spawnKeys(GameObject keyboard, int keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func, System.Action<string> onSubmit_func, System.Action<string> onCancel_func, System.Action<string> onDestroy_func)
+#### public static void spawnKeys(GameObject keyboard, GameEnums.Keyboard_Type keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func, System.Action<string> onSubmit_func, System.Action<string> onCancel_func, System.Action<string> onDestroy_func)
 
 This is the function you should call immediately after the previous one. This places keys on the keyboard and allows it to call functions so the parent knows when attributes about the keyboard object was updated.<br>
 &ensp; GameObject keyboard - result from `makeNewKeyboardObject` function above
-&ensp; int keyboard_type - 0 for normal qwert keyboard (not recommended), 1 for a number pad, 2 for all lowercase keys, 3 for all uppercase keys, and 4 for all lowercase and uppercase letters
+&ensp; GameEnums.Keyboard_Type keyboard_type - GameEnums.Keyboard_Type.qwert (or 0) for normal qwert keyboard (not recommended), GameEnums.Keyboard_Type.numberpad (or 1) for a number pad, GameEnums.Keyboard_Type.LowercaseOnly (or 2) for all lowercase keys, GameEnums.Keyboard_Type.UppercaseOnly (or 3) for all uppercase keys, and GameEnums.Keyboard_Type.UpperAndLowerCase (or 4) for all lowercase and uppercase letters
 &ensp; float hor_margin - margin space between all keys in the horizontal direction (recommend to keep below 1.0f)
 &ensp; float ver_margin - margin space between all keys in the vertical direction (recommend to keep below 1.0f)
 &ensp; System.Action<string, string> onKeyPress_func - a function that receives a string of the key pressed, and the entire string the user typed on this keyboard. This is called every time a key is pressed
 &ensp; System.Action<string> onSubmit_func - a function that receives the entire string the user typed on this keyboard. This is called when the "enter" key is pressed
 &ensp; System.Action<string> onCancel_func - a function that receives the entire string the user typed on this keyboard. This is called when the "esc" key is pressed
 &ensp; System.Action<string> onDestroy_func - a function that receives the entire string the user typed on this keyboard. This is called when the keyboard is deleted, for whatever reason that may be
+
+#### public static GameObject makeNewKeyboardObjectAndKeys(GameEnums.Keyboard_Type keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func, System.Action<string> onSubmit_func, System.Action<string> onCancel_func, System.Action<string> onDestroy_func)
+
+Combines the two functions from above into one function. No additional functionality.
 
 #### public static void destroyKeyboard(GameObject keyboard)
 

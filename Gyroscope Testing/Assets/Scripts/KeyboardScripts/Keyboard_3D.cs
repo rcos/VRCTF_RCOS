@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using TypeEnum = GameEnums.Keyboard_Type;
 
 public static class Keyboard_3D_Static
 {
@@ -15,25 +16,49 @@ public static class Keyboard_3D_Static
         return Object.Instantiate(prefab);
     }
 
+    public static GameObject makeNewKeyboardObjectAndKeys(TypeEnum keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
+                                    System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
+                                    System.Action<string> onDestroy_func)
+    {
+        GameObject keyboard = Keyboard_3D_Static.makeNewKeyboardObject();
+        Keyboard_3D_Static.spawnKeys(keyboard, keyboard_type, hor_margin, ver_margin, onKeyPress_func, onSubmit_func, onCancel_func, onDestroy_func);
+        return keyboard;
+    }
+
+    // needed to keep older functionality working
+    public static GameObject makeNewKeyboardObjectAndKeys(int keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
+                                    System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
+                                    System.Action<string> onDestroy_func)
+    {
+        return Keyboard_3D_Static.makeNewKeyboardObjectAndKeys((TypeEnum)keyboard_type, hor_margin, ver_margin, onKeyPress_func, onSubmit_func, onCancel_func, onDestroy_func);
+    }
+
     // --------------------------------- Other ---------------------------------
 
+    // needed to keep older functionality working
     public static void spawnKeys(GameObject keyboard, int keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
                                     System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
                                     System.Action<string> onDestroy_func) {
+        Keyboard_3D_Static.spawnKeys(keyboard, (TypeEnum)keyboard_type, hor_margin, ver_margin, onKeyPress_func, onSubmit_func, onCancel_func, onDestroy_func);
+    }
+
+    public static void spawnKeys(GameObject keyboard, TypeEnum keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
+                                    System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
+                                    System.Action<string> onDestroy_func) {
         switch (keyboard_type) {
-            case 0: //normal qwert keyboard
+            case TypeEnum.qwert: //normal qwert keyboard
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
-            case 1: //numberpad
+            case TypeEnum.numberpad: //numberpad
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(0.2f, 1f, 0.4f));
                 break;
-            case 2: //lowercase
+            case TypeEnum.LowercaseOnly: //lowercase
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
-            case 3: //uppercase
+            case TypeEnum.UppercaseOnly: //uppercase
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(0.5f, 1f, 0.5f));
                 break;
-            case 4: //uppercase and lowercase
+            case TypeEnum.UpperAndLowerCase: //uppercase and lowercase
                 Keyboard_3D_Static.setScale(keyboard, new Vector3(1f, 1f, 1f));
                 break;
             default:
@@ -83,6 +108,7 @@ public class Keyboard_3D : MonoBehaviour
     private System.Action<string> onCancel = null;
     private System.Action<string> onDestroy = null;
 
+    // prevents "ijkl" from changing currently selected key
     private bool showKeyHighlighted = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -103,7 +129,7 @@ public class Keyboard_3D : MonoBehaviour
         }
     }
 
-    public void invokeKeyboardSpawn(int keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
+    public void invokeKeyboardSpawn(TypeEnum keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,
                                     System.Action<string> onSubmit_func, System.Action<string> onCancel_func,
                                     System.Action<string> onDestroy_func) {
         keyPrefab = Resources.Load<GameObject>("KeyboardPrefabs/Keyboard_key");
@@ -118,7 +144,7 @@ public class Keyboard_3D : MonoBehaviour
         onDestroy = onDestroy_func;
 
         switch (keyboard_type) {
-            case 0: //normal qwert keyboard
+            case TypeEnum.qwert: //normal qwert keyboard
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
                     new (string, int)[] {("esc", 1), ("1", 1), ("2", 1), ("3", 1), ("4", 1), ("5", 1), ("6", 1), ("7", 1), ("8", 1), ("9", 1), ("0", 1), ("-", 1), ("=", 1), ("<--", 1)},
                     new (string, int)[] {("Tab", 1), ("q", 1), ("w", 1), ("e", 1), ("r", 1), ("t", 1), ("y", 1), ("u", 1), ("i", 1), ("o", 1), ("p", 1), ("[", 1), ("]", 1), ("\\", 1)},
@@ -127,7 +153,7 @@ public class Keyboard_3D : MonoBehaviour
                     new (string, int)[] {("Ctrl", 2), ("Alt", 2), ("Space", 6), ("Alt", 2), ("Ctrl", 2)}
                 });
                 break;
-            case 1: //numberpad
+            case TypeEnum.numberpad: //numberpad
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
                     new (string, int)[] {("esc", 2), ("<--", 2)},
                     new (string, int)[] {("0", 1), ("1", 1), ("2", 1), ("3", 1)},
@@ -135,7 +161,7 @@ public class Keyboard_3D : MonoBehaviour
                     new (string, int)[] {("8", 1), ("9", 1), ("0", 1), ("enter", 1)},
                 });
                 break;
-            case 2: //lowercase
+            case TypeEnum.LowercaseOnly: //lowercase
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
                     new (string, int)[] {("esc", 1), ("q", 1), ("w", 1), ("e", 1), ("r", 1), ("t", 1), ("y", 1), ("u", 1), ("i", 1), ("o", 1), ("p", 1), ("<--", 1)},
                     new (string, int)[] {(" ", 1), ("a", 1), ("s", 1), ("d", 1), ("f", 1), ("g", 1), ("h", 1), ("j", 1), ("k", 1), ("l", 1), (" ", 1)},
@@ -143,7 +169,7 @@ public class Keyboard_3D : MonoBehaviour
                     new (string, int)[] {(" ", 2), ("Space", 6), ("enter", 2)}
                 });
                 break;
-            case 3: //uppercase
+            case TypeEnum.UppercaseOnly: //uppercase
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
                     new (string, int)[] {("esc", 1), ("Q", 1), ("W", 1), ("E", 1), ("R", 1), ("T", 1), ("Y", 1), ("U", 1), ("I", 1), ("O", 1), ("P", 1), ("<--", 1)},
                     new (string, int)[] {(" ", 1), ("A", 1), ("S", 1), ("D", 1), ("F", 1), ("G", 1), ("H", 1), ("J", 1), ("K", 1), ("L", 1), (" ", 2)},
@@ -151,7 +177,7 @@ public class Keyboard_3D : MonoBehaviour
                     new (string, int)[] {(" ", 2), ("Space", 6), ("enter", 2)}
                 });
                 break;
-            case 4: //uppercase and lowercase
+            case TypeEnum.UpperAndLowerCase: //uppercase and lowercase
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
                     new (string, int)[] {("A", 1), ("B", 1), ("C", 1), ("D", 1), ("E", 1), ("F", 1), ("G", 1), ("H", 1), ("I", 1), ("J", 1), ("K", 1), ("L", 1), ("M", 1)},
                     new (string, int)[] {("N", 1), ("O", 1), ("P", 1), ("Q", 1), ("R", 1), ("S", 1), ("T", 1), ("U", 1), ("V", 1), ("W", 1), ("X", 1), ("Y", 1), ("Z", 1)},
