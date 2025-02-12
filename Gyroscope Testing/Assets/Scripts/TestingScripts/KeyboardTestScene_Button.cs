@@ -37,13 +37,12 @@ public class KeyboardTestScene_Button : MonoBehaviour
             Keyboard_3D_Static.destroyKeyboard(keyboard);
             keyboard = null;
         }
-        keyboard = Keyboard_3D_Static.makeNewKeyboardObject();
-        Keyboard_3D_Static.spawnKeys(keyboard, 2, 0.1f, 0.1f,
-                (string charPressed, string fullString) => { keyPressed(charPressed, fullString); },
-                (string fullString) => { onSubmit(fullString); },
-                (string fullString) => { onCancel(fullString); },
-                null
-        );
+        keyboard = Keyboard_3D_Static.makeNewKeyboardObjectAndKeys(GameEnums.Keyboard_Type.LowercaseOnly, 0.1f, 0.1f,
+                    (string charPressed, string fullString) => { keyPressed(charPressed, fullString); },
+                    (string fullString) => { onSubmit(fullString); },
+                    (string fullString) => { onCancel(fullString); },
+                    null
+                  );
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, 1f, 3.35f));
         TMP_Text.text = "\"\"";
     }

@@ -2,6 +2,16 @@ using UnityEngine;
 
 public static class GameEnums
 {
+    // --------------------------------- FadeOutSquare ---------------------------------
+
+    public enum Keyboard_Type
+    {
+        qwert = 0,
+        numberpad = 1,
+        LowercaseOnly = 2,
+        UppercaseOnly = 3,
+        UpperAndLowerCase = 4
+    }
 
     // --------------------------------- FadeOutSquare ---------------------------------
 
