@@ -25,7 +25,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Controls target objects behaviour.
 /// </summary>
-public class OrbitController : MonoBehaviour
+public class TravelController : MonoBehaviour
 {
     // Leftovers from sample
     public Material InactiveMaterial;
