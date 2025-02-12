@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using TMPro;
 
 public class KeyboardTestScene_Button : MonoBehaviour
 {
+    [SerializeField] private String password;
     private GameObject keyboard = null;
     public TextMeshPro TMP_Text;
     
@@ -53,7 +55,7 @@ public class KeyboardTestScene_Button : MonoBehaviour
     }
     void onSubmit(string fullString) {
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
-        if (fullString == "password") {
+        if (fullString == password) {
             TMP_Text.text = "Correct!";
         } else {
             TMP_Text.text = "Incorrect!";
