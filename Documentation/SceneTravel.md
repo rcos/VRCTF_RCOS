@@ -3,7 +3,7 @@
 ## Overview
 The script in `Assets/Scripts/TravelController.cs` contains the script to allow moving to another scene.
 
-Attach `InspectController.cs` to any GameObject in the `Interactible` layer, preferably an UI object. In the Inspector window's Script Component, give the exact name of the desired scene the object will send the user (leave out .unity).
+Attach `TravelController.cs` to any GameObject in the `Interactible` layer, preferably an UI object. In the Inspector window's Script Component, give the exact name of the desired scene the object will send the user (leave out .unity).
 
 When running the scene, interacting with the object will cause a fade to black. During this, the scene will change keeping the current `Player` object.
 
