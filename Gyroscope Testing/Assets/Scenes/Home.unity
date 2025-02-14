@@ -790,7 +790,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493fb05c23b84c4b88cdd42e05556c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1729557421}
   sceneName: InspectTest
   InactiveMaterial: {fileID: 0}
   GazedAtMaterial: {fileID: 0}
@@ -1637,7 +1636,7 @@ PrefabInstance:
       objectReference: {fileID: 558995244}
     - target: {fileID: 142474621333068519, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
       propertyPath: m_VersionIndex
-      value: 1718
+      value: 1721
       objectReference: {fileID: 0}
     - target: {fileID: 2547816321188923184, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1690,6 +1689,10 @@ PrefabInstance:
     - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
       propertyPath: m_Name
       value: Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
+      propertyPath: m_TagString
+      value: WalkableFloor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

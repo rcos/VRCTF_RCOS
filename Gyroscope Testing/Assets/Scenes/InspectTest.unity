@@ -2093,6 +2093,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room
       objectReference: {fileID: 0}
+    - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
+      propertyPath: m_TagString
+      value: WalkableFloor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
