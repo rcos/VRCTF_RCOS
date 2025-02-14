@@ -37,4 +37,9 @@ public class PlayerMovement : MonoBehaviour
             dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
         }
     }
+
+    public void TransitionArea()
+    {
+        FadeOutSquare_Static.makeNewFadeOutSquare(10,50,10, (GameEnums.FadeOutSquare_CallbackType reason) => { transform.position = transform.position; } );
+    }
 }

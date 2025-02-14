@@ -18,7 +18,9 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -27,12 +29,11 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class TravelController : MonoBehaviour
 {
+    [SerializeField] private String sceneName;
+    
     // Leftovers from sample
     public Material InactiveMaterial;
     public Material GazedAtMaterial;
-    
-    public Vector3 inpectPosition;
-    public Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
 
     // The objects are about 1 meter in radius, so the min/max target distance are
     // set so that the objects are always within the room (which is about 5 meters
@@ -41,103 +42,20 @@ public class TravelController : MonoBehaviour
     private const float MaxObjectDistance = 3.5f;
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
-    
-    private bool _spinning;
-    private Vector3 _startingPosition;
-    private Quaternion _startingRotation;
-    private Vector3 _startingScale;
-    private Camera _cam;
-    private Renderer _myRenderer;
 
+    private GameObject player;
 
     /// <summary>
     /// Start is called before the first frame update.
     /// </summary>
     public void Start()
     {
-        _spinning = false;
-        _startingPosition = transform.localPosition;
-        _startingRotation = transform.rotation;
-        _startingScale = transform.localScale;
-        _cam = Camera.main;
-        _myRenderer = GetComponent<Renderer>();
-        SetMaterial(false);
+        player = GameObject.Find("Player");
     }
 
     public void Update()
     {
-        if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
-        {
-            Debug.Log("SPINNING");
-            
-            transform.position = Vector3.Lerp(transform.position, inpectPosition, Time.deltaTime * 5);
-            transform.localScale = Vector3.Lerp(transform.localScale, inspectScale, Time.deltaTime * 5);
-            
-            Vector3 targeted = (transform.position - _cam.transform.position).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(targeted, Vector3.up);
-            Quaternion startRotation = _cam.transform.rotation;
-            Quaternion differenceRotation = targetRotation * Quaternion.Inverse(startRotation);
-            smoothRotate(differenceRotation, targeted);
-            
-            
-            // This method sets the object rotation to follow the camera's and stops when it matches. Might be useful later?
-            /*
-             Vector3 targeted = transform.position - camera.transform.position;
-            Quaternion targetRotation = Quaternion.LookRotation(targeted, Vector3.up);
-            Quaternion startRotation = camera.transform.rotation;
-            Quaternion differenceRotation = targetRotation * Quaternion.Inverse(startRotation);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, differenceRotation, Time.deltaTime * 10f);
-            */
-        }
-        else
-        {
-            Debug.Log("NO SPINNING");
-            transform.position = Vector3.Lerp(transform.position, _startingPosition, Time.deltaTime * 5);
-            transform.localScale = Vector3.Lerp(transform.localScale, _startingScale, Time.deltaTime * 5);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, _startingRotation, Time.deltaTime * 500f);
-        }
-    }
-
-    public void smoothRotate(Quaternion direction, Vector3 axis) // Fix the format of this later cause it is currently random if statements at random places
-    {
-        float yAngle = direction.eulerAngles.y;
-        if (direction.eulerAngles.y > 180)
-        {
-            yAngle = 0 - (360 - yAngle);
-        }
-        Vector3 yAxis = new Vector3(0f, axis.y, 0f);
-        float xAngle = direction.eulerAngles.x;
-        if (direction.eulerAngles.x > 180)
-        {
-            xAngle = 0 - (360 - xAngle);
-        }
-        float zAngle = direction.eulerAngles.z;
         
-        if (direction.eulerAngles.z > 180)
-        {
-            zAngle = 0 - (360 - zAngle);
-        }
-        
-        Quaternion rotationX = Quaternion.Euler(xAngle, 0, 0);
-        Quaternion rotationZ = Quaternion.Euler(0, 0, zAngle);
-
-        // Combine the rotations
-        Quaternion combinedRotation = rotationX * rotationZ;
-        
-        float combinedAngle = 0f;
-        Vector3 blankAxis;
-        combinedRotation.ToAngleAxis(out combinedAngle, out blankAxis);
-
-        if (_cam.transform.rotation.eulerAngles.x < 90f)
-        {
-            Debug.Log("Reversed > 0");
-            combinedAngle = -combinedAngle;
-        }
-        
-        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(-yAngle * 50f, -300f, 300f) * Time.deltaTime);
-        transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
-
-        Debug.Log(_cam.transform.rotation.eulerAngles.x + " | " + combinedAngle);
     }
     
     /// <summary>
@@ -145,7 +63,7 @@ public class TravelController : MonoBehaviour
     /// </summary>
     public void OnPointerEnter()
     {
-        SetMaterial(true);
+        
     }
 
     /// <summary>
@@ -153,7 +71,7 @@ public class TravelController : MonoBehaviour
     /// </summary>
     public void OnPointerExit()
     {
-        SetMaterial(false);
+        
     }
 
     /// <summary>
@@ -162,14 +80,36 @@ public class TravelController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
-        _spinning = !_spinning;
+        player.GetComponentInChildren<PlayerMovement>().TransitionArea();
+        StartCoroutine(LoadScene());
     }
     
-    private void SetMaterial(bool gazedAt)
+    IEnumerator LoadScene()
     {
-        if (InactiveMaterial != null && GazedAtMaterial != null)
+        yield return new WaitForSeconds(0.5f);
+        Scene currentScene = SceneManager.GetActiveScene();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        Scene newScene = SceneManager.GetSceneByName(sceneName);
+        while (!asyncLoad.isDone)
         {
-            _myRenderer.material = gazedAt ? GazedAtMaterial : InactiveMaterial;
+            yield return null;
+        }
+
+        foreach (var rootObject in newScene.GetRootGameObjects())
+        {
+            if (rootObject.name == "Player")
+            {
+                Destroy(rootObject);
+                break;
+            }
+        }
+        
+        if (currentScene.IsValid())
+        {
+            Debug.Log("Scene is Valid");
+            
+            SceneManager.MoveGameObjectToScene(player, newScene);
+            SceneManager.UnloadSceneAsync(currentScene);
         }
     }
 }

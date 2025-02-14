@@ -90,7 +90,6 @@ public class InspectController : MonoBehaviour
         }
         else
         {
-            Debug.Log("NO SPINNING");
             transform.position = Vector3.Lerp(transform.position, _startingPosition, Time.deltaTime * 5);
             transform.localScale = Vector3.Lerp(transform.localScale, _startingScale, Time.deltaTime * 5);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, _startingRotation, Time.deltaTime * 500f);

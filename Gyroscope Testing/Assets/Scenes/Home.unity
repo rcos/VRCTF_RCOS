@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 856718845}
   - component: {fileID: 856718844}
   - component: {fileID: 856718847}
+  - component: {fileID: 856718848}
   m_Layer: 3
   m_Name: RoomButton
   m_TagString: Untagged
@@ -777,6 +778,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.5, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &856718848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856718842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493fb05c23b84c4b88cdd42e05556c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1729557421}
+  sceneName: InspectTest
+  InactiveMaterial: {fileID: 0}
+  GazedAtMaterial: {fileID: 0}
 --- !u!1 &893715017
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +851,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: RoomTest
+  m_text: InspectTest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1359,6 +1376,7 @@ GameObject:
   - component: {fileID: 2143556917}
   - component: {fileID: 2143556916}
   - component: {fileID: 2143556921}
+  - component: {fileID: 2143556922}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1593,6 +1611,18 @@ MonoBehaviour:
   sensitivity: 4
   minTurnAngle: -90
   maxTurnAngle: 90
+--- !u!114 &2143556922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143556914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24247383c99a85d4b978737e220a3224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3084549724799409017
 PrefabInstance:
   m_ObjectHideFlags: 0
