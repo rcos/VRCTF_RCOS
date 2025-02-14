@@ -7,9 +7,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 positionToGoTo = new Vector3(0, 0, 0);
 
+    private Transform reticleTransform;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        reticleTransform = transform.Find("CardboardReticlePointer").transform;
+        
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
         dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
@@ -20,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        bool checkForFloor = Physics.Raycast(transform.position, transform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
+        bool checkForFloor = Physics.Raycast(transform.position, reticleTransform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
         bool checkForObstruction = true;
         if (checkForFloor) { checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f); }
         if (checkForFloor && !checkForObstruction)
@@ -40,6 +44,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void TransitionArea()
     {
-        FadeOutSquare_Static.makeNewFadeOutSquare(10,50,10, (GameEnums.FadeOutSquare_CallbackType reason) => { transform.position = transform.position; } );
+        FadeOutSquare_Static.makeNewFadeOutSquare(10,50,10,null);
     }
 }
