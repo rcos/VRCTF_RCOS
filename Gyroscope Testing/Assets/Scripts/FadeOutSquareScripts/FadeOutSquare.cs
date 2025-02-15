@@ -7,8 +7,13 @@ public static class FadeOutSquare_Static
     // --------------------------------- Constructor ---------------------------------
 
     public static GameObject makeNewFadeOutSquare(int fadeIn, int remainFullyVisible, int fadeOut, System.Action<CallbackEnum> toCallWhenAllBlack = null) {
-        GameObject prefab = Resources.Load<GameObject>("MovementObjects/FadeOutSquare");
-        GameObject fadeOutSquare = Object.Instantiate(prefab, Camera.main.transform);
+        GameObject fadeOutSquare;
+        if (GameObject.Find("FadeOutSquare(Clone)") == null) {
+            GameObject prefab = Resources.Load<GameObject>("MovementObjects/FadeOutSquare");
+            fadeOutSquare = Object.Instantiate(prefab, Camera.main.transform);
+        } else {
+            fadeOutSquare = GameObject.Find("FadeOutSquare(Clone)");
+        }
         fadeOutSquare.GetComponent<FadeOutSquare>().setParameters(fadeIn, remainFullyVisible, fadeOut, toCallWhenAllBlack);
         return fadeOutSquare;
     }
@@ -16,6 +21,7 @@ public static class FadeOutSquare_Static
     // --------------------------------- Methods ---------------------------------
 
     public static void setPhase(GameObject fadeOutSquare, FadeOutEnum phase) {
+        if (fadeOutSquare == null) fadeOutSquare = GameObject.Find("FadeOutSquare(Clone)");
         fadeOutSquare.GetComponent<FadeOutSquare>().setPhase(phase);
     }
 }
@@ -36,9 +42,9 @@ public class FadeOutSquare : MonoBehaviour
         if (curPhase == FadeOutEnum.FadeIn) {
             GetComponent<Renderer>().material.color = new Color(0, 0, 0, (curNumFixedUpdates / (float)fixedUpdatesToFadeIn));
             if (curNumFixedUpdates >= fixedUpdatesToFadeIn) {
-                if (toCallWhenAllBlack != null) toCallWhenAllBlack(CallbackEnum.Natural);
                 curPhase = FadeOutEnum.StayFullyVisible;
                 curNumFixedUpdates = 0;
+                if (toCallWhenAllBlack != null) toCallWhenAllBlack(CallbackEnum.Natural);
             }
         }
         if (curPhase == FadeOutEnum.StayFullyVisible) {
@@ -57,12 +63,7 @@ public class FadeOutSquare : MonoBehaviour
         }
         if (curPhase == FadeOutEnum.TeleportAway) {
             transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-            curPhase = FadeOutEnum.TimerBeforeDelete;
-        }
-        if (curPhase == FadeOutEnum.TimerBeforeDelete) {
-            if (curNumFixedUpdates >= 8) {
-                Destroy(this.gameObject);
-            }
+            curPhase = FadeOutEnum.WaitingForParameters;
         }
 
         curNumFixedUpdates++;
@@ -83,9 +84,9 @@ public class FadeOutSquare : MonoBehaviour
         //skip fade in
         if (fadeIn == 0 && remainFullyVisible != 0) {
             GetComponent<Renderer>().material.color = new Color(0, 0, 0, 1 - (curNumFixedUpdates / (float)fixedUpdatesToFadeOut));
-            if (toCallWhenAllBlack != null) toCallWhenAllBlack(CallbackEnum.FromSetParameters);
             curPhase = FadeOutEnum.StayFullyVisible;
             curNumFixedUpdates = 0;
+            if (toCallWhenAllBlack != null) toCallWhenAllBlack(CallbackEnum.FromSetParameters);
         }
         //skip fade in and fully visible phases
         if (fadeIn == 0 && remainFullyVisible == 0) {
@@ -97,21 +98,18 @@ public class FadeOutSquare : MonoBehaviour
 
     public void setPhase(FadeOutEnum phase) {
         curPhase = phase;
-        if (phase == FadeOutEnum.FadeIn) {
+        if (curPhase == FadeOutEnum.FadeIn) {
             GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
         }
-        if (phase == FadeOutEnum.StayFullyVisible) {
+        if (curPhase == FadeOutEnum.StayFullyVisible) {
+            GetComponent<Renderer>().material.color = new Color(0, 0, 0, 1);
             if (toCallWhenAllBlack != null) toCallWhenAllBlack(CallbackEnum.FromSettingPhase);
+        }
+        if (curPhase == FadeOutEnum.FadeOut) {
             GetComponent<Renderer>().material.color = new Color(0, 0, 0, 1);
         }
-        if (phase == FadeOutEnum.FadeOut) {
-            GetComponent<Renderer>().material.color = new Color(0, 0, 0, 1);
-        }
-        if (phase == FadeOutEnum.TeleportAway) {
+        if (curPhase == FadeOutEnum.TeleportAway) {
             transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        }
-        if (phase == FadeOutEnum.TimerBeforeDelete) {
-            curNumFixedUpdates = 0;
         }
     }
 }

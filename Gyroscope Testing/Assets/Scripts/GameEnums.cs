@@ -21,8 +21,7 @@ public static class GameEnums
         FadeIn = 0,
         StayFullyVisible = 1,
         FadeOut = 2,
-        TeleportAway = 3,
-        TimerBeforeDelete = 4
+        TeleportAway = 3
     }
 
     public enum FadeOutSquare_CallbackType
