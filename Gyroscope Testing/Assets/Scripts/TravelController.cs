@@ -88,11 +88,15 @@ public class TravelController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Scene currentScene = SceneManager.GetActiveScene();
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        yield return new WaitUntil(() => asyncLoad.isDone);
+
         Scene newScene = SceneManager.GetSceneByName(sceneName);
-        while (!asyncLoad.isDone)
+        if (!newScene.IsValid())
         {
-            yield return null;
+            Debug.Log("Scene is not Valid");
+            yield break;
         }
 
         foreach (var rootObject in newScene.GetRootGameObjects())
@@ -105,11 +109,18 @@ public class TravelController : MonoBehaviour
         }
         
         if (currentScene.IsValid())
-        {
-            Debug.Log("Scene is Valid");
-            
+        {            
             SceneManager.MoveGameObjectToScene(player, newScene);
-            SceneManager.UnloadSceneAsync(currentScene);
+            AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(currentScene);
+            asyncUnload.completed += OnSceneUnloaded;
+        } else {
+            // An error occurred
+            Debug.Log("Scene is not Valid");
         }
+    }
+
+    private void OnSceneUnloaded(AsyncOperation obj)
+    {
+        FadeOutSquare_Static.setPhase(null, GameEnums.FadeOutSquare_PhaseEnum.FadeOut);
     }
 }

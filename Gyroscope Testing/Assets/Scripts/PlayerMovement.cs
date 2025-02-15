@@ -44,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void TransitionArea()
     {
-        FadeOutSquare_Static.makeNewFadeOutSquare(10,50,10,null);
+        GameObject fadeOutSquareForNewScene = null;
+        fadeOutSquareForNewScene = FadeOutSquare_Static.makeNewFadeOutSquare(10,50,10,
+                (GameEnums.FadeOutSquare_CallbackType reason) => {
+
+                    FadeOutSquare_Static.setPhase(fadeOutSquareForNewScene, GameEnums.FadeOutSquare_PhaseEnum.WaitingForParameters);
+                });
     }
 }
