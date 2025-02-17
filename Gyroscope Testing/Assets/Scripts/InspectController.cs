@@ -18,7 +18,10 @@
 
 using System;
 using System.Collections;
+using NUnit.Framework;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -31,9 +34,9 @@ public class InspectController : MonoBehaviour
     public Material InactiveMaterial;
     public Material GazedAtMaterial;
     
-    public Vector3 inpectPosition;
-    public Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
-
+    [SerializeField] private Vector3 inspectPosition;
+    [SerializeField] private Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
+    
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
     // set so that the objects are always within the room (which is about 5 meters
@@ -69,14 +72,14 @@ public class InspectController : MonoBehaviour
     {
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
-            transform.position = Vector3.Lerp(transform.position, inpectPosition, Time.deltaTime * 5);
+            transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
             transform.localScale = Vector3.Lerp(transform.localScale, inspectScale, Time.deltaTime * 5);
             
             Vector3 targeted = (transform.position - _cam.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(targeted, Vector3.up);
             Quaternion startRotation = _cam.transform.rotation;
             Quaternion differenceRotation = targetRotation * Quaternion.Inverse(startRotation);
-            smoothRotate(differenceRotation, targeted);
+            SmoothRotate(differenceRotation, targetRotation, targeted);
             
             
             // This method sets the object rotation to follow the camera's and stops when it matches. Might be useful later?
@@ -96,12 +99,17 @@ public class InspectController : MonoBehaviour
         }
     }
 
-    public void smoothRotate(Quaternion rotationDifference, Vector3 rotationDirection) // Fix the format of this later cause it is currently random if statements at random places
+    public void SmoothRotate(Quaternion rotationDifference, Quaternion rotationTarget, Vector3 rotationDirection) // Fix the format of this later cause it is currently random if statements at random places
     {
         float yAngle = rotationDifference.eulerAngles.y;
         if (rotationDifference.eulerAngles.y > 180)
         {
             yAngle = 0 - (360 - yAngle);
+        }
+
+        if (_cam.transform.position.y > transform.position.y)
+        {
+            yAngle = -yAngle;
         }
         Vector3 yAxis = new Vector3(0f, rotationDirection.y, 0f);
         float xAngle = rotationDifference.eulerAngles.x;
@@ -121,21 +129,26 @@ public class InspectController : MonoBehaviour
 
         // Combine the rotations
         Quaternion combinedRotation = rotationX * rotationZ;
-        
         float combinedAngle = 0f;
-        Vector3 blankAxis;
-        combinedRotation.ToAngleAxis(out combinedAngle, out blankAxis);
-
-        if (_cam.transform.rotation.eulerAngles.x < 90f)
+        combinedRotation.ToAngleAxis(out combinedAngle, out _);
+        float heightDifference = rotationTarget.eulerAngles.x;
+        if (heightDifference >= 270f)
+        {
+            heightDifference = 0 - (360 - heightDifference);
+        }
+        
+        // Maybe could be phrased better
+        if ((heightDifference > 0 && _cam.transform.rotation.eulerAngles.x > heightDifference && _cam.transform.rotation.eulerAngles.x <= 90f)
+            || (heightDifference < 0 && (_cam.transform.rotation.eulerAngles.x <= 90f || _cam.transform.rotation.eulerAngles.x > 360f+heightDifference)))
         {
             Debug.Log("Reversed > 0");
             combinedAngle = -combinedAngle;
         }
         
-        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(-yAngle * 50f, -300f, 300f) * Time.deltaTime);
+        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
         transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
 
-        Debug.Log(_cam.transform.rotation.eulerAngles.x + " | " + combinedAngle);
+        Debug.Log((_cam.transform.rotation.eulerAngles.x) + " | " + (360+heightDifference) + " | " + combinedAngle);
     }
     
     /// <summary>
