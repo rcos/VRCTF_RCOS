@@ -9,7 +9,5 @@ public class CameraInit : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-
-        
     }
 }
