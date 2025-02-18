@@ -35,7 +35,7 @@ public class InspectController : MonoBehaviour
     public Material GazedAtMaterial;
     
     [SerializeField] private Vector3 inspectPosition;
-    [SerializeField] private Vector3 inspectScale; // Would be nice to make this require a single float instead of 3 for each axis.
+    [SerializeField] private float inspectScaleMultiplier;
     
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
@@ -46,13 +46,13 @@ public class InspectController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
+    private Vector3 inspectScale;
     private bool _spinning;
     private Vector3 _startingPosition;
     private Quaternion _startingRotation;
     private Vector3 _startingScale;
     private Camera _cam;
     private Renderer _myRenderer;
-
 
     /// <summary>
     /// Start is called before the first frame update.
@@ -63,6 +63,7 @@ public class InspectController : MonoBehaviour
         _startingPosition = transform.localPosition;
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
+        inspectScale = _startingScale * inspectScaleMultiplier;
         _cam = Camera.main;
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
