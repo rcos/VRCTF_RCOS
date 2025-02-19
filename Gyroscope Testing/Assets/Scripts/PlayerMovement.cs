@@ -12,18 +12,18 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        reticleTransform = transform.Find("CardboardReticlePointer").transform;
-        
+        /*reticleTransform = transform.Find("CardboardReticlePointer").transform;
+
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
         dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        hideDot = false;
+        hideDot = false;*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
+        /*RaycastHit hit;
         bool checkForFloor = Physics.Raycast(transform.position, reticleTransform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
         bool checkForObstruction = true;
         if (checkForFloor) { checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f); }
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             }
         } else if (hideDot) {
             dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        }
+        }*/
     }
 
     public void TransitionArea()

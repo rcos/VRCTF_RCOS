@@ -13,12 +13,13 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private GameObject startingWindow;
     [SerializeField] private GameObject endingWindow;
     private bool flagSet; // whether the user has finished the scenario or not might not be needed
-    
+    private GameObject currentInspect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         flagSet = false;
+        currentInspect = null;
         startingWindow.SetActive(true);
         endingWindow.SetActive(false);
     }
@@ -26,7 +27,21 @@ public class ScenarioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(currentInspect.name);
+    }
+
+    public void PickUp(GameObject inspect)
+    {
+        if (currentInspect != null)
+        {
+            currentInspect.GetComponent<InspectController>().ForceStop();
+        }
+        currentInspect = inspect;
+    }
+
+    public void PutDown(GameObject inspect)
+    {
+        currentInspect = null;
     }
 
     public void FlagTriggered()

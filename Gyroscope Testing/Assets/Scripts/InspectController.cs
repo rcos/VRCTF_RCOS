@@ -21,6 +21,7 @@ using System.Collections;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -33,9 +34,10 @@ public class InspectController : MonoBehaviour
     // Leftovers from sample
     public Material InactiveMaterial;
     public Material GazedAtMaterial;
-    
     [SerializeField] private Vector3 inspectPosition;
     [SerializeField] private float inspectScaleMultiplier;
+    public UnityEvent onInspect;
+    public UnityEvent offInspect;
     
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
@@ -47,6 +49,7 @@ public class InspectController : MonoBehaviour
     private const float MaxObjectHeight = 3.5f;
     
     private Vector3 inspectScale;
+    private bool _postPress;
     private bool _spinning;
     private Vector3 _startingPosition;
     private Quaternion _startingRotation;
@@ -64,7 +67,10 @@ public class InspectController : MonoBehaviour
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
         inspectScale = _startingScale * inspectScaleMultiplier;
+        _postPress = false;
         _cam = Camera.main;
+        onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
+        offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown(gameObject));
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
     }
@@ -146,6 +152,7 @@ public class InspectController : MonoBehaviour
             combinedAngle = -combinedAngle;
         }
 
+#if UNITY_EDITOR
         if (Math.Abs(yAngle) > 3f)
         {
             transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
@@ -154,7 +161,16 @@ public class InspectController : MonoBehaviour
         {
             transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
         }
-
+#else
+        if (Math.Abs(yAngle) > 3f)
+        {
+            transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
+        }
+        if (Math.Abs(combinedAngle) > 5f)
+        {
+            transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
+        }
+#endif
     }
     
     /// <summary>
@@ -182,14 +198,34 @@ public class InspectController : MonoBehaviour
 #if UNITY_EDITOR
         _spinning = !_spinning;
 #else
-        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        if (Google.XR.Cardboard.Api.IsTriggerPressed && !_postPress)
         {
+            if (_spinning)
+            {
+                offInspect.Invoke();
+            }
+            else
+            {
+                onInspect.Invoke();
+            }
             _spinning = !_spinning;
+            _postPress = true;
+            StartCoroutine(WaitForRepeat());
         }
 #endif
     }
     
-    private void SetMaterial(bool gazedAt)
+    IEnumerator WaitForRepeat() { // I wanna see if I can put this somewhere that everything can access, cause many things will need this.
+        yield return new WaitForSeconds(0.2f);
+        _postPress = false;
+    }
+
+    public void ForceStop()
+    {
+        _spinning = false;
+    }
+    
+    private void SetMaterial(bool gazedAt) 
     {
         if (InactiveMaterial != null && GazedAtMaterial != null)
         {

@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
 public class Keyboard_Keys : MonoBehaviour
 {
+
+    private bool _postPress;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -11,6 +14,7 @@ public class Keyboard_Keys : MonoBehaviour
         if (transform.parent.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text == " ") {
             transform.GetComponent<Renderer>().enabled = false;
         }
+        _postPress = false;
     }
 
     // Update is called once per frame
@@ -38,11 +42,18 @@ public class Keyboard_Keys : MonoBehaviour
         string key = transform.parent.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text;
         transform.parent.transform.parent.GetComponent<Keyboard_3D>().keyPressed(key);
 #else
-        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        if (Google.XR.Cardboard.Api.IsTriggerPressed && !_postPress)
         {
             string key = transform.parent.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text;
             transform.parent.transform.parent.GetComponent<Keyboard_3D>().keyPressed(key);
+            _postPress = true;
+            StartCoroutine(WaitForRepeat());
         }
 #endif
+    }
+    
+    IEnumerator WaitForRepeat() { // See InspectController.cs as well. Wanna move this to only one spot
+        yield return new WaitForSeconds(0.2f);
+        _postPress = false;
     }
 }
