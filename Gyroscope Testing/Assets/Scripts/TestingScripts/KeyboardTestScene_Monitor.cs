@@ -2,16 +2,17 @@ using System;
 using UnityEngine;
 using TMPro;
 
-public class KeyboardTestScene_Button : MonoBehaviour
+public class KeyboardTestScene_Monitor : MonoBehaviour
 {
     [SerializeField] private String password;
+    private GameObject manager;
     private GameObject keyboard = null;
     public TextMeshPro TMP_Text;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        manager = GameObject.FindGameObjectWithTag("GameController");
     }
 
     // Update is called once per frame
@@ -45,7 +46,9 @@ public class KeyboardTestScene_Button : MonoBehaviour
                     (string fullString) => { onCancel(fullString); },
                     null
                   );
-        Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, 0f, 3.35f));
+        Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, 1.5f, .7f));
+        Keyboard_3D_Static.setRotation(keyboard, new Vector3(-45f, 0, 0));
+        Keyboard_3D_Static.setScale(keyboard, new Vector3(0.3f, 0.3f, 0.3f));
         TMP_Text.text = "\"\"";
     }
 
@@ -56,6 +59,7 @@ public class KeyboardTestScene_Button : MonoBehaviour
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
         if (fullString == password) {
             TMP_Text.text = "Correct!";
+            manager.GetComponent<ScenarioManager>().FlagTriggered();
         } else {
             TMP_Text.text = "Incorrect!";
         }

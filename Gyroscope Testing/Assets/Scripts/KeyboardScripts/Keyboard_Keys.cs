@@ -34,7 +34,15 @@ public class Keyboard_Keys : MonoBehaviour
     // Runs when the phone is tapped on while looking at an object
     public void OnPointerClick()
     {
+#if UNITY_EDITOR
         string key = transform.parent.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text;
         transform.parent.transform.parent.GetComponent<Keyboard_3D>().keyPressed(key);
+#else
+        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        {
+            string key = transform.parent.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text;
+            transform.parent.transform.parent.GetComponent<Keyboard_3D>().keyPressed(key);
+        }
+#endif
     }
 }

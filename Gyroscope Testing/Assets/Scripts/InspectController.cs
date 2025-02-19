@@ -145,11 +145,16 @@ public class InspectController : MonoBehaviour
             Debug.Log("Reversed > 0");
             combinedAngle = -combinedAngle;
         }
-        
-        transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
-        transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
 
-        Debug.Log((_cam.transform.rotation.eulerAngles.x) + " | " + (360+heightDifference) + " | " + combinedAngle);
+        if (Math.Abs(yAngle) > 3f)
+        {
+            transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
+        }
+        if (Math.Abs(combinedAngle) > 3f)
+        {
+            transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
+        }
+
     }
     
     /// <summary>
@@ -174,7 +179,14 @@ public class InspectController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
+#if UNITY_EDITOR
         _spinning = !_spinning;
+#else
+        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        {
+            _spinning = !_spinning;
+        }
+#endif
     }
     
     private void SetMaterial(bool gazedAt)
