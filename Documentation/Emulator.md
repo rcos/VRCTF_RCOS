@@ -7,8 +7,7 @@ The scripts in `Assets/Scripts/TestingScripts` and in `./Scripts` allow for test
 ## Setup
 
 Step 1 <br>
-Add `VREmulator.cs` to the main camera object. Can adjust sensitivity in inspector.
+Open up Unity. Go to Window > Package Manager. Click the "+" sign near the top right of the "Package Manager" window. If you see a Cardboard SDK already there, ignore this tep. Otherwise select "Install package from git URL..." and type in `https://github.com/rcos/VRCTF_RCOS-cardboard-xr-plugin.git`. It should then be installed.
 
-Step 2<br>
-Run `Emulator_Add.sh` in `./Scripts`. It will change `CardboardReticlePointer.cs` in the Cardboard Plugin to allow interactions in the editor.
-Run `Emulator_Remove.sh` to undo the changes.
+Step 2 <br>
+Add `VREmulator.cs` to the main camera object. You can adjust sensitivity in inspector.
