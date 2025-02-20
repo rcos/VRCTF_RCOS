@@ -70,7 +70,7 @@ public class InspectController : MonoBehaviour
         _postPress = false;
         _cam = Camera.main;
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
-        offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown(gameObject));
+        offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
     }

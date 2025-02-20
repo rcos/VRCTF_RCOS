@@ -27,7 +27,7 @@ public class ScenarioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentInspect.name);
+        
     }
 
     public void PickUp(GameObject inspect)
@@ -39,7 +39,7 @@ public class ScenarioManager : MonoBehaviour
         currentInspect = inspect;
     }
 
-    public void PutDown(GameObject inspect)
+    public void PutDown()
     {
         currentInspect = null;
     }
