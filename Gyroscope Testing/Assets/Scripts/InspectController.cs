@@ -196,6 +196,14 @@ public class InspectController : MonoBehaviour
     public void OnPointerClick()
     {
 #if UNITY_EDITOR
+        if (_spinning) // Consolidate this into one later
+        {
+            offInspect.Invoke();
+        }
+        else
+        {
+            onInspect.Invoke();
+        }
         _spinning = !_spinning;
 #else
         if (Google.XR.Cardboard.Api.IsTriggerPressed && !_postPress)
