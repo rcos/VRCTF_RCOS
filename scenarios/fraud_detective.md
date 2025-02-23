@@ -40,7 +40,7 @@ Note: These instructions will show up one at a time(after the user completes the
 4) Examine the surroundings in the room and use clues to find the hidden room. Look for the CTF code and enter it in the safe box to unlock it. 
 
 ## Notes
-Unlike the other challenges, we will incorporate interactive keypads(for unlocking doors/entering password for safe box) instead of a keyboard. Also, we need to add an additional interactability feature on the employee's ID, so the user can carry it, which might be hard to implement. 
+Unlike the other challenges, we will incorporate interactive keypads(for unlocking doors/entering password for safe box) instead of a keyboard. Also, we need to add an additional interactability feature on the employee's ID, so the user can carry it, which might be hard to implement. Suggestion: Use an inventory system
 
 ## Script
 
@@ -86,3 +86,39 @@ Unlike the other challenges, we will incorporate interactive keypads(for unlocki
 
 **Step 14**: Inside the safe, there’s a note that says: 
 “Congrats! You cracked the code. Too bad you’re a few steps behind. – M.C.” 
+
+# **INVOICE**
+**Company Name:** TBD &nbsp;&nbsp; | &nbsp;&nbsp; **Billing Address:** TBD &nbsp;&nbsp; 
+
+**Invoice Number:** INV-583927  
+**Date:** 02/10/2025  
+**Due Date:** 03/10/2025  
+
+## **Billed To:**  
+**Michael Chase**  
+Sales Department  
+(Company Name) Ltd.  
+
+---
+
+## **Invoice Details:**  
+
+| Item Description                           | Quantity | Unit Price  | Total Price  |
+|-------------------------------------------|----------|------------|-------------|
+| "Consulting Services - Special Project"  | 1        | $12,500.00 | $12,500.00  |
+| "Data Analysis Report (Confidential)"    | 1        | $8,750.00  | $8,750.00   |
+| "Internal Review Fees"                    | 1        | $6,000.00  | $6,000.00   |
+| **Processing Code: CTF_92731**            | -        | -          | -           |
+
+---
+
+### **Total Amount Due:** **$27,250.00**  
+**Payment Method:** Wire Transfer  
+**Bank Details:** Account # XXXXXXX-XX | Routing # XXXXXXX  
+
+---
+
+### **Notes:**  
+- This invoice must be processed by **March 10st, 2025**.  
+- Contact **(Company Name) Finance Dept.** for any discrepancies.  
+- **Internal Reference: "Special Project - Approved by M.C."**  
