@@ -217,15 +217,8 @@ public class InspectController : MonoBehaviour
                 onInspect.Invoke();
             }
             _spinning = !_spinning;
-            _postPress = true;
-            StartCoroutine(WaitForRepeat());
         }
 #endif
-    }
-    
-    IEnumerator WaitForRepeat() { // I wanna see if I can put this somewhere that everything can access, cause many things will need this.
-        yield return new WaitForSeconds(0.2f);
-        _postPress = false;
     }
 
     public void ForceStop()
