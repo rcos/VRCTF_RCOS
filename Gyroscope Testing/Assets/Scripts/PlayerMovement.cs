@@ -12,12 +12,12 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        /*reticleTransform = transform.Find("CardboardReticlePointer").transform;
+        reticleTransform = transform.Find("CardboardReticlePointer").transform;
 
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
         dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        hideDot = false;*/
+        hideDot = false;
     }
 
     // Update is called once per frame

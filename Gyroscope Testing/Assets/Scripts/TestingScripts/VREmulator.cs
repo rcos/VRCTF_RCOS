@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class VREmulator : MonoBehaviour
 {
@@ -18,9 +19,9 @@ public class VREmulator : MonoBehaviour
     void Update()
     {
         float z = 0;
-        float y = Input.GetAxis("Mouse X") * sensitivity;
-        rotX += Input.GetAxis("Mouse Y") * sensitivity;
-        if (Input.GetKey(KeyCode.Q))
+        float y = Mouse.current.delta.ReadValue().x * sensitivity;
+        rotX += Mouse.current.delta.ReadValue().y * sensitivity;
+        if (Keyboard.current.qKey.wasPressedThisFrame)
         {
             z += 10.0f;
             if (z > 360f)
@@ -28,7 +29,7 @@ public class VREmulator : MonoBehaviour
                 z = 0f;
             }
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             z -= 10.0f;
             if (z > 360f)

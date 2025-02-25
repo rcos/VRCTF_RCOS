@@ -2951,7 +2951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9926202de338567459b755f44f8cdeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 4
+  sensitivity: 0.5
   minTurnAngle: -90
   maxTurnAngle: 90
 --- !u!1001 &3084549724799409017
@@ -3021,6 +3021,10 @@ PrefabInstance:
     - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
       propertyPath: m_Name
       value: Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7341906628635449569, guid: 73c6ccff60c55764faf6d921689f8a27, type: 3}
       propertyPath: m_TagString
