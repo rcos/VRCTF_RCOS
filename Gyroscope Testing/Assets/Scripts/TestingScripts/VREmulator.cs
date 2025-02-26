@@ -18,6 +18,7 @@ public class VREmulator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
         float z = 0;
         float y = Mouse.current.delta.ReadValue().x * sensitivity;
         rotX += Mouse.current.delta.ReadValue().y * sensitivity;
@@ -41,6 +42,6 @@ public class VREmulator : MonoBehaviour
        
         rotX = Mathf.Clamp(rotX, minTurnAngle, maxTurnAngle);
         transform.eulerAngles = new Vector3(-rotX, transform.eulerAngles.y + y, transform.eulerAngles.z+z);
-        
+#endif        
     }
 }
