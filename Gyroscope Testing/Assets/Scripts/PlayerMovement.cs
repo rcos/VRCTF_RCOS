@@ -3,78 +3,54 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private GameObject dotToShowNewPosition = null;
-    bool hideDot = false;
-
-    private Vector3 positionToGoTo = new Vector3(0, 0, 0);
-
-    private Transform reticleTransform;
+    private bool IsValidTeleport = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        reticleTransform = transform.Find("CardboardReticlePointer").transform;
-
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
         dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        hideDot = false;
+        IsValidTeleport = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*RaycastHit hit;
-        bool checkForFloor = Physics.Raycast(transform.position, reticleTransform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
-        bool checkForObstruction = true;
-        if (checkForFloor) { checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f); }
-        if (checkForFloor && !checkForObstruction)
-        {
-            hideDot = true;
-            dotToShowNewPosition.transform.position = new Vector3(hit.point.x, hit.point.y - 0.15f, hit.point.z);
-            if (Google.XR.Cardboard.Api.IsTriggerPressed || UnityEngine.Input.GetMouseButtonDown(0)) {
-                positionToGoTo = new Vector3(hit.point.x, hit.point.y+2f, hit.point.z);
-                FadeOutSquare_Static.makeNewFadeOutSquare(10,8,10,
-                    (GameEnums.FadeOutSquare_CallbackType reason) => { transform.position = positionToGoTo; }
-                );
-            }
-        } else if (hideDot) {
-            dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        }*/
+
     }
 
     public void OnPointerLeave()
     {
         dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        Debug.Log("Closed");
+        IsValidTeleport = false;
     }
 
     public void PointerLooking(RaycastHit hit)
     {
         bool checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f);
-        if (!checkForObstruction)
+        IsValidTeleport = !checkForObstruction;
+        if (IsValidTeleport)
         {
-            hideDot = false;
             dotToShowNewPosition.transform.position = new Vector3(hit.point.x, hit.point.y - 0.15f, hit.point.z);
         } else {
-            hideDot = true;
             dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
         }
-        Debug.Log("Looking");
     }
 
     public void OnPointerClickMove(RaycastHit hit)
     {
-        if (!hideDot)
+        if (IsValidTeleport)
         {
-            positionToGoTo = new Vector3(hit.point.x, hit.point.y + 2f, hit.point.z);
+            Vector3 positionToGoTo = new Vector3(hit.point.x, hit.point.y + 2f, hit.point.z);
             FadeOutSquare_Static.makeNewFadeOutSquare(10, 8, 10,
                 (GameEnums.FadeOutSquare_CallbackType reason) =>
                 {
+                    // this is run when screen is fully black
                     transform.parent.transform.position = positionToGoTo;
                 }
             );
         }
-        Debug.Log("Move");
     }
 
     public void TransitionArea()
