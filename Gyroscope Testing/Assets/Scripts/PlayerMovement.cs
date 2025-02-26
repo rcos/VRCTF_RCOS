@@ -28,10 +28,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void PointerLooking(RaycastHit hit)
     {
-        bool checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f);
+        RaycastHit[] m_Results = new RaycastHit[2];
+        int numHits_Center = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,0f), Vector3.down, m_Results, 5.09f, ~0); // ~0 is all layermasks
+        int numHits_XPlus = Physics.RaycastNonAlloc(hit.point + new Vector3(0.1f,5f,0f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_XMinus = Physics.RaycastNonAlloc(hit.point + new Vector3(-0.1f,5f,0f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_ZPlus = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,0.1f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_ZMinus = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,-0.1f), Vector3.down, m_Results, 5.09f, ~0);
+        bool checkForObstruction = numHits_Center != 1 || numHits_XPlus != 1 || numHits_XMinus != 1 || numHits_ZPlus != 1 || numHits_ZMinus != 1; // only expected to hit floor
+
         IsValidTeleport = !checkForObstruction;
-        if (IsValidTeleport)
-        {
+        if (IsValidTeleport) {
             dotToShowNewPosition.transform.position = new Vector3(hit.point.x, hit.point.y - 0.15f, hit.point.z);
         } else {
             dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
