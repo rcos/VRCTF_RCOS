@@ -48,8 +48,7 @@ public class InspectController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
-    private Vector3 inspectScale;
-    private bool _postPress;
+    private Vector3 _inspectScale;
     private bool _spinning;
     private Vector3 _startingPosition;
     private Quaternion _startingRotation;
@@ -66,8 +65,7 @@ public class InspectController : MonoBehaviour
         _startingPosition = transform.localPosition;
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
-        inspectScale = _startingScale * inspectScaleMultiplier;
-        _postPress = false;
+        _inspectScale = _startingScale * inspectScaleMultiplier; 
         _cam = Camera.main;
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
         offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
@@ -80,7 +78,7 @@ public class InspectController : MonoBehaviour
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
-            transform.localScale = Vector3.Lerp(transform.localScale, inspectScale, Time.deltaTime * 5);
+            transform.localScale = Vector3.Lerp(transform.localScale, _inspectScale, Time.deltaTime * 5);
             
             Vector3 targeted = (transform.position - _cam.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(targeted, Vector3.up);
@@ -179,6 +177,7 @@ public class InspectController : MonoBehaviour
     public void OnPointerEnter()
     {
         SetMaterial(true);
+        Debug.Log("HELLo" + transform.name);
     }
 
     /// <summary>
@@ -206,7 +205,7 @@ public class InspectController : MonoBehaviour
         }
         _spinning = !_spinning;
 #else
-        if (Google.XR.Cardboard.Api.IsTriggerPressed && !_postPress)
+        if (Google.XR.Cardboard.Api.IsTriggerPressed)
         {
             if (_spinning)
             {

@@ -120,13 +120,13 @@ public class Keyboard_3D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Allkeys != null) {
+        /*if (Allkeys != null) {
             if (Input.GetKeyDown(KeyCode.I)) { updatedHighlightedKey(0, -1); }
             if (Input.GetKeyDown(KeyCode.J)) { updatedHighlightedKey(-1, 0); }
             if (Input.GetKeyDown(KeyCode.K)) { updatedHighlightedKey(0, 1); }
             if (Input.GetKeyDown(KeyCode.L)) { updatedHighlightedKey(1, 0); }
             if (Input.GetKeyDown(KeyCode.O)) { addToString(); }
-        }
+        }*/
     }
 
     public void invokeKeyboardSpawn(TypeEnum keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,

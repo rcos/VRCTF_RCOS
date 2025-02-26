@@ -42,6 +42,41 @@ public class PlayerMovement : MonoBehaviour
         }*/
     }
 
+    public void OnPointerLeave()
+    {
+        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
+        Debug.Log("Closed");
+    }
+
+    public void PointerLooking(RaycastHit hit)
+    {
+        bool checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f);
+        if (!checkForObstruction)
+        {
+            hideDot = false;
+            dotToShowNewPosition.transform.position = new Vector3(hit.point.x, hit.point.y - 0.15f, hit.point.z);
+        } else {
+            hideDot = true;
+            dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
+        }
+        Debug.Log("Looking");
+    }
+
+    public void OnPointerClickMove(RaycastHit hit)
+    {
+        if (!hideDot)
+        {
+            positionToGoTo = new Vector3(hit.point.x, hit.point.y + 2f, hit.point.z);
+            FadeOutSquare_Static.makeNewFadeOutSquare(10, 8, 10,
+                (GameEnums.FadeOutSquare_CallbackType reason) =>
+                {
+                    transform.parent.transform.position = positionToGoTo;
+                }
+            );
+        }
+        Debug.Log("Move");
+    }
+
     public void TransitionArea()
     {
         GameObject fadeOutSquareForNewScene = null;
