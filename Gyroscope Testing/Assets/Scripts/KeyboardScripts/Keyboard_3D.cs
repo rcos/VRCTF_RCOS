@@ -155,7 +155,7 @@ public class Keyboard_3D : MonoBehaviour
                 break;
             case TypeEnum.numberpad: //numberpad
                 makeKeyboard(hor_margin, ver_margin, new (string, int)[][] {
-                    new (string, int)[] {("esc", 2), ("<--", 2)},
+                    new (string, int)[] {("esc", 2), ("<-", 2)},
                     new (string, int)[] {("0", 1), ("1", 1), ("2", 1), ("3", 1)},
                     new (string, int)[] {("4", 1), ("5", 1), ("6", 1), ("7", 1)},
                     new (string, int)[] {("8", 1), ("9", 1), ("0", 1), ("enter", 1)},
@@ -332,7 +332,7 @@ public class Keyboard_3D : MonoBehaviour
             float originalHeight= Allkeys[rowNumber][i].transform.Find("default").GetComponent<MeshFilter>().mesh.bounds.size.z;
 
             float ThisWidth = (widthPerKey * keysAndSizes[i].Item2) + (marginSpacing_Hor * (keysAndSizes[i].Item2-1));
-            Allkeys[rowNumber][i].GetComponent<Transform>().localScale = new Vector3(ThisWidth/originalWidth, 1, heightPerKey/originalHeight);
+            Allkeys[rowNumber][i].transform.GetChild(0).transform.localScale = new Vector3(ThisWidth/originalWidth, 1, heightPerKey/originalHeight);
 
             int sizesTillHere = 0;
             for (int j = 0; j < i; j++) { sizesTillHere += keysAndSizes[j].Item2; }
@@ -344,6 +344,7 @@ public class Keyboard_3D : MonoBehaviour
             
             Transform childTransform = Allkeys[rowNumber][i].transform.Find("Text (TMP)");
             childTransform.GetComponent<TextMeshPro>().text = keysAndSizes[i].Item1;
+            childTransform.GetComponent<TextMeshPro>().fontSize = 2f;
 
             //Allkeys[rowNumber][i].transform.Find("default").GetComponent<Renderer>().material.color = Color.blue;
         }

@@ -87,6 +87,7 @@ public class TravelController : MonoBehaviour
     IEnumerator LoadScene()
     {
         yield return new WaitForSeconds(0.5f);
+        Destroy(GameObject.Find("EventSystem"));
         Scene currentScene = SceneManager.GetActiveScene();
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
