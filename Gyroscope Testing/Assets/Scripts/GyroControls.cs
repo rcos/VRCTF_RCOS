@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CardboardStartup.cs" company="Google LLC">
+// <copyright file="VrModeController.cs" company="Google LLC">
 // Copyright 2020 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,9 +28,9 @@ using UnityEngine.XR.Management;
 using InputSystemTouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 /// <summary>
-/// Initializes Cardboard XR Plugin.
+/// Turns VR mode on and off.
 /// </summary>
-public class CardboardStartup : MonoBehaviour
+public class GyroController : MonoBehaviour
 {
     // Field of view value to be used when the scene is not in VR mode. In case
     // XR isn't initialized on startup, this value could be taken from the main
@@ -211,5 +211,3 @@ public class CardboardStartup : MonoBehaviour
         _mainCamera.fieldOfView = _defaultFieldOfView;
     }
 }
-
-
