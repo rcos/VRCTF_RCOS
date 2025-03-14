@@ -101,7 +101,7 @@ public class Keyboard_3D : MonoBehaviour
 
     private GameObject[][] Allkeys = null;
     private (string, int)[][] KeysValuesAndSizes = null;
-    private (int, int, int) currentPosition = (0, 0, 0); // x, y, indexX
+    private (int, int, int) currentPosition = (-90, 0, 0); // x, y, indexX
 
     private System.Action<string, string> onKeyPress = null;
     private System.Action<string> onSubmit = null;
