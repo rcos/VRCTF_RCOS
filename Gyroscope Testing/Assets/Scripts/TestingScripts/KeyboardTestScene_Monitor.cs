@@ -59,13 +59,16 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
         if (fullString == password) {
             TMP_Text.text = "Correct!";
+            TMP_Text.fontSize = 3;
             manager.GetComponent<ScenarioManager>().FlagTriggered();
         } else {
             TMP_Text.text = "Incorrect!";
+            TMP_Text.fontSize = 2;
         }
     }
     void onCancel(string fullString) {
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
         TMP_Text.text = "Incorrect!";
+        TMP_Text.fontSize = 2;
     }
 }
