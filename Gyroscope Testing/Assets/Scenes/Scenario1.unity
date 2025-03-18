@@ -358,8 +358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73189e2734dca84b9a1598e9c441968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  password: 
-  TMP_Text: {fileID: 0}
+  password: ctf
+  TMP_Text: {fileID: 1715169467}
 --- !u!4 &75210561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 624232381487826878, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
@@ -921,6 +921,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7913715877290474984, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bc4be0d8943bbad4d8995652e0ec9940, type: 2}
     - target: {fileID: 8462010127758931412, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2501,8 +2505,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5
-  m_fontSizeBase: 5
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
