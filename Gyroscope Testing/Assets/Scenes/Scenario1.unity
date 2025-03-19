@@ -814,7 +814,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7032462341743629459, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
   m_PrefabInstance: {fileID: 686404000}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &651576950
+--- !u!114 &651576955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -823,12 +823,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 651576945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22062b04e111a5c4291edf635d230018, type: 3}
+  m_Script: {fileID: 11500000, guid: 124ba8efbb1f7a84a8d688135e8f800a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InactiveMaterial: {fileID: 0}
   GazedAtMaterial: {fileID: 0}
-  center: {fileID: 0}
+  inspectPosition: {x: -3.03, y: 0.8, z: 2.63}
+  inspectScaleMultiplier: 1
+  onInspect:
+    m_PersistentCalls:
+      m_Calls: []
+  offInspect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &686404000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -950,10 +957,10 @@ PrefabInstance:
       addedObject: {fileID: 75210560}
     - targetCorrespondingSourceObject: {fileID: 7032462341743629459, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 651576950}
+      addedObject: {fileID: 651576955}
     - targetCorrespondingSourceObject: {fileID: 5942747384767106509, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1369358801}
+      addedObject: {fileID: 1369358806}
   m_SourcePrefab: {fileID: 100100000, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
 --- !u!1 &713128349 stripped
 GameObject:
@@ -1997,7 +2004,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5942747384767106509, guid: 11a489b683f2cb548acbd4764c5914e6, type: 3}
   m_PrefabInstance: {fileID: 686404000}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1369358801
+--- !u!114 &1369358806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2006,12 +2013,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1369358799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22062b04e111a5c4291edf635d230018, type: 3}
+  m_Script: {fileID: 11500000, guid: 124ba8efbb1f7a84a8d688135e8f800a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InactiveMaterial: {fileID: 0}
   GazedAtMaterial: {fileID: 0}
-  center: {fileID: 0}
+  inspectPosition: {x: -3.02, y: 0.8, z: 3.02}
+  inspectScaleMultiplier: 1
+  onInspect:
+    m_PersistentCalls:
+      m_Calls: []
+  offInspect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1370545347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,7 +2649,7 @@ Transform:
   m_GameObject: {fileID: 1729557421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.347, y: 0.16, z: -1.37}
+  m_LocalPosition: {x: -1.347, y: 1.182088, z: -1.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

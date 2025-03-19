@@ -62,7 +62,7 @@ public class InspectController : MonoBehaviour
     public void Start()
     {
         _spinning = false;
-        _startingPosition = transform.localPosition;
+        _startingPosition = transform.position;
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
         _inspectScale = _startingScale * inspectScaleMultiplier; 
@@ -75,6 +75,7 @@ public class InspectController : MonoBehaviour
 
     public void Update()
     {
+        Debug.Log(transform.position);
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
