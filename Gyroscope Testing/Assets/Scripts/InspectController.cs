@@ -75,7 +75,6 @@ public class InspectController : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(transform.position);
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
@@ -147,7 +146,6 @@ public class InspectController : MonoBehaviour
         if ((heightDifference > 0 && _cam.transform.rotation.eulerAngles.x > heightDifference && _cam.transform.rotation.eulerAngles.x <= 90f)
             || (heightDifference < 0 && (_cam.transform.rotation.eulerAngles.x <= 90f || _cam.transform.rotation.eulerAngles.x > 360f+heightDifference)))
         {
-            Debug.Log("Reversed > 0");
             combinedAngle = -combinedAngle;
         }
 
