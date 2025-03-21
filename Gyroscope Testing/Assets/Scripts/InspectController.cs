@@ -75,7 +75,7 @@ public class InspectController : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(transform.position);
+        Debug.Log(transform.name + " : " + transform.position);
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
@@ -152,11 +152,11 @@ public class InspectController : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        if (Math.Abs(yAngle) > 3f)
+        if (Math.Abs(yAngle) > 5f)
         {
             transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
         }
-        if (Math.Abs(combinedAngle) > 3f)
+        if (Math.Abs(combinedAngle) > 5f)
         {
             transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
         }
