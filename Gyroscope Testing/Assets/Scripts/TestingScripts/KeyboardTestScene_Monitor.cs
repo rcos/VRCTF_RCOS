@@ -46,9 +46,9 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
                     (string fullString) => { onCancel(fullString); },
                     null
                   );
-        Keyboard_3D_Static.setPosition(keyboard, new Vector3(-3.3f, 0.8f, 2.6f));
+        Keyboard_3D_Static.setPosition(keyboard, new Vector3(-3.3f, 0.9f, 2.6f));
         Keyboard_3D_Static.setRotation(keyboard, new Vector3(-90f, -90f, 0f));
-        Keyboard_3D_Static.setScale(keyboard, new Vector3(0.2f, 0.2f, 0.2f));
+        Keyboard_3D_Static.setScale(keyboard, new Vector3(0.3f, 0.3f, 0.3f));
         TMP_Text.text = "\"\"";
     }
 
