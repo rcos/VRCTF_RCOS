@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
-        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
+        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-4000f, transform.position.z);
         IsValidTeleport = false;
     }
 
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnPointerLeave()
     {
-        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
+        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-4000f, transform.position.z);
         IsValidTeleport = false;
     }
 
