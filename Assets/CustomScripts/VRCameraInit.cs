@@ -8,6 +8,8 @@ public class VRCameraInit : MonoBehaviour
         if (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             gameObject.SetActive(false);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
     }

@@ -1,22 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="ObjectController.cs" company="Google LLC">
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// </copyright>
-//-----------------------------------------------------------------------
-
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -44,6 +25,8 @@ public class ObjectController : MonoBehaviour
 
     private Renderer _myRenderer;
     private Vector3 _startingPosition;
+    
+    private KeyboardManager _keyboardManager;
 
     /// <summary>
     /// Start is called before the first frame update.
@@ -53,32 +36,7 @@ public class ObjectController : MonoBehaviour
         // Commented out the first line below because this is specific to the Google Cardboard SDK provided scene
         // _startingPosition = transform.parent.localPosition;
         _myRenderer = GetComponent<Renderer>();
-        SetMaterial(false);
-    }
-
-    /// <summary>
-    /// Teleports this instance randomly when triggered by a pointer click.
-    /// </summary>
-    public void TeleportRandomly()
-    {
-        // Picks a random sibling, activates it and deactivates itself.
-        int sibIdx = transform.GetSiblingIndex();
-        int numSibs = transform.parent.childCount;
-        sibIdx = (sibIdx + Random.Range(1, numSibs)) % numSibs;
-        GameObject randomSib = transform.parent.GetChild(sibIdx).gameObject;
-
-        // Computes new object's location.
-        float angle = Random.Range(-Mathf.PI, Mathf.PI);
-        float distance = Random.Range(_minObjectDistance, _maxObjectDistance);
-        float height = Random.Range(_minObjectHeight, _maxObjectHeight);
-        Vector3 newPos = new Vector3(Mathf.Cos(angle) * distance, height,
-                                     Mathf.Sin(angle) * distance);
-
-        // Moves the parent to the new position (siblings relative distance from their parent is 0).
-        transform.parent.localPosition = newPos;
-
-        randomSib.SetActive(true);
-        gameObject.SetActive(false);
+        _keyboardManager = GetComponent<KeyboardManager>();
         SetMaterial(false);
     }
     
@@ -113,7 +71,11 @@ public class ObjectController : MonoBehaviour
     {
         // On screen touch, you can decide what to do with the Interactable object
         // TeleportRandomly();
-        RotateObject();
+        // RotateObject();
+        if (_keyboardManager != null)
+        {
+            _keyboardManager.AddLetter(gameObject.name);
+        }
     }
 
     /// <summary>
