@@ -17,6 +17,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections;
+using System.Linq;
 using Google.XR.Cardboard;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,6 +38,12 @@ public class CardboardStartup : MonoBehaviour
     // camera and stored.
     private const float _defaultFieldOfView = 60.0f;
 
+    private float _dragRate = 5.0f;
+    private bool _inputBuffer = true;
+    private Quaternion _initialRotation;
+    private Quaternion _attitude;
+    private Vector2 _dragDegrees;
+
     // Main camera from the scene.
     private Camera _mainCamera;
 
@@ -49,6 +56,22 @@ public class CardboardStartup : MonoBehaviour
         {
             TouchControl touch = GetFirstTouchIfExists();
             return touch != null && touch.phase.ReadValue() == InputSystemTouchPhase.Began;
+        }
+    }
+
+    private int _screenTouchCount
+    {
+        get
+        {
+            Touchscreen touchScreen = Touchscreen.current;
+
+            if (!touchScreen.enabled)
+            {
+                InputSystem.EnableDevice(touchScreen);
+            }
+
+            ReadOnlyArray<TouchControl> touches = touchScreen.touches;
+            return touches.Count();
         }
     }
 
@@ -68,6 +91,8 @@ public class CardboardStartup : MonoBehaviour
     /// </summary>
     public void Start()
     {
+        _initialRotation = transform.rotation;
+        
         // Saves the main camera from the scene.
         _mainCamera = Camera.main;
 
@@ -94,9 +119,14 @@ public class CardboardStartup : MonoBehaviour
     {
         if (_isVrModeEnabled)
         {
-            if (Api.IsCloseButtonPressed)
+            if (Api.IsCloseButtonPressed && _inputBuffer)
             {
+                _inputBuffer = false;
                 ExitVR();
+            }
+            else
+            {
+                _inputBuffer = true;
             }
 
             if (Api.IsGearButtonPressed)
@@ -108,12 +138,33 @@ public class CardboardStartup : MonoBehaviour
         }
         else
         {
-            // TODO(b/171727815): Add a button to switch to VR mode.
-            if (_isScreenTouched)
+            if (_screenTouchCount == 1)
             {
+                var touch = GetFirstTouchIfExists();
+                _dragDegrees.x += touch.position.y.ReadValue() * _dragRate;
+                _dragDegrees.y += touch.position.x.ReadValue() * _dragRate;
+            }
+            else if (_screenTouchCount == 2 && _inputBuffer)
+            {
+                _inputBuffer = false;
                 EnterVR();
             }
+            else
+            {
+                _inputBuffer = true;
+            }
+            _attitude = _initialRotation * Quaternion.Euler(_dragDegrees.x, 0, 0);
+            transform.rotation = Quaternion.Euler(0, -_dragDegrees.y, 0) * _attitude;
         }
+    }
+    
+    protected void OnGUI()
+    {
+        GUI.skin.label.fontSize = Screen.width / 40;
+
+        GUILayout.Label("Orientation: " + Screen.orientation);
+        GUILayout.Label("touch count: " + _screenTouchCount);
+        GUILayout.Label("iphone width/font: " + Screen.width + " : " + GUI.skin.label.fontSize);
     }
 
     /// <summary>
