@@ -74,8 +74,7 @@ public class InspectController : MonoBehaviour
     }
 
     public void Update()
-    {
-        Debug.Log(transform.name + " : " + transform.position);
+    { 
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
