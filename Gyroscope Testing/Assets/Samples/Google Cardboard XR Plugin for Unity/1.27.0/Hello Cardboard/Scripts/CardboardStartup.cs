@@ -59,22 +59,6 @@ public class CardboardStartup : MonoBehaviour
         }
     }
 
-    private int _screenTouchCount
-    {
-        get
-        {
-            Touchscreen touchScreen = Touchscreen.current;
-
-            if (!touchScreen.enabled)
-            {
-                InputSystem.EnableDevice(touchScreen);
-            }
-
-            ReadOnlyArray<TouchControl> touches = touchScreen.touches;
-            return touches.Count();
-        }
-    }
-
     /// <summary>
     /// Gets a value indicating whether the VR mode is enabled.
     /// </summary>
@@ -138,23 +122,7 @@ public class CardboardStartup : MonoBehaviour
         }
         else
         {
-            if (_screenTouchCount == 1)
-            {
-                var touch = GetFirstTouchIfExists();
-                _dragDegrees.x += touch.position.y.ReadValue() * _dragRate;
-                _dragDegrees.y += touch.position.x.ReadValue() * _dragRate;
-            }
-            else if (_screenTouchCount == 2 && _inputBuffer)
-            {
-                _inputBuffer = false;
-                EnterVR();
-            }
-            else
-            {
-                _inputBuffer = true;
-            }
-            _attitude = _initialRotation * Quaternion.Euler(_dragDegrees.x, 0, 0);
-            transform.rotation = Quaternion.Euler(0, -_dragDegrees.y, 0) * _attitude;
+            
         }
     }
     
