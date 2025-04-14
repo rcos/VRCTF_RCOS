@@ -131,7 +131,7 @@ public class CardboardStartup : MonoBehaviour
         GUI.skin.label.fontSize = Screen.width / 40;
 
         GUILayout.Label("Orientation: " + Screen.orientation);
-        GUILayout.Label("touch count: " + _screenTouchCount);
+        GUILayout.Label("touch count: " + 0);
         GUILayout.Label("iphone width/font: " + Screen.width + " : " + GUI.skin.label.fontSize);
     }
 
