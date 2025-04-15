@@ -211,7 +211,8 @@ public class Keyboard_3D : MonoBehaviour
                 currentString += " ";
                 break;
             case "enter":
-                if (onSubmit != null) {
+                if (onSubmit != null)
+                {
                     onSubmit(currentString);
                 }
                 return;

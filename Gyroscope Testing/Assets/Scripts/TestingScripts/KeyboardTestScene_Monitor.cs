@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEditor.Rendering;
 
 public class KeyboardTestScene_Monitor : MonoBehaviour
 {
     [SerializeField] private String password;
-    private GameObject manager;
+    [SerializeField] private GameObject manager;
     private GameObject keyboard = null;
     public TextMeshPro TMP_Text;
     public TextMeshPro Status;
@@ -13,7 +14,7 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        manager = GameObject.FindGameObjectWithTag("GameController");
+        
     }
 
     // Update is called once per frame

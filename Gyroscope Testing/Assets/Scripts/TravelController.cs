@@ -104,6 +104,8 @@ public class TravelController : MonoBehaviour
         {
             if (rootObject.name == "Player")
             {
+                player.transform.position = rootObject.transform.position;
+                player.transform.rotation = rootObject.transform.rotation;
                 Destroy(rootObject);
                 break;
             }

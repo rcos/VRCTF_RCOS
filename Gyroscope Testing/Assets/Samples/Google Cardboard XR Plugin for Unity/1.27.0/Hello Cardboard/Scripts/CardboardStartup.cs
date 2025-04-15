@@ -126,14 +126,14 @@ public class CardboardStartup : MonoBehaviour
         }
     }
     
-    protected void OnGUI()
+    /*protected void OnGUI()
     {
         GUI.skin.label.fontSize = Screen.width / 40;
 
         GUILayout.Label("Orientation: " + Screen.orientation);
         GUILayout.Label("touch count: " + 0);
         GUILayout.Label("iphone width/font: " + Screen.width + " : " + GUI.skin.label.fontSize);
-    }
+    }*/
 
     /// <summary>
     /// Checks if the screen has been touched during the current frame.

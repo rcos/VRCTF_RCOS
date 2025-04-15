@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsValidTeleport)
         {
-            Vector3 positionToGoTo = new Vector3(hit.point.x, 1.2f, hit.point.z);
+            Vector3 positionToGoTo = new Vector3(hit.point.x, 1f, hit.point.z);
             FadeOutSquare_Static.makeNewFadeOutSquare(10, 8, 10,
                 (GameEnums.FadeOutSquare_CallbackType reason) =>
                 {
