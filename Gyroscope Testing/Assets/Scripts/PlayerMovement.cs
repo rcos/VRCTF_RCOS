@@ -3,43 +3,60 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private GameObject dotToShowNewPosition = null;
-    bool hideDot = false;
-
-    private Vector3 positionToGoTo = new Vector3(0, 0, 0);
-
-    private Transform reticleTransform;
+    private bool IsValidTeleport = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        /*reticleTransform = transform.Find("CardboardReticlePointer").transform;
-
         GameObject prefab1 = Resources.Load<GameObject>("MovementObjects/LocationToGoTo");
         dotToShowNewPosition = Instantiate(prefab1, this.transform);
-        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        hideDot = false;*/
+        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-4000f, transform.position.z);
+        IsValidTeleport = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*RaycastHit hit;
-        bool checkForFloor = Physics.Raycast(transform.position, reticleTransform.forward, out hit, 10f) && hit.transform.tag == "WalkableFloor";
-        bool checkForObstruction = true;
-        if (checkForFloor) { checkForObstruction = Physics.Raycast(hit.point, Vector3.up, 5f); }
-        if (checkForFloor && !checkForObstruction)
-        {
-            hideDot = true;
+
+    }
+
+    public void OnPointerLeave()
+    {
+        dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-4000f, transform.position.z);
+        IsValidTeleport = false;
+    }
+
+    public void PointerLooking(RaycastHit hit)
+    {
+        RaycastHit[] m_Results = new RaycastHit[2];
+        int numHits_Center = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,0f), Vector3.down, m_Results, 5.09f, ~0); // ~0 is all layermasks
+        int numHits_XPlus = Physics.RaycastNonAlloc(hit.point + new Vector3(0.1f,5f,0f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_XMinus = Physics.RaycastNonAlloc(hit.point + new Vector3(-0.1f,5f,0f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_ZPlus = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,0.1f), Vector3.down, m_Results, 5.09f, ~0);
+        int numHits_ZMinus = Physics.RaycastNonAlloc(hit.point + new Vector3(0f,5f,-0.1f), Vector3.down, m_Results, 5.09f, ~0);
+        bool checkForObstruction = numHits_Center != 1 || numHits_XPlus != 1 || numHits_XMinus != 1 || numHits_ZPlus != 1 || numHits_ZMinus != 1; // only expected to hit floor
+
+        IsValidTeleport = !checkForObstruction;
+        if (IsValidTeleport) {
             dotToShowNewPosition.transform.position = new Vector3(hit.point.x, hit.point.y - 0.15f, hit.point.z);
-            if (Google.XR.Cardboard.Api.IsTriggerPressed || UnityEngine.Input.GetMouseButtonDown(0)) {
-                positionToGoTo = new Vector3(hit.point.x, hit.point.y+2f, hit.point.z);
-                FadeOutSquare_Static.makeNewFadeOutSquare(10,8,10,
-                    (GameEnums.FadeOutSquare_CallbackType reason) => { transform.position = positionToGoTo; }
-                );
-            }
-        } else if (hideDot) {
+        } else {
             dotToShowNewPosition.transform.position = new Vector3(transform.position.x, transform.position.y-2000f, transform.position.z);
-        }*/
+        }
+    }
+
+    public void OnPointerClickMove(RaycastHit hit)
+    {
+        if (IsValidTeleport)
+        {
+            Vector3 positionToGoTo = new Vector3(hit.point.x, 1f, hit.point.z);
+            FadeOutSquare_Static.makeNewFadeOutSquare(10, 8, 10,
+                (GameEnums.FadeOutSquare_CallbackType reason) =>
+                {
+                    // this is run when screen is fully black
+                    transform.parent.transform.position = positionToGoTo;
+                }
+            );
+        }
     }
 
     public void TransitionArea()

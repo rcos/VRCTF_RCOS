@@ -1,10 +1,15 @@
-# Keyboard. By Nicholas Busaba
+# Keyboard. By Nicholas Busaba, updates by David Li
 
 ## Overview
 The script in `Assets/Scripts/KeyboardScripts/Keyboard_Parent_Example.cs` shows all the function in use. All you need to do is call methods within a static class and the class will take care of everything for you.
 All code for the static class is in `Assets/Scripts/KeyboardScripts/Keybaord_3D.cs` in a class called `Keyboard_3D_Static`. Here are its methods. The keyboard and keys is spawned from the prefab in `Assets/Resources/KeyboardPrefabs/*.prefab`. <br><br>
 
 Also the keyboard can be interacted with by looking at the keys. It will change color to tell you that you have selected it.
+
+Update: 
+For monitor interaction when designing scenarios, use `Assets/Scripts/KeyboardScripts/KeyboardTestScene_Monitor.cs`. For other specific needs, use or extend the code in `Assets/Scripts/KeyboardScripts/Keyboard_Parent_Example.cs`.
+
+After your GameObject has the script component, in the inspector, input the intended password and select the TMP_Text object that represents the user's input. If using `KeyboardTestScene_Monitor.cs', also select the TMP_Text object that represents the feedback after a submission attempt.
 
 #### public static GameObject makeNewKeyboardObject()
 

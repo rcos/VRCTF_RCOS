@@ -48,8 +48,7 @@ public class InspectController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
-    private Vector3 inspectScale;
-    private bool _postPress;
+    private Vector3 _inspectScale;
     private bool _spinning;
     private Vector3 _startingPosition;
     private Quaternion _startingRotation;
@@ -63,11 +62,10 @@ public class InspectController : MonoBehaviour
     public void Start()
     {
         _spinning = false;
-        _startingPosition = transform.localPosition;
+        _startingPosition = transform.position;
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
-        inspectScale = _startingScale * inspectScaleMultiplier;
-        _postPress = false;
+        _inspectScale = _startingScale * inspectScaleMultiplier; 
         _cam = Camera.main;
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
         offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
@@ -76,11 +74,11 @@ public class InspectController : MonoBehaviour
     }
 
     public void Update()
-    {
+    { 
         if (_spinning) // Spinning is on hold, need to manually make smooth rotation function.
         {
             transform.position = Vector3.Lerp(transform.position, inspectPosition, Time.deltaTime * 5);
-            transform.localScale = Vector3.Lerp(transform.localScale, inspectScale, Time.deltaTime * 5);
+            transform.localScale = Vector3.Lerp(transform.localScale, _inspectScale, Time.deltaTime * 5);
             
             Vector3 targeted = (transform.position - _cam.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(targeted, Vector3.up);
@@ -153,11 +151,11 @@ public class InspectController : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        if (Math.Abs(yAngle) > 3f)
+        if (Math.Abs(yAngle) > 5f)
         {
             transform.RotateAround(transform.position, yAxis, Mathf.Clamp(yAngle * 50f, -300f, 300f) * Time.deltaTime);
         }
-        if (Math.Abs(combinedAngle) > 3f)
+        if (Math.Abs(combinedAngle) > 5f)
         {
             transform.RotateAround(transform.position, _cam.transform.right, Mathf.Clamp(combinedAngle * 50f, -300f, 300f) * Time.deltaTime);
         }
@@ -179,6 +177,7 @@ public class InspectController : MonoBehaviour
     public void OnPointerEnter()
     {
         SetMaterial(true);
+        Debug.Log("HELLo" + transform.name);
     }
 
     /// <summary>
@@ -206,7 +205,7 @@ public class InspectController : MonoBehaviour
         }
         _spinning = !_spinning;
 #else
-        if (Google.XR.Cardboard.Api.IsTriggerPressed && !_postPress)
+        if (Google.XR.Cardboard.Api.IsTriggerPressed)
         {
             if (_spinning)
             {
@@ -217,15 +216,8 @@ public class InspectController : MonoBehaviour
                 onInspect.Invoke();
             }
             _spinning = !_spinning;
-            _postPress = true;
-            StartCoroutine(WaitForRepeat());
         }
 #endif
-    }
-    
-    IEnumerator WaitForRepeat() { // I wanna see if I can put this somewhere that everything can access, cause many things will need this.
-        yield return new WaitForSeconds(0.2f);
-        _postPress = false;
     }
 
     public void ForceStop()

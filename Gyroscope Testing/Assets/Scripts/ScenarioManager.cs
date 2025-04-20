@@ -10,7 +10,6 @@ using UnityEngine.Events;
 */
 public class ScenarioManager : MonoBehaviour
 {
-    [SerializeField] private GameObject startingWindow;
     [SerializeField] private GameObject endingWindow;
     private bool flagSet; // whether the user has finished the scenario or not might not be needed
     private GameObject currentInspect;
@@ -20,7 +19,6 @@ public class ScenarioManager : MonoBehaviour
     {
         flagSet = false;
         currentInspect = null;
-        startingWindow.SetActive(true);
         endingWindow.SetActive(false);
     }
 

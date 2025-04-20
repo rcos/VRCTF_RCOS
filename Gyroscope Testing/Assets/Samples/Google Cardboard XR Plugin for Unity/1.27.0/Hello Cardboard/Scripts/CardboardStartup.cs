@@ -16,19 +16,70 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections;
+using System.Linq;
 using Google.XR.Cardboard;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
+
+using InputSystemTouchPhase = UnityEngine.InputSystem.TouchPhase;
 
 /// <summary>
 /// Initializes Cardboard XR Plugin.
 /// </summary>
 public class CardboardStartup : MonoBehaviour
 {
+    // Field of view value to be used when the scene is not in VR mode. In case
+    // XR isn't initialized on startup, this value could be taken from the main
+    // camera and stored.
+    private const float _defaultFieldOfView = 60.0f;
+
+    private float _dragRate = 5.0f;
+    private bool _inputBuffer = true;
+    private Quaternion _initialRotation;
+    private Quaternion _attitude;
+    private Vector2 _dragDegrees;
+
+    // Main camera from the scene.
+    private Camera _mainCamera;
+
+    /// <summary>
+    /// Gets a value indicating whether the screen has been touched this frame.
+    /// </summary>
+    private bool _isScreenTouched
+    {
+        get
+        {
+            TouchControl touch = GetFirstTouchIfExists();
+            return touch != null && touch.phase.ReadValue() == InputSystemTouchPhase.Began;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the VR mode is enabled.
+    /// </summary>
+    private bool _isVrModeEnabled
+    {
+        get
+        {
+            return XRGeneralSettings.Instance.Manager.isInitializationComplete;
+        }
+    }
+
     /// <summary>
     /// Start is called before the first frame update.
     /// </summary>
     public void Start()
     {
+        _initialRotation = transform.rotation;
+        
+        // Saves the main camera from the scene.
+        _mainCamera = Camera.main;
+
         // Configures the app to not shut down the screen and sets the brightness to maximum.
         // Brightness control is expected to work only in iOS, see:
         // https://docs.unity3d.com/ScriptReference/Screen-brightness.html.
@@ -36,6 +87,9 @@ public class CardboardStartup : MonoBehaviour
         Screen.brightness = 1.0f;
 
         // Checks if the device parameters are stored and scans them if not.
+        // This is only required if the XR plugin is initialized on startup,
+        // otherwise these API calls can be removed and just be used when the XR
+        // plugin is started.
         if (!Api.HasDeviceParams())
         {
             Api.ScanDeviceParams();
@@ -47,28 +101,134 @@ public class CardboardStartup : MonoBehaviour
     /// </summary>
     public void Update()
     {
-        if (Api.IsGearButtonPressed)
+        if (_isVrModeEnabled)
         {
-            Api.ScanDeviceParams();
+            if (Api.IsCloseButtonPressed && _inputBuffer)
+            {
+                _inputBuffer = false;
+                ExitVR();
+            }
+            else
+            {
+                _inputBuffer = true;
+            }
+
+            if (Api.IsGearButtonPressed)
+            {
+                Api.ScanDeviceParams();
+            }
+
+            Api.UpdateScreenParams();
+        }
+        else
+        {
+            
+        }
+    }
+    
+    /*protected void OnGUI()
+    {
+        GUI.skin.label.fontSize = Screen.width / 40;
+
+        GUILayout.Label("Orientation: " + Screen.orientation);
+        GUILayout.Label("touch count: " + 0);
+        GUILayout.Label("iphone width/font: " + Screen.width + " : " + GUI.skin.label.fontSize);
+    }*/
+
+    /// <summary>
+    /// Checks if the screen has been touched during the current frame.
+    /// </summary>
+    ///
+    /// <returns>
+    /// The first touch of the screen during the current frame. If the screen hasn't been touched,
+    /// returns null.
+    /// </returns>
+    private static TouchControl GetFirstTouchIfExists()
+    {
+        Touchscreen touchScreen = Touchscreen.current;
+        if (touchScreen == null)
+        {
+            return null;
         }
 
-        if (Api.IsCloseButtonPressed)
+        if (!touchScreen.enabled)
         {
-            Application.Quit();
+            InputSystem.EnableDevice(touchScreen);
         }
 
-        if (Api.IsTriggerHeldPressed)
+        ReadOnlyArray<TouchControl> touches = touchScreen.touches;
+        if (touches.Count == 0)
         {
-            Api.Recenter();
+            return null;
         }
 
+        return touches[0];
+    }
+
+    /// <summary>
+    /// Enters VR mode.
+    /// </summary>
+    private void EnterVR()
+    {
+        StartCoroutine(StartXR());
         if (Api.HasNewDeviceParams())
         {
             Api.ReloadDeviceParams();
         }
+    }
 
-        #if !UNITY_EDITOR
-            Api.UpdateScreenParams();
-        #endif
+    /// <summary>
+    /// Exits VR mode.
+    /// </summary>
+    private void ExitVR()
+    {
+        StopXR();
+    }
+
+    /// <summary>
+    /// Initializes and starts the Cardboard XR plugin.
+    /// See https://docs.unity3d.com/Packages/com.unity.xr.management@3.2/manual/index.html.
+    /// </summary>
+    ///
+    /// <returns>
+    /// Returns result value of <c>InitializeLoader</c> method from the XR General Settings Manager.
+    /// </returns>
+    private IEnumerator StartXR()
+    {
+        Debug.Log("Initializing XR...");
+        yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+
+        if (XRGeneralSettings.Instance.Manager.activeLoader == null)
+        {
+            Debug.LogError("Initializing XR Failed.");
+        }
+        else
+        {
+            Debug.Log("XR initialized.");
+
+            Debug.Log("Starting XR...");
+            XRGeneralSettings.Instance.Manager.StartSubsystems();
+            Debug.Log("XR started.");
+        }
+    }
+
+    /// <summary>
+    /// Stops and deinitializes the Cardboard XR plugin.
+    /// See https://docs.unity3d.com/Packages/com.unity.xr.management@3.2/manual/index.html.
+    /// </summary>
+    private void StopXR()
+    {
+        Debug.Log("Stopping XR...");
+        XRGeneralSettings.Instance.Manager.StopSubsystems();
+        Debug.Log("XR stopped.");
+
+        Debug.Log("Deinitializing XR...");
+        XRGeneralSettings.Instance.Manager.DeinitializeLoader();
+        Debug.Log("XR deinitialized.");
+
+        _mainCamera.ResetAspect();
+        _mainCamera.fieldOfView = _defaultFieldOfView;
     }
 }
+
+

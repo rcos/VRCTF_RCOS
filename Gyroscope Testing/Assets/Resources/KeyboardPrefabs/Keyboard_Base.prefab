@@ -59,7 +59,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: d997ac0dfb9b62f438b1a26d6816ae47, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7949c93c78bbe724e98e6e660be0f6e0, type: 2}
+      objectReference: {fileID: 2100000, guid: bc4be0d8943bbad4d8995652e0ec9940, type: 2}
     - target: {fileID: 919132149155446097, guid: d997ac0dfb9b62f438b1a26d6816ae47, type: 3}
       propertyPath: m_Name
       value: Keyboard_Base

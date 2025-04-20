@@ -9,7 +9,13 @@
         "com.unity.xr.management": "3.2.9",
         "com.unity.xr.legacyinputhelpers": "2.1.4"
       },
-      "hash": "91c2f5cfd7161c29609f4f9a41eae0e730fc5585"
+      "hash": "b1ba17a4d5bd514491fcb4ad1684ebf121d18a43"
+    },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
     },
     "com.unity.ai.navigation": {
       "version": "2.0.4",

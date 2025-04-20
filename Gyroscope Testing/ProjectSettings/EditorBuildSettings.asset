@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Home.unity
     guid: 9294a71b07ad74445bb6701dfb0642c5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/InspectTest.unity
     guid: a6df9ad7f85b6964c9507ee20fbdf3e1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/KeyboardTest.unity
     guid: 0bc17a967763abb41afe25fd1c948f2c
   - enabled: 1
