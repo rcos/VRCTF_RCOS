@@ -1,3 +1,4 @@
+
 //-----------------------------------------------------------------------
 // <copyright file="CardboardStartup.cs" company="Google LLC">
 // Copyright 2020 Google LLC
@@ -106,7 +107,8 @@ public class CardboardStartup : MonoBehaviour
             if (Api.IsCloseButtonPressed && _inputBuffer)
             {
                 _inputBuffer = false;
-                ExitVR();
+                //ExitVR();
+                Application.Quit();
             }
             else
             {
