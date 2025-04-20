@@ -3,7 +3,7 @@
 ## Overview
 The script in `Assets/Scripts/ScenarioManager.cs` logs and receives events that determine the state of the scene and user progress. Controls UI, Inspection, and completion flags.
 
-Attach `ScenarioManager.cs` to a GameObject designated with the "GameManager" tag. Preferably, this object is out of view or an empty GameObject. Drag your starting and ending UI panels into the corresponding fields in the inspector.
+Attach `ScenarioManager.cs` to a GameObject designated with the "GameManager" tag. Preferably, this object is out of view or an empty GameObject. Drag your ending UI panel into the corresponding fields in the inspector.
 
 When running the scene, the GameManager will initialize the scene with the starting panel active and will wait for `FlagTriggered()` to activate the ending panel. This object will also limit one object to be inspected at all times. More systems and functions will be added as more complicated scenarios are added.
 

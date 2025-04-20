@@ -82,8 +82,9 @@ public class HomePageManager : MonoBehaviour
     private void ToggleScenarioButtons(bool state)
     {
         scenario1Button.SetActive(state);
-        scenario2Button.SetActive(state);
-        scenario3Button.SetActive(state);
+        // Uncomment when scenarios are ready
+        //scenario2Button.SetActive(state);
+        //scenario3Button.SetActive(state);
     }
 
     private void ShowProceedAndBack(bool state)
