@@ -83,8 +83,8 @@ public class HomePageManager : MonoBehaviour
     {
         scenario1Button.SetActive(state);
         // Uncomment when scenarios are ready
-        //scenario2Button.SetActive(state);
-        //scenario3Button.SetActive(state);
+        scenario2Button.SetActive(state);
+        scenario3Button.SetActive(state);
     }
 
     private void ShowProceedAndBack(bool state)
