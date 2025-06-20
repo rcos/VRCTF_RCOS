@@ -16,13 +16,12 @@ public class EmailManager : MonoBehaviour
 
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
+    private bool alreadyGenerated = false;
 
     void Start()
     {
         LoadWords();
-        GenerateEmails();
-        InsertCTFEmail();
-
+        
         // Add listener to search bar
         if (searchInput != null)
             searchInput.onValueChanged.AddListener(FilterEmails);
@@ -39,6 +38,8 @@ public class EmailManager : MonoBehaviour
             if (cleaned.Length > 2 && cleaned.Length < 12)
                 words.Add(char.ToUpper(cleaned[0]) + cleaned.Substring(1));
         }
+
+        Debug.Log($"Loaded {words.Count} words.");
     }
 
     void GenerateEmails()
@@ -58,10 +59,19 @@ public class EmailManager : MonoBehaviour
 
             allEmailItems.Add(emailItem);
         }
+
+        Debug.Log($"Generating {numberOfEmails} emails");
+
     }
 
     void InsertCTFEmail()
-    {
+    {   
+        if (allEmailItems.Count == 0)
+        {
+            Debug.LogWarning("No emails to insert CTF into!");
+            return;
+        }
+
         int randomIndex = Random.Range(0, allEmailItems.Count);
         EmailItem emailItem = allEmailItems[randomIndex];
 
@@ -72,7 +82,7 @@ public class EmailManager : MonoBehaviour
 
     string GenerateSentence(int minWords, int maxWords)
     {
-        int wordCount = Random.Range(minWords, maxWords);
+        int wordCount = Random.Range(minWords, maxWords + 1);
         List<string> sentenceWords = new List<string>();
 
         for (int i = 0; i < wordCount; i++)
@@ -112,4 +122,26 @@ public class EmailManager : MonoBehaviour
             email.gameObject.SetActive(matches);
         }
     }
+
+    public void ShowEmailScreen()
+{
+    if (!alreadyGenerated)
+    {
+        if (words.Count == 0)
+        {
+            Debug.Log("Reloading words...");
+            LoadWords();
+        }
+
+        Debug.Log("Calling GenerateEmails");
+        GenerateEmails();
+        Debug.Log("Calling InsertCTFEmail");
+        InsertCTFEmail();
+
+        alreadyGenerated = true;
+    }
+
+    Debug.Log("showEmailScreen successfully.");
+}
+
 }

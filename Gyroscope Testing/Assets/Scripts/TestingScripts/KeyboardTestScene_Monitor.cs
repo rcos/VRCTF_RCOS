@@ -5,7 +5,7 @@ using TMPro;
 public class KeyboardTestScene_Monitor : MonoBehaviour
 {
     [Header("Scenario Settings")]
-    [SerializeField] private bool isScenario2 = false; // Toggle in Inspector
+    [SerializeField] private bool isScenario2 = false;
 
     [Header("References")]
     [SerializeField] private string password;
@@ -19,8 +19,8 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     public TextMeshPro Status;
 
     void Start()
-    {
-        // Ensure email UI is hidden initially
+    {   
+        if (signInUI != null) signInUI.SetActive(true);
         if (emailUI != null)
             emailUI.SetActive(false);
     }
@@ -64,6 +64,8 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
                 // Scenario 2: Switch from sign-in to email UI
                 if (signInUI != null) signInUI.SetActive(false);
                 if (emailUI != null) emailUI.SetActive(true);
+
+                emailUI.GetComponent<EmailManager>()?.ShowEmailScreen();
             }
             else
             {
