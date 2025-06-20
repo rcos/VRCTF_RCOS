@@ -11,8 +11,8 @@ public class EmailManager : MonoBehaviour
     public TMP_InputField searchInput;
 
     [Header("Email Settings")]
-    public int numberOfEmails = 20;
-    public int maxSubjectLength = 35;
+    public int numberOfEmails = 500;
+    public int maxSubjectLength = 30;
 
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
@@ -20,8 +20,6 @@ public class EmailManager : MonoBehaviour
 
     void Start()
     {
-        LoadWords();
-        
         // Add listener to search bar
         if (searchInput != null)
             searchInput.onValueChanged.AddListener(FilterEmails);
@@ -30,6 +28,7 @@ public class EmailManager : MonoBehaviour
     void LoadWords()
     {
         TextAsset wordFile = Resources.Load<TextAsset>("words");
+
         string[] lines = wordFile.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string word in lines)
@@ -58,6 +57,11 @@ public class EmailManager : MonoBehaviour
             emailItem.FullContent = content;
 
             allEmailItems.Add(emailItem);
+
+             // DEBUG: Print out the contents of each email
+            Debug.Log($"[Email {i}] Label: {label}");
+            Debug.Log($"[Email {i}] Subject: {subject}");
+            Debug.Log($"[Email {i}] Content (first 25 chars): {content.Substring(0, Mathf.Min(25, content.Length))}...");
         }
 
         Debug.Log($"Generating {numberOfEmails} emails");
@@ -72,12 +76,14 @@ public class EmailManager : MonoBehaviour
             return;
         }
 
-        int randomIndex = Random.Range(0, allEmailItems.Count);
+        int halfIndex = allEmailItems.Count / 2;
+        int randomIndex = Random.Range(halfIndex, allEmailItems.Count);
+        Debug.Log(randomIndex);
         EmailItem emailItem = allEmailItems[randomIndex];
 
-        emailItem.LabelText.text = "CTF Code";
-        emailItem.SubjectText.text = "Your tax refund was processed";
-        emailItem.FullContent = "Congratulations! Here's your CTF Code: FLAG{this_is_your_flag}";
+        emailItem.LabelText.text = "RPI";
+        emailItem.SubjectText.text = "CTF Code";
+        emailItem.FullContent = "Congratulations! Here's your code: 12345";
     }
 
     string GenerateSentence(int minWords, int maxWords)
@@ -126,7 +132,7 @@ public class EmailManager : MonoBehaviour
     public void ShowEmailScreen()
 {
     if (!alreadyGenerated)
-    {
+    {   
         if (words.Count == 0)
         {
             Debug.Log("Reloading words...");
@@ -142,6 +148,6 @@ public class EmailManager : MonoBehaviour
     }
 
     Debug.Log("showEmailScreen successfully.");
-}
+    }   
 
 }
