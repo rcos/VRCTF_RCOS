@@ -6,17 +6,25 @@ using System.Collections.Generic;
 public class EmailManager : MonoBehaviour
 {
     [Header("UI References")]
-    public GameObject emailItemPrefab;
+    // References to UI pages
+    public GameObject emailListPage;
+    public GameObject emailDetailPage;
     public Transform emailListContent;
     public TMP_InputField searchInput;
 
     [Header("Email Settings")]
-    public int numberOfEmails = 500;
-    public int maxSubjectLength = 30;
+    public int numberOfEmails;
+    public int maxSubjectLength;
 
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
     private bool alreadyGenerated = false;
+
+    // Email detail UI 
+    public TMP_Text detailSubjectText;
+    public TMP_Text detailFromText;
+    public TMP_Text detailToText;
+    public TMP_Text detailContentText;
 
     void Start()
     {
@@ -45,36 +53,48 @@ public class EmailManager : MonoBehaviour
     {
         for (int i = 1; i <= numberOfEmails; i++)
         {
-            // 1. Create a container GameObject
-            GameObject emailGO = new GameObject($"Email_{i}", typeof(RectTransform));
+            // 1. Create Button as root
+            GameObject emailGO = new GameObject($"Email_{i}", typeof(RectTransform), typeof(Button), typeof(Image));
             emailGO.transform.SetParent(emailListContent, false);
 
-            // 2. Add VerticalLayout handling
+            // Background
+            Image bg = emailGO.GetComponent<Image>();
+            bg.color = new Color(1f, 1f, 1f, 0.05f);
+
+            Button button = emailGO.GetComponent<Button>();
+
             LayoutElement layout = emailGO.AddComponent<LayoutElement>();
             layout.preferredHeight = 80;
 
-            // 3. Add background (optional)
-            Image bg = emailGO.AddComponent<Image>();
-            bg.color = new Color(1f, 1f, 1f, 0.05f); // faint background
-
-            // 4. Add EmailItem script
+            // 2. Add EmailItem
             EmailItem emailItem = emailGO.AddComponent<EmailItem>();
 
-            // 5. Create LabelText
+            // 3. Generate data
+            string label = $"Email{i}";
+            string subject = Truncate(GenerateSentence(3, 6), maxSubjectLength);
+            string content = GenerateRandomParagraph();
+
+            emailItem.LabelName = label;
+            emailItem.SubjectLine = subject;
+            emailItem.FullContent = content;
+
+            // 4. Label Text
             GameObject labelGO = new GameObject("LabelText", typeof(RectTransform));
             labelGO.transform.SetParent(emailGO.transform, false);
             TMP_Text labelText = labelGO.AddComponent<TextMeshProUGUI>();
-            labelText.fontSize = 20;
+            labelText.fontSize = 10;
             labelText.alignment = TextAlignmentOptions.TopLeft;
             labelText.enableWordWrapping = false;
+            labelText.text = label;
+            emailItem.LabelText = labelText;
+
             RectTransform labelRT = labelGO.GetComponent<RectTransform>();
             labelRT.anchorMin = new Vector2(0, 0.5f);
             labelRT.anchorMax = new Vector2(1, 1);
             labelRT.offsetMin = new Vector2(10, -10);
             labelRT.offsetMax = new Vector2(-10, -5);
-            emailItem.LabelText = labelText;
 
-            // 6. Create SubjectText
+            // 5. Subject Text
             GameObject subjectGO = new GameObject("SubjectText", typeof(RectTransform));
             subjectGO.transform.SetParent(emailGO.transform, false);
             TMP_Text subjectText = subjectGO.AddComponent<TextMeshProUGUI>();
@@ -82,29 +102,24 @@ public class EmailManager : MonoBehaviour
             subjectText.color = Color.gray;
             subjectText.alignment = TextAlignmentOptions.BottomLeft;
             subjectText.enableWordWrapping = true;
+            subjectText.text = subject;
+            emailItem.SubjectText = subjectText;
+
             RectTransform subjectRT = subjectGO.GetComponent<RectTransform>();
             subjectRT.anchorMin = new Vector2(0, 0);
             subjectRT.anchorMax = new Vector2(1, 0.5f);
             subjectRT.offsetMin = new Vector2(10, 5);
             subjectRT.offsetMax = new Vector2(-10, 10);
-            emailItem.SubjectText = subjectText;
 
-            // 7. Set content
-            string label = $"Email #{i}";
-            string subject = Truncate(GenerateSentence(3, 6), maxSubjectLength);
-            string content = GenerateRandomParagraph();
-
-            labelText.text = label;
-            subjectText.text = subject;
-            emailItem.FullContent = content;
+            // 6. Click event
+            button.onClick.AddListener(() => ShowEmailDetail(emailItem));
 
             allEmailItems.Add(emailItem);
-
-            // Debug log
+             // Debug log
             Debug.Log($"[Email {i}] Label: {label}");
             Debug.Log($"[Email {i}] Subject: {subject}");
             Debug.Log($"[Email {i}] Content (first 25 chars): {content.Substring(0, Mathf.Min(25, content.Length))}...");
-        }
+    }
 
         Debug.Log($"Generating {numberOfEmails} emails");
     }
@@ -172,7 +187,7 @@ public class EmailManager : MonoBehaviour
     }
 
     public void ShowEmailScreen()
-{
+    {
     if (!alreadyGenerated)
     {   
         if (words.Count == 0)
@@ -192,4 +207,21 @@ public class EmailManager : MonoBehaviour
     Debug.Log("showEmailScreen successfully.");
     }   
 
+
+    void ShowEmailDetail(EmailItem item)
+    {
+        emailListPage.SetActive(false);
+        emailDetailPage.SetActive(true);
+
+        detailSubjectText.text = item.SubjectLine;
+        detailFromText.text = $"{item.LabelName} <no-reply@{item.LabelName.ToLower()}.com>";
+        detailToText.text = "to me";
+        detailContentText.text = item.FullContent;
+    }
+
+    public void BackToList()
+    {
+        emailListPage.SetActive(true);
+        emailDetailPage.SetActive(false);
+    }
 }
