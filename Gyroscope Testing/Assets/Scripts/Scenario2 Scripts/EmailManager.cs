@@ -11,6 +11,7 @@ public class EmailManager : MonoBehaviour
     public GameObject emailDetailPage;
     public Transform emailListContent;
     public TMP_InputField searchInput;
+    public GameObject emailStripPrefab; 
 
     [Header("Email Settings")]
     public int numberOfEmails;
@@ -49,79 +50,44 @@ public class EmailManager : MonoBehaviour
         Debug.Log($"Loaded {words.Count} words.");
     }
 
+    
     void GenerateEmails()
     {
         for (int i = 1; i <= numberOfEmails; i++)
         {
-            // 1. Create Button as root
-            GameObject emailGO = new GameObject($"Email_{i}", typeof(RectTransform), typeof(Button), typeof(Image));
-            emailGO.transform.SetParent(emailListContent, false);
+            // 1. Instantiate prefab
+            GameObject emailGO = Instantiate(emailStripPrefab, emailListContent);
+            emailGO.name = $"Email_{i}";
 
-            // Background
-            Image bg = emailGO.GetComponent<Image>();
-            bg.color = new Color(1f, 1f, 1f, 0.05f);
-
+            // 2. Get components
+            EmailItem emailItem = emailGO.GetComponent<EmailItem>();
             Button button = emailGO.GetComponent<Button>();
 
-            LayoutElement layout = emailGO.AddComponent<LayoutElement>();
-            layout.preferredHeight = 80;
-
-            // 2. Add EmailItem
-            EmailItem emailItem = emailGO.AddComponent<EmailItem>();
-
-            // 3. Generate data
+            // 3. Generate content
             string label = $"Email{i}";
             string subject = Truncate(GenerateSentence(3, 6), maxSubjectLength);
             string content = GenerateRandomParagraph();
 
+            // 4. Set values
             emailItem.LabelName = label;
             emailItem.SubjectLine = subject;
             emailItem.FullContent = content;
 
-            // 4. Label Text
-            GameObject labelGO = new GameObject("LabelText", typeof(RectTransform));
-            labelGO.transform.SetParent(emailGO.transform, false);
-            TMP_Text labelText = labelGO.AddComponent<TextMeshProUGUI>();
-            labelText.fontSize = 10;
-            labelText.alignment = TextAlignmentOptions.TopLeft;
-            labelText.enableWordWrapping = false;
-            labelText.text = label;
-            emailItem.LabelText = labelText;
+            emailItem.LabelText.text = label;
+            emailItem.SubjectText.text = subject;
 
-            RectTransform labelRT = labelGO.GetComponent<RectTransform>();
-            labelRT.anchorMin = new Vector2(0, 0.5f);
-            labelRT.anchorMax = new Vector2(1, 1);
-            labelRT.offsetMin = new Vector2(10, -10);
-            labelRT.offsetMax = new Vector2(-10, -5);
-
-            // 5. Subject Text
-            GameObject subjectGO = new GameObject("SubjectText", typeof(RectTransform));
-            subjectGO.transform.SetParent(emailGO.transform, false);
-            TMP_Text subjectText = subjectGO.AddComponent<TextMeshProUGUI>();
-            subjectText.fontSize = 16;
-            subjectText.color = Color.gray;
-            subjectText.alignment = TextAlignmentOptions.BottomLeft;
-            subjectText.enableWordWrapping = true;
-            subjectText.text = subject;
-            emailItem.SubjectText = subjectText;
-
-            RectTransform subjectRT = subjectGO.GetComponent<RectTransform>();
-            subjectRT.anchorMin = new Vector2(0, 0);
-            subjectRT.anchorMax = new Vector2(1, 0.5f);
-            subjectRT.offsetMin = new Vector2(10, 5);
-            subjectRT.offsetMax = new Vector2(-10, 10);
-
-            // 6. Click event
+            // 5. Add click behavior
             button.onClick.AddListener(() => ShowEmailDetail(emailItem));
 
+            // 6. Track
             allEmailItems.Add(emailItem);
-             // Debug log
+
             Debug.Log($"[Email {i}] Label: {label}");
             Debug.Log($"[Email {i}] Subject: {subject}");
             Debug.Log($"[Email {i}] Content (first 25 chars): {content.Substring(0, Mathf.Min(25, content.Length))}...");
-    }
+        }
 
-        Debug.Log($"Generating {numberOfEmails} emails");
+        Debug.Log($"Generated {numberOfEmails} emails.");
     }
 
 

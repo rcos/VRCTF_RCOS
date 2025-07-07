@@ -634,14 +634,14 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0.01
+  m_ChildAlignment: 4
+  m_Spacing: 1
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &144575875
 GameObject:
@@ -2836,7 +2836,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 15.2093, y: 7.833017}
-  m_SizeDelta: {x: 0.9499999, y: 20.01}
+  m_SizeDelta: {x: 0.9499999, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &786271879
 MonoBehaviour:
@@ -2881,7 +2881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45597476, g: 0.80695873, b: 1, a: 0.392}
+  m_Color: {r: 0.12331377, g: 0.63394123, b: 0.91194963, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4618,6 +4618,7 @@ MonoBehaviour:
   emailDetailPage: {fileID: 1840931940}
   emailListContent: {fileID: 143865548}
   searchInput: {fileID: 1656508137}
+  emailStripPrefab: {fileID: 6991727046190085568, guid: d2bba306559454341abb6075b98fe4a5, type: 3}
   numberOfEmails: 200
   maxSubjectLength: 35
   detailSubjectText: {fileID: 144575877}
@@ -6034,7 +6035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1840931941
 RectTransform:
   m_ObjectHideFlags: 0
