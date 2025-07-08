@@ -61,6 +61,19 @@ public class EmailManager : MonoBehaviour
 
             // 2. Get components
             EmailItem emailItem = emailGO.GetComponent<EmailItem>();
+
+              if (emailItem == null)
+                {
+                    Debug.LogError($"EmailItem missing on prefab for Email {i}");
+                    continue;
+                }
+
+                if (emailItem.LabelText == null || emailItem.SubjectText == null)
+                {
+                    Debug.LogError($"Missing Text components on Email {i}");
+                    continue;
+                }
+
             Button button = emailGO.GetComponent<Button>();
 
             // 3. Generate content
