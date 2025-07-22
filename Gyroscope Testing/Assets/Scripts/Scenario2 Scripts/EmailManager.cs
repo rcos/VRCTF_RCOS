@@ -16,11 +16,12 @@ public class EmailManager : MonoBehaviour
     [Header("Email Settings")]
     public int numberOfEmails;
     public int maxSubjectLength;
+    public static EmailManager Instance { get; private set; }
 
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
     private bool alreadyGenerated = false;
-
+    
     // Email detail UI 
     public TMP_Text detailSubjectText;
     public TMP_Text detailFromText;
@@ -32,6 +33,19 @@ public class EmailManager : MonoBehaviour
         // Add listener to search bar
         if (searchInput != null)
             searchInput.onValueChanged.AddListener(FilterEmails);
+    }
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     void LoadWords()
@@ -90,8 +104,11 @@ public class EmailManager : MonoBehaviour
             emailItem.SubjectText.text = subject;
 
             // 5. Add click behavior
-            button.onClick.AddListener(() => ShowEmailDetail(emailItem));
-
+            button.onClick.AddListener(() => {
+                Debug.Log("Clicked email index: " + i);
+                ShowEmailDetail(emailItem);
+            });
+            
             // 6. Track
             allEmailItems.Add(emailItem);
 
@@ -154,16 +171,18 @@ public class EmailManager : MonoBehaviour
         return text.Length > maxLength ? text.Substring(0, maxLength - 3) + "..." : text;
     }
 
-    public void FilterEmails(string query)
+    public void FilterEmails(string searchQuery)
     {
-        string lowerQuery = query.ToLower();
+        searchQuery = searchQuery.ToLower();
 
-        foreach (EmailItem email in allEmailItems)
+        foreach (Transform email in emailListContent.transform)
         {
-            bool matches = email.FullContent.ToLower().Contains(lowerQuery);
+            EmailItem emailItem = email.GetComponent<EmailItem>();
+            bool matches = emailItem.FullContent.ToLower().Contains(searchQuery);
             email.gameObject.SetActive(matches);
         }
     }
+
 
     public void ShowEmailScreen()
     {

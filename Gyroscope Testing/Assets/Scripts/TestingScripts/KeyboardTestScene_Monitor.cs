@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class KeyboardTestScene_Monitor : MonoBehaviour
 {
     [Header("Scenario Settings")]
-    [SerializeField] private bool isScenario2 = false;
+    [SerializeField] private bool isScenario1;
+    [SerializeField] private bool isScenario2;
 
     [Header("References")]
     [SerializeField] private string password;
+    [SerializeField] private string ctf;
     [SerializeField] private GameObject manager;
     [SerializeField] private GameObject signInUI;
     [SerializeField] private GameObject emailUI;
@@ -20,12 +23,25 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
 
     void Start()
     {   
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "Scenario1")
+        {
+            isScenario1 = true;
+            isScenario2 = false;
+        }
+        else if (currentScene == "Scenario2")
+        {
+            isScenario1 = false;
+            isScenario2 = true;
+        }
+
         if (signInUI != null) signInUI.SetActive(true);
         if (emailUI != null)
             emailUI.SetActive(false);
     }
 
-    public void OnPointerClick()
+    public void SpawnKeyboard()
     {
         if (keyboard != null)
         {
@@ -47,6 +63,21 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
 
         TMP_Text.text = "";
     }
+
+    public void OnPointerClick()
+    {
+        // Scenario 2 - Phase 2 (email screen): only allow keyboard if user clicked the search bar
+        if (isScenario2 && emailUI.activeSelf)
+        {
+            // Optional: log and return if not clicking the search bar
+            Debug.Log("Scenario2: Blocking keyboard unless search bar clicked.");
+            return;
+        }
+        else{
+            SpawnKeyboard();
+        }
+    }
+
 
     void keyPressed(string charPressed, string fullString)
     {
