@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
-using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class KeyboardTestScene_Monitor : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     [SerializeField] private GameObject manager;
     [SerializeField] private GameObject signInUI;
     [SerializeField] private GameObject emailUI;
+    [SerializeField] private GameObject searchBar;
 
     private GameObject keyboard = null;
 
@@ -67,11 +69,22 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     public void OnPointerClick()
     {
         // Scenario 2 - Phase 2 (email screen): only allow keyboard if user clicked the search bar
-        if (isScenario2 && emailUI.activeSelf)
+         if (isScenario2 && emailUI.activeSelf)
         {
-            // Optional: log and return if not clicking the search bar
-            Debug.Log("Scenario2: Blocking keyboard unless search bar clicked.");
-            return;
+            // Get clicked object
+            GameObject clicked = EventSystem.current.currentSelectedGameObject;
+
+            // Check if it's the search bar (or child of it)
+            if (clicked != null && (clicked == searchBar || clicked.transform.IsChildOf(searchBar.transform)))
+            {
+                Debug.Log("Scenario2: Search bar clicked - spawning keyboard.");
+                SpawnKeyboard();
+            }
+            else
+            {
+                Debug.Log("Scenario2: Clicked elsewhere in emailUI - no keyboard.");
+                return;
+            }
         }
         else{
             SpawnKeyboard();

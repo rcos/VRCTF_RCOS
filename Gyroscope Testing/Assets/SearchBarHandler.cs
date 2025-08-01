@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class SearchBarHandler : MonoBehaviour, IPointerClickHandler
@@ -65,4 +67,27 @@ public class SearchBarHandler : MonoBehaviour, IPointerClickHandler
         Debug.Log("Search Canceled.");
         searchInput.text = "";
     }
+
+    /*
+    private void Update()
+    {
+        GameObject selected = EventSystem.current.currentSelectedGameObject;
+
+        if (selected != null && selected.GetComponent<TMP_InputField>() == searchInput)
+        {
+            if (keyboard == null)
+                SpawnKeyboard();
+            else
+                keyboard.SetActive(true);
+        }
+        else
+        {
+            if (keyboard != null)
+                keyboard.SetActive(false);
+        }
+    }
+    */
+
 }
+
+

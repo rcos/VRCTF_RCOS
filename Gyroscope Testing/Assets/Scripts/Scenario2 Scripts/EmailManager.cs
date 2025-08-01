@@ -203,6 +203,7 @@ public class EmailManager : MonoBehaviour
     }
 
     Debug.Log("showEmailScreen successfully.");
+
     }   
 
 
