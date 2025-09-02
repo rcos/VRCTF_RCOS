@@ -30,9 +30,7 @@ public class EmailManager : MonoBehaviour
 
     void Start()
     {
-        // Add listener to search bar
-        if (searchInput != null)
-            searchInput.onValueChanged.AddListener(FilterEmails);
+        
     }
 
 
@@ -182,7 +180,6 @@ public class EmailManager : MonoBehaviour
             email.gameObject.SetActive(matches);
         }
     }
-
 
     public void ShowEmailScreen()
     {

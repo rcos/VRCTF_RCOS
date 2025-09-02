@@ -68,7 +68,7 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
 
     public void OnPointerClick()
     {
-        // Scenario 2 - Phase 2 (email screen): only allow keyboard if user clicked the search bar
+        // Scenario 2: Phase 2 (email screen): only allow keyboard if user clicked the search bar
          if (isScenario2 && emailUI.activeSelf)
         {
             // Get clicked object
@@ -81,12 +81,13 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
                 SpawnKeyboard();
             }
             else
-            {
+            { 
                 Debug.Log("Scenario2: Clicked elsewhere in emailUI - no keyboard.");
                 return;
             }
         }
         else{
+            //Spawn keyboard for both Scenario 1 and Scenario 2: Phase 1 
             SpawnKeyboard();
         }
     }
@@ -101,35 +102,42 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     {
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
 
-        if (fullString == password)
-        {
-            if (isScenario2)
-            {
-                // Scenario 2: Switch from sign-in to email UI
-                if (signInUI != null) signInUI.SetActive(false);
-                if (emailUI != null) emailUI.SetActive(true);
+        //For searchBar in Scenario 2: Phase 2
+        if (isScenario2 && emailUI.activeSelf){
+            EmailManager.Instance.FilterEmails(fullString);
+            return;
+        }
+        // For Scenario 1 or Scenario 2: Phase 1
+        else if (isScenario1 || isScenario2) {
+            if (fullString == password) {
+                if (isScenario2)
+                {
+                    // Scenario 2: Switch from sign-in to email UI
+                    if (signInUI != null) signInUI.SetActive(false);
+                    if (emailUI != null) emailUI.SetActive(true);
 
-                emailUI.GetComponent<EmailManager>()?.ShowEmailScreen();
+                    emailUI.GetComponent<EmailManager>()?.ShowEmailScreen();
+                }
+                else
+                {
+                    // Scenario 1: Show "Correct!" and trigger flag
+                    if (Status != null) Status.text = "Correct!";
+                    if (manager != null) manager.GetComponent<ScenarioManager>().FlagTriggered();
+                }
             }
             else
             {
-                // Scenario 1: Show "Correct!" and trigger flag
-                if (Status != null) Status.text = "Correct!";
-                if (manager != null) manager.GetComponent<ScenarioManager>().FlagTriggered();
+                if (Status != null) Status.text = "Incorrect!";
             }
-        }
-        else
-        {
-            if (Status != null) Status.text = "Incorrect!";
-        }
 
-        TMP_Text.text = "";
+            TMP_Text.text = "";
+        }
     }
 
     void onCancel(string fullString)
     {
         Keyboard_3D_Static.setPosition(keyboard, new Vector3(0, -2000f, 3.35f));
-        if (Status != null) Status.text = "Incorrect!";
+        if (Status != null) Status.text = "Try again";
         TMP_Text.text = "";
     }
 }
