@@ -59,7 +59,7 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
             null
         );
 
-        Keyboard_3D_Static.setPosition(keyboard, new Vector3(-3.3f, 0.9f, 2.6f));
+        Keyboard_3D_Static.setPosition(keyboard, new Vector3(-3.3f, 1.1f, 2.6f));
         Keyboard_3D_Static.setRotation(keyboard, new Vector3(-90f, -90f, 0f));
         Keyboard_3D_Static.setScale(keyboard, new Vector3(0.3f, 0.3f, 0.3f));
 
@@ -70,21 +70,8 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
     {
         // Scenario 2: Phase 2 (email screen): only allow keyboard if user clicked the search bar
          if (isScenario2 && emailUI.activeSelf)
-        {
-            // Get clicked object
-            GameObject clicked = EventSystem.current.currentSelectedGameObject;
-
-            // Check if it's the search bar (or child of it)
-            if (clicked != null && (clicked == searchBar || clicked.transform.IsChildOf(searchBar.transform)))
-            {
-                Debug.Log("Scenario2: Search bar clicked - spawning keyboard.");
-                SpawnKeyboard();
-            }
-            else
-            { 
-                Debug.Log("Scenario2: Clicked elsewhere in emailUI - no keyboard.");
-                return;
-            }
+        {   
+            return;
         }
         else{
             //Spawn keyboard for both Scenario 1 and Scenario 2: Phase 1 
@@ -117,20 +104,21 @@ public class KeyboardTestScene_Monitor : MonoBehaviour
                     if (emailUI != null) emailUI.SetActive(true);
 
                     emailUI.GetComponent<EmailManager>()?.ShowEmailScreen();
+                    TMP_Text = searchBar.GetComponentInChildren<TextMeshPro>();
                 }
                 else
                 {
                     // Scenario 1: Show "Correct!" and trigger flag
                     if (Status != null) Status.text = "Correct!";
+                    TMP_Text.text = "";
                     if (manager != null) manager.GetComponent<ScenarioManager>().FlagTriggered();
                 }
             }
             else
             {
                 if (Status != null) Status.text = "Incorrect!";
+                TMP_Text.text = "";
             }
-
-            TMP_Text.text = "";
         }
     }
 
