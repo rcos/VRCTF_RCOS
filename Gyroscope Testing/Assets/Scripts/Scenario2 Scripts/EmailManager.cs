@@ -11,6 +11,7 @@ public class EmailManager : MonoBehaviour
     public GameObject emailDetailPage;
     public Transform emailListContent;
     public TMP_InputField searchInput;
+    public GameObject noResult;
     public GameObject emailStripPrefab; 
 
     [Header("Email Settings")]
@@ -134,7 +135,7 @@ public class EmailManager : MonoBehaviour
 
         emailItem.LabelText.text = "RPI";
         emailItem.SubjectText.text = "CTF Code";
-        emailItem.FullContent = "Congratulations! Here's your code: 12345";
+        emailItem.FullContent = "Congratulations! Here's your code: ashley";
     }
 
     string GenerateSentence(int minWords, int maxWords)
@@ -172,12 +173,21 @@ public class EmailManager : MonoBehaviour
     public void FilterEmails(string searchQuery)
     {
         searchQuery = searchQuery.ToLower();
-
+        bool searchFound = false; 
         foreach (Transform email in emailListContent.transform)
         {
             EmailItem emailItem = email.GetComponent<EmailItem>();
             bool matches = emailItem.FullContent.ToLower().Contains(searchQuery);
             email.gameObject.SetActive(matches);
+            
+              if (matches)
+              {
+                searchFound = true;
+              }
+        }
+
+        if (!searchFound){
+            noResult.SetActive(true);
         }
     }
 
