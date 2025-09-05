@@ -135,4 +135,8 @@ public class HomePageManager : MonoBehaviour
     {
         FadeOutSquare_Static.setPhase(null, GameEnums.FadeOutSquare_PhaseEnum.FadeOut);
     }
+
+    public void OnPointerEnter()
+    {
+    }
 }
