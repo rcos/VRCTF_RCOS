@@ -10,7 +10,6 @@ public class EmailManager : MonoBehaviour
     public GameObject emailListPage;
     public GameObject emailDetailPage;
     public Transform emailListContent;
-    public TMP_InputField searchInput;
     public GameObject noResult;
     public GameObject emailStripPrefab; 
 
@@ -21,6 +20,8 @@ public class EmailManager : MonoBehaviour
 
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
+    public List<EmailItem> currentSearches = new List<EmailItem>();
+
     private bool alreadyGenerated = false;
     
     // Email detail UI 
@@ -90,8 +91,8 @@ public class EmailManager : MonoBehaviour
             Button button = emailGO.GetComponent<Button>();
 
             // 3. Generate content
-            string label = $"Email{i}";
-            string subject = Truncate(GenerateSentence(3, 6), maxSubjectLength);
+            string label = $"Email {i}";
+            string subject = Truncate(GenerateSentence(3, 100), maxSubjectLength);
             string content = GenerateRandomParagraph();
 
             // 4. Set values
@@ -101,12 +102,6 @@ public class EmailManager : MonoBehaviour
 
             emailItem.LabelText.text = label;
             emailItem.SubjectText.text = subject;
-
-            // 5. Add click behavior
-            button.onClick.AddListener(() => {
-                Debug.Log("Clicked email index: " + i);
-                ShowEmailDetail(emailItem);
-            });
             
             // 6. Track
             allEmailItems.Add(emailItem);
@@ -135,7 +130,7 @@ public class EmailManager : MonoBehaviour
 
         emailItem.LabelText.text = "RPI";
         emailItem.SubjectText.text = "CTF Code";
-        emailItem.FullContent = "Congratulations! Here's your code: ashley";
+        emailItem.FullContent = "Good job! You figured out the code, which was Project.";
     }
 
     string GenerateSentence(int minWords, int maxWords)
@@ -174,6 +169,9 @@ public class EmailManager : MonoBehaviour
     {
         searchQuery = searchQuery.ToLower();
         bool searchFound = false; 
+
+        currentSearches.Clear();
+
         foreach (Transform email in emailListContent.transform)
         {
             EmailItem emailItem = email.GetComponent<EmailItem>();
@@ -181,12 +179,16 @@ public class EmailManager : MonoBehaviour
             email.gameObject.SetActive(matches);
             
               if (matches)
-              {
+              { 
+                currentSearches.Add(emailItem);
                 searchFound = true;
               }
         }
 
         if (!searchFound){
+            if (emailDetailPage.activeSelf){
+                emailDetailPage.SetActive(false);
+            }
             noResult.SetActive(true);
         }
     }
@@ -214,9 +216,14 @@ public class EmailManager : MonoBehaviour
     }   
 
 
-    void ShowEmailDetail(EmailItem item)
+    public void ShowEmailDetail(EmailItem item)
     {
-        emailListPage.SetActive(false);
+
+        foreach (Transform child in emailListContent.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
         emailDetailPage.SetActive(true);
 
         detailSubjectText.text = item.SubjectLine;
@@ -227,7 +234,31 @@ public class EmailManager : MonoBehaviour
 
     public void BackToList()
     {
-        emailListPage.SetActive(true);
+        noResult.SetActive(false);
         emailDetailPage.SetActive(false);
+
+        if (currentSearches.Count > 0)
+        {
+            // Hide all emails first
+            foreach (Transform child in emailListContent.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            // Show only the ones in currentSearches
+            foreach (EmailItem email in currentSearches)
+            {
+                email.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            // If no matches, show all emails
+            foreach (Transform child in emailListContent.transform)
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
     }
+
 }
