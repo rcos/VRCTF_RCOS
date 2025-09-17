@@ -450,8 +450,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73189e2734dca84b9a1598e9c441968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScenario1: 1
+  isScenario2: 0
   password: ctf
+  ctf: 
   manager: {fileID: 901929244}
+  signInUI: {fileID: 0}
+  emailUI: {fileID: 0}
+  searchBar: {fileID: 0}
   TMP_Text: {fileID: 1664156582}
   Status: {fileID: 1904755427}
 --- !u!1 &108152657
@@ -1909,8 +1915,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73189e2734dca84b9a1598e9c441968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isScenario1: 0
+  isScenario2: 0
   password: 
+  ctf: 
   manager: {fileID: 0}
+  signInUI: {fileID: 0}
+  emailUI: {fileID: 0}
+  searchBar: {fileID: 0}
   TMP_Text: {fileID: 0}
   Status: {fileID: 0}
 --- !u!65 &713128357
