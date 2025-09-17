@@ -15,16 +15,17 @@ public class EmailManager : MonoBehaviour
 
     [Header("Email Settings")]
     public int numberOfEmails;
+    public string CTF_Code;
     public int maxSubjectLength;
     public static EmailManager Instance { get; private set; }
-
+    
+    [Header("Data")]
     private List<string> words = new List<string>();
     private List<EmailItem> allEmailItems = new List<EmailItem>();
-    public List<EmailItem> currentSearches = new List<EmailItem>();
-
+    private List<EmailItem> currentSearches = new List<EmailItem>();
     private bool alreadyGenerated = false;
     
-    // Email detail UI 
+    [Header("Email Details")]
     public TMP_Text detailSubjectText;
     public TMP_Text detailFromText;
     public TMP_Text detailToText;
@@ -130,7 +131,7 @@ public class EmailManager : MonoBehaviour
 
         emailItem.LabelText.text = "RPI";
         emailItem.SubjectText.text = "CTF Code";
-        emailItem.FullContent = "Good job! You figured out the code, which was Project.";
+        emailItem.FullContent = "Good job! You figured out the code, which was " + CTF_Code + ".";
     }
 
     string GenerateSentence(int minWords, int maxWords)
