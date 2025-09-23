@@ -13,6 +13,10 @@ public class ScrollbarHandle : MonoBehaviour
     [SerializeField] private float minRotY = 0f;    // top bound (degrees)
     [SerializeField] private float maxRotY = 90f;   // bottom bound (degrees)
 
+    public Image handleImage;
+    private Color normalColor = new Color(0.5f, 0, 0.5f); // purple
+    private Color draggingColor = new Color(1f, 0.65f, 0f); // orange
+
     void Start()
     {
         cam = Camera.main.transform;
@@ -21,6 +25,8 @@ public class ScrollbarHandle : MonoBehaviour
     public void OnPointerClick()
     {
         isDragging = !isDragging;
+
+        handleImage.color = isDragging ? draggingColor : normalColor;
 
         if (isDragging)
         {
@@ -45,3 +51,4 @@ public class ScrollbarHandle : MonoBehaviour
         }
     }
 }
+
