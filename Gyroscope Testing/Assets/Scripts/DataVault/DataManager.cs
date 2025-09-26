@@ -13,22 +13,29 @@ public class DataManager : MonoBehaviour
     // Reference to every script that implements IDataManager
     private List<IDataManager> dataManagerObjects;
 
+    // File handling variables
+    [Header("File Handling")]
+    [SerializeField] private string fileName;
+
+    private FileDataHandler dataHandler;
+    
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
         if (Instance != null && Instance != this)
         {
             Debug.LogWarning("Another instance of DataManager already exists. Destroying this one.");
-            Destroy(gameObject); // Destroy the whole game object, not just this component reference
+            Destroy(gameObject);
         }
-        
+
         Instance = this;
     }
 
     private void Start()
     {
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         // Find all objects that implement IDataManager
-        dataManagerObjects = FindAllDataManagerObjects();
+        this.dataManagerObjects = FindAllDataManagerObjects();
         // Load any saved data at the start of the game
         LoadGame();
     }
@@ -36,12 +43,13 @@ public class DataManager : MonoBehaviour
 
     public void NewGame()
     {
-        GameData data = new GameData();
+        this.gameData = new GameData();
     }
 
     public void LoadGame()
     {
-        // TODO - Load any saved data from a file using a data handling class
+        // Load any saved data from a file using a data handling class
+        this.gameData = this.dataHandler.Load();
         // If no data to load, create a new game
 
         if (this.gameData == null)
@@ -65,13 +73,13 @@ public class DataManager : MonoBehaviour
             dataManager.SaveData(ref this.gameData);
         }
 
-        // TODO - save the data to a file using a data handling class
-        Debug.Log("Game data saved successfully.");
+        // Save the data to a file using a data handling class
+        this.dataHandler.Save(ref this.gameData);
+        // Debug.Log("Game data saved successfully.");
     }
 
     public void OnApplicationQuit()
     {
-        // Save the game when the application quits
         SaveGame();
     }
 
