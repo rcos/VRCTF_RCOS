@@ -24,17 +24,18 @@ public class MenuCommands : MonoBehaviour
     {
         // If no command chosen yet, spawn the menu UI
         if (string.IsNullOrEmpty(commandChosen))
-        {
+        {  
             if (commandsUIPrefab != null && activeCommandsUI == null)
             {
                 activeCommandsUI = Instantiate(commandsUIPrefab, transform.position, Quaternion.identity);
 
                 // Optional: offset to the right of the object
-                activeCommandsUI.transform.position += transform.right * 0.5f;
-
+                activeCommandsUI.transform.position += transform.up * 0.5f;
+                Debug.Log("Spawned commands UI at " + activeCommandsUI.transform.position, activeCommandsUI);
+                
                 // Make sure it faces the camera
                 activeCommandsUI.transform.LookAt(Camera.main.transform);
-                activeCommandsUI.transform.Rotate(0, 180, 0); // flip so it's not backwards
+                //activeCommandsUI.transform.Rotate(0, 180, 0); // flip so it's not backwards
 
                 // Wire buttons so they know which MenuCommands they belong to
                 CommandMessage[] cmds = activeCommandsUI.GetComponentsInChildren<CommandMessage>();
@@ -68,8 +69,7 @@ public class MenuCommands : MonoBehaviour
         if (commandChosen == "Examine")
         {
             if (inspectController != null)
-            {
-                inspectController.Initialize(); 
+            {   
                 inspectController.OnPointerClick(); // toggle spin
             }
         }

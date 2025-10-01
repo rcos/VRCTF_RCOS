@@ -55,33 +55,24 @@ public class InspectController : MonoBehaviour
     private Vector3 _startingScale;
     private Camera _cam;
     private Renderer _myRenderer;
-    private bool _initialized = false;
 
     /// <summary>
     /// Start is called before the first frame update.
     /// </summary>
-    public void Initialize()
+    public void Start()
     {
-        if (_initialized) return; // make sure it only runs once
-        _initialized = true;
-
         _spinning = false;
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
         _startingScale = transform.localScale;
         _inspectScale = _startingScale * inspectScaleMultiplier; 
         _cam = Camera.main;
-
-        onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController")
-            .GetComponent<ScenarioManager>().PickUp(gameObject));
-        offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController")
-            .GetComponent<ScenarioManager>().PutDown());
-
+        onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
+        offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
-
-        Debug.Log($"{gameObject.name} InspectController initialized");
     }
+    
 
     public void Update()
     { 
