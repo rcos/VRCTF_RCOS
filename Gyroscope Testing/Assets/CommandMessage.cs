@@ -1,20 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CommandMessage : MonoBehaviour
 {  
-    private MenuCommands menuCommands;
-
-    public void SetMenuCommands(MenuCommands mc)
-    {
-        menuCommands = mc;
-    }
+    public MenuCommands menuCommands;
 
     public void OnPointerClick()
     {
         if (menuCommands != null)
-        {
-            string commandText = GetComponentInChildren<Text>().text;
+        {   
+            string commandText = GetComponentInChildren<TextMeshPro>().text;
             menuCommands.commandChosen = commandText;
         }
     }
