@@ -38,6 +38,7 @@ public class InspectControllerTest : MonoBehaviour
     [SerializeField] private float inspectScaleMultiplier;
     public UnityEvent onInspect;
     public UnityEvent offInspect;
+    public bool IsInspecting => _spinning;
     
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
