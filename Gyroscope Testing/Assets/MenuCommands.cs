@@ -5,6 +5,7 @@ using System.Collections;
 public class MenuCommands : MonoBehaviour
 {
     [Header("UI Settings")]
+    public GameObject commandStripPrefab;
     public Vector3 commandOffset = new Vector3(0f, 2, -2); // offset to the right of the object
     public float verticalSpacing = 0.5f; // spacing between commands
 
@@ -13,7 +14,7 @@ public class MenuCommands : MonoBehaviour
     private InspectControllerTest inspectController;
     private GameObject[] commandButtons; // store references to generated buttons
 
-    private readonly string[] commands = { "Examine", "Add to Inventory", "Placeholder" };
+    private readonly string[] commands = {"Examine", "Add to Inventory"};
 
     private void Start()
     {
@@ -39,56 +40,70 @@ public class MenuCommands : MonoBehaviour
 
     private void GenerateCommands()
     {
-        commandButtons = new GameObject[commands.Length];
+        commandButtons = new GameObject[commands.Length + 1];
 
-        for (int i = 0; i < commands.Length; i++)
+        Transform roomTransform = transform;
+        while (roomTransform != null && roomTransform.name != "Room")
         {
-            // Create a new 3D text or cube with text (simple placeholder for now)
-            GameObject cmdObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cmdObj.layer = LayerMask.NameToLayer("Interactive");
-            cmdObj.transform.SetParent(transform, false);
-            Vector3 parentScale = transform.lossyScale;
-            cmdObj.transform.localScale = new Vector3(
-                1f / parentScale.x,
-                0.2f / parentScale.y,
-                0.05f / parentScale.z
-            );
+            roomTransform = roomTransform.parent;
+        }
+
+        if (roomTransform == null)
+        {
+            Debug.LogWarning($"No 'Room' ancestor found for {gameObject.name}. Using self as fallback.");
+            roomTransform = transform;
+        }
+        
+        for (int i = 0; i < commands.Length + 1; i++)
+        {
+            GameObject cmdObj = Instantiate(commandStripPrefab, transform);
+
+            if (i == 0) {
+                cmdObj.name = gameObject.name;
+            }
+            else{
+                cmdObj.name = commands[i - 1];
+                cmdObj.layer = LayerMask.NameToLayer("Interactive");
+
+                // Add CommandMessage script
+                var cmdMsg = cmdObj.AddComponent<CommandMessage>();
+                cmdMsg.menuCommands = this;
+                
+            }
             
-            // Get current Y rotation in degrees
-            float currentY = cmdObj.transform.eulerAngles.y;
-            // Compute the difference from 180
-            float diff = currentY - 180f;
-            // Compute new target rotation (90 degrees relative to "ideal" 180)
-            float newY = diff - 90f;
-            // Apply rotation
-            cmdObj.transform.rotation = transform.rotation * Quaternion.Euler(0, newY, 0);
-
-
-            cmdObj.name = commands[i];
-
+            commandButtons[i] = cmdObj;
             // Position to the right + stack vertically
             cmdObj.transform.localPosition = commandOffset + new Vector3(0, -i * verticalSpacing, 0);
 
-            // Add text
-            GameObject textObj = new GameObject("Text");
-            textObj.transform.SetParent(cmdObj.transform, false);
-            textObj.layer = LayerMask.NameToLayer("Interactive");
+            // Command strip's size
+            Vector3 prefabWorldScale = commandStripPrefab.transform.lossyScale;
+            Vector3 roomScale = roomTransform.lossyScale;
+            Vector3 parentScale = transform.lossyScale;
+            // Determine how big we want it in world space
+            Vector3 targetWorldScale = prefabWorldScale * roomScale.magnitude; 
+            // Adjust for parent’s scaling
+            cmdObj.transform.localScale = new Vector3(
+                targetWorldScale.x / parentScale.x,
+                targetWorldScale.y / parentScale.y,
+                targetWorldScale.z / parentScale.z
+            );
 
-            var tmp = textObj.AddComponent<TextMeshPro>();
-            tmp.text = commands[i];
-            tmp.fontSize = 2f;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.color = Color.black;
+            //Command strip's rotation
+             if (Camera.main != null)
+            {
+                float objY = transform.localRotation.eulerAngles.y;
+                float finalY = objY - 180f;
+                cmdObj.transform.localRotation = Quaternion.Euler(0f, finalY, 0f);
+            }
 
-            // Center text
-            textObj.transform.localPosition = new Vector3(0f, 0f, -1f);
-            textObj.transform.localRotation = Quaternion.identity;
-            textObj.transform.localScale = Vector3.one;
-
-            // Add CommandMessage script
-            var cmdMsg = cmdObj.AddComponent<CommandMessage>();
-            cmdMsg.menuCommands = this;
-            commandButtons[i] = cmdObj;
+            //Command strip's text
+            TextMeshProUGUI tmp = cmdObj.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp != null)
+            {   
+                tmp.text = (i == 0) ? gameObject.name : commands[i - 1];
+                tmp.alignment = TextAlignmentOptions.Center;
+                tmp.color = Color.black;
+            }
         }
     }
 
@@ -126,11 +141,6 @@ public class MenuCommands : MonoBehaviour
         if (commandChosen == "Examine")
         {
             inspectController.Activate();
-            // Log camera rotation
-            if (Camera.main != null)
-            {
-                //Debug.Log("Camera rotation: " + Camera.main.transform.rotation.eulerAngles);
-            }
         }
         else if (commandChosen == "Add to Inventory")
         {

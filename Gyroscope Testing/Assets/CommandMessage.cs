@@ -10,7 +10,7 @@ public class CommandMessage : MonoBehaviour
     {
         if (menuCommands != null)
         {   
-            string commandText = GetComponentInChildren<TextMeshPro>().text;
+            string commandText = GetComponentInChildren<TextMeshProUGUI>().text;
             menuCommands.commandChosen = commandText;
         }
     }
