@@ -5713,8 +5713,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InactiveMaterial: {fileID: 0}
   GazedAtMaterial: {fileID: 0}
-  inspectPosition: {x: 0, y: 0, z: 0}
-  inspectScaleMultiplier: 0
+  inspectPosition: {x: -3.03, y: 0.5, z: 2.63}
+  inspectScaleMultiplier: 0.75
   onInspect:
     m_PersistentCalls:
       m_Calls: []
@@ -6653,8 +6653,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InactiveMaterial: {fileID: 0}
   GazedAtMaterial: {fileID: 0}
-  inspectPosition: {x: 0, y: 0, z: 0}
-  inspectScaleMultiplier: 0
+  inspectPosition: {x: 2.5, y: 0.5, z: 0.5}
+  inspectScaleMultiplier: 1
   onInspect:
     m_PersistentCalls:
       m_Calls: []
