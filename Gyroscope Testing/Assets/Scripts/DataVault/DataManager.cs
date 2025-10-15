@@ -15,7 +15,9 @@ public class DataManager : MonoBehaviour
 
     // File handling variables
     [Header("File Handling")]
-    [SerializeField] private string fileName;
+    // Removed SerializeField to prevent "could not save" error
+    private string fileName = "data.save";
+    private bool useEncryption = true;
 
     private FileDataHandler dataHandler;
     
@@ -33,7 +35,8 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        // Application.persistentDataPath is a special folder that automatically works across platforms
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
         // Find all objects that implement IDataManager
         this.dataManagerObjects = FindAllDataManagerObjects();
         // Load any saved data at the start of the game

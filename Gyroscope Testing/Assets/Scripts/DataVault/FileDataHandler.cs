@@ -8,10 +8,15 @@ public class FileDataHandler
     private string dataDir;
     private string dataFileName;
 
-    public FileDataHandler(string dataDir, string dataFileName)
+    // XOR-based simple encryption key
+    private bool useEncryption = false;
+    private readonly string encryptionKey = "word";
+
+    public FileDataHandler(string dataDir, string dataFileName, bool useEncryption = false)
     {
         this.dataDir = dataDir;
         this.dataFileName = dataFileName;
+        this.useEncryption = useEncryption;
     }
 
     public GameData Load()
@@ -31,6 +36,11 @@ public class FileDataHandler
                     {
                         jsonData = reader.ReadToEnd();
                     }
+                }
+
+                if (useEncryption)
+                {
+                    jsonData = EncryptDecrypt(jsonData);
                 }
 
                 // Deserialize the data from JSON back into a GameData object
@@ -62,6 +72,12 @@ public class FileDataHandler
             // Second parameter is for json formatting
             string dataJson = JsonUtility.ToJson(data, true);
 
+            // Using simple XOR encryption if enabled
+            if (useEncryption)
+            {
+                dataJson = EncryptDecrypt(dataJson);
+            }
+
             // Write the serialized data to the file
             using (FileStream stream = new FileStream(path, FileMode.Create))
             {
@@ -73,9 +89,20 @@ public class FileDataHandler
 
         }
 
-        catch
+        catch (Exception e)
         {
-            Debug.LogError("Error saving game progress to " + path);
+            Debug.LogError("Error saving game progress to " + path + ": " + e.Message);
         }
     }   
+
+    private string EncryptDecrypt(string data)
+    {
+        string modifiedData = "";
+        for (int i = 0; i < data.Length; i++)
+        {
+            // Uses XOR to modify each character with the encryption key
+            modifiedData += (char)(data[i] ^ encryptionKey[i % encryptionKey.Length]);
+        }
+        return modifiedData;
+    }
 }
