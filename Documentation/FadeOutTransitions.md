@@ -8,7 +8,7 @@ IN MOST CASES YOU JUST NEED TO CALL ONE FUNCTION
 
 #### public static GameObject makeNewFadeOutSquare(int fadeIn, int remainFullyVisible, int fadeOut, System.Action<GameEnums.FadeOutSquare_CallbackType> toCallWhenAllBlack = null)
 
-Example Use case: `FadeOutSquare_Static.makeNewFadeOutSquare(10,10,10, () => { transform.position = positionToGoTo; } );`<br><br>
+Example Use case: `FadeOutSquare_Static.makeNewFadeOutSquare(10,10,10, (GameEnums.FadeOutSquare_CallbackType reason) => { transform.position = positionToGoTo; } );`<br><br>
 
 This function makes the black box that is used to block the camera. It will automatically appear and disappear and delete itself when no longer needed. If an existing object already exists, it overrides that one. <br>
 &ensp; int fadeIn - the number of Unity's FixedUpdate cycles to make the black square become fully visible. If 0 the square is automatically fully visible and it won't fade in. `toCallWhenAllBlack` is also called.
