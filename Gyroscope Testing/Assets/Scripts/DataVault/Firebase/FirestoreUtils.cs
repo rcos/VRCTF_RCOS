@@ -20,7 +20,8 @@ public static class FirestoreUtils
         {
             {"position", Vector3ToDictionary(gameData.snapshot.position)},
             {"rotation", Vector3ToDictionary(gameData.snapshot.rotation)},
-            {"time", gameData.snapshot.time}
+            {"time", gameData.snapshot.time},
+            {"scenarioCompleted", gameData.scenarioCompleted}
         };
     }
 }
