@@ -13,12 +13,12 @@ public static class StaticPausingFunctions
     public static Vector3 lastKnownPlayerPosition;
 
     public static bool allowedToPause = true;
-    public static bool currentlyUnPausing = false;
-    public static bool currentlyPausing = false;
-    public static bool currentlyPaused = false;
+    public static bool currentlyUnPausing { get; private set; } = false;
+    public static bool currentlyPausing { get; private set; } = false;
+    public static bool currentlyPaused { get; private set; } = false;
 
     public static (string, System.Type)[] allPauseOptions = { ("Resume", typeof(PauseMenu_Resume)), ("Settings", typeof(PauseMenu_Settings)) };
-    public static GameObject[] allButtonsMade = null;
+    private static GameObject[] allButtonsMade = null;
 
     public static void PauseGame() {
         if (!allowedToPause || currentlyPausing || currentlyPaused) return;
@@ -88,11 +88,15 @@ public static class StaticPausingFunctions
     /* ---------------------------------------------------------------------- */
     /* ---------------------------------------------------------------------- */
 
-    public static bool settingsOpen = false;
+    private static bool settingsOpen = false;
 
     public static void toggleSettings() {
         settingsOpen = !settingsOpen;
-        GameObject.Find("PauseArea(Clone)").transform.Find("SimpleSettingsOptions").gameObject.SetActive(settingsOpen);
+        GameObject pauseArea = GameObject.Find("PauseArea(Clone)");
+        if (pauseArea == null) return;
+        Transform SettingsPanel = pauseArea.transform.Find("SimpleSettingsOptions");
+        if (SettingsPanel == null) return;
+        SettingsPanel.gameObject.SetActive(settingsOpen);
     }
 }
 

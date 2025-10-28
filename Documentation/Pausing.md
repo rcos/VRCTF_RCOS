@@ -74,4 +74,4 @@ public class PauseMenu_Settings : PauseMenu_ButtonParent {
 ```
 <br><br>
 
-By creating a class that inherits from `PauseMenu_ButtonParent` and has a `Pressed` function we can create custom buttons. Just modify the array `allPauseOptions` to have a string and a class like the two shown above. Write the class in `StaticPausingFunction.cs` to keep it with the others
+By creating a class that inherits from `PauseMenu_ButtonParent` and has a `Pressed` function we can create custom buttons. Just modify the array `allPauseOptions` to have a string and a class like the two shown above. Write the class in `StaticPausingFunction.cs` to keep it with the others.
