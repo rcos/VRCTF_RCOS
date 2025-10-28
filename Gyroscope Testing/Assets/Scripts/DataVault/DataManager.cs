@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-
+using Firebase.Firestore;
+using System.IO;
 
 // Singleton class to manage data saving and loading
 public class DataManager : MonoBehaviour
@@ -20,7 +21,10 @@ public class DataManager : MonoBehaviour
     private bool useEncryption = true;
 
     private FileDataHandler dataHandler;
-    
+
+    // Firebase variables can be added here if needed
+    private FirebaseFirestore db;
+    private string dbPath = "game_data/SathR12";    
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -39,6 +43,8 @@ public class DataManager : MonoBehaviour
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
         // Find all objects that implement IDataManager
         this.dataManagerObjects = FindAllDataManagerObjects();
+        // Set up Firebase Firestore
+        this.db = FirebaseFirestore.DefaultInstance;
         // Load any saved data at the start of the game
         LoadGame();
     }
@@ -79,6 +85,8 @@ public class DataManager : MonoBehaviour
         // Save the data to a file using a data handling class
         this.dataHandler.Save(ref this.gameData);
         // Debug.Log("Game data saved successfully.");
+        Dictionary<string, object> gameDataDict = FirestoreUtils.GameDataToDictionary(this.gameData);
+        db.Document(dbPath).SetAsync(gameDataDict);
     }
 
     public void OnApplicationQuit()
