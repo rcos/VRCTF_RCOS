@@ -29,7 +29,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Controls target objects behaviour.
 /// </summary>
-public class InspectController : MonoBehaviour
+public class InspectControllerTest : MonoBehaviour
 {
     // Leftovers from sample
     public Material InactiveMaterial;
@@ -38,6 +38,7 @@ public class InspectController : MonoBehaviour
     [SerializeField] private float inspectScaleMultiplier;
     public UnityEvent onInspect;
     public UnityEvent offInspect;
+    public bool IsInspecting => _spinning;
     
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
@@ -193,7 +194,7 @@ public class InspectController : MonoBehaviour
     /// This method is called by the Main Camera when it is gazing at this GameObject and the screen
     /// is touched.
     /// </summary>
-    public void OnPointerClick()
+    public void Activate()
     {
 #if UNITY_EDITOR
         if (_spinning) // Consolidate this into one later
