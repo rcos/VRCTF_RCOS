@@ -17,7 +17,7 @@ public static class StaticPausingFunctions
     public static bool currentlyPausing { get; private set; } = false;
     public static bool currentlyPaused { get; private set; } = false;
 
-    public static (string, System.Type)[] allPauseOptions = { ("Resume", typeof(PauseMenu_Resume)), ("Settings", typeof(PauseMenu_Settings)) };
+    public static (string, PauseMenu_ButtonParent)[] allPauseOptions = { ("Resume", new PauseMenu_Resume()), ("Settings", new PauseMenu_Settings()) };
     private static GameObject[] allButtonsMade = null;
 
     public static void PauseGame() {
@@ -50,10 +50,8 @@ public static class StaticPausingFunctions
             GameObject curButton = Object.Instantiate(buttonPreFab, PauseOptionsContainer);
             allButtonsMade[i] = curButton;
             curButton.transform.position = new Vector3(PauseOptionsContainer.position.x, upperY-((i+1)*differencePerButton), PauseOptionsContainer.position.z);
-
-            PauseMenu_ButtonParent logicScript = (PauseMenu_ButtonParent)curButton.AddComponent(allPauseOptions[i].Item2); // add instance of class so the object knows what function to call
             curButton.transform.Find("Text (TMP)").GetComponent<TextMeshPro>().text = allPauseOptions[i].Item1;
-            curButton.transform.Find("Button").GetComponent<PauseMenuButtonScript>().scriptToCall = logicScript;
+            curButton.transform.Find("Button").GetComponent<PauseMenuButtonScript>().scriptToCall = allPauseOptions[i].Item2;
         }
 
         // make black fade in appear
@@ -101,7 +99,7 @@ public static class StaticPausingFunctions
 }
 
 
-public class PauseMenu_ButtonParent : MonoBehaviour {
+public class PauseMenu_ButtonParent {
     public virtual void Pressed() { Debug.Log("PauseMenu_ButtonParent's function was called when pressed"); }
 }
 
