@@ -485,14 +485,14 @@ RectTransform:
   m_GameObject: {fileID: 96268287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.8443, z: 1}
+  m_LocalScale: {x: 1, y: 1.2707632, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1972888901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.9}
+  m_AnchoredPosition: {x: 0, y: -0.79999924}
   m_SizeDelta: {x: 0, y: -22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96268289
@@ -543,7 +543,9 @@ GameObject:
   m_Component:
   - component: {fileID: 98229462}
   - component: {fileID: 98229463}
-  m_Layer: 0
+  - component: {fileID: 98229465}
+  - component: {fileID: 98229464}
+  m_Layer: 3
   m_Name: Next Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +561,7 @@ Transform:
   m_GameObject: {fileID: 98229461}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 15.3, y: -11.2, z: -5.3999996}
+  m_LocalPosition: {x: 15.3, y: -16.999994, z: -5.3999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -620,6 +622,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &98229464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98229461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7c2bdf2fcef2a41bee8d889b82ecf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 1972888904}
+--- !u!65 &98229465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98229461}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.12, y: 5.12, z: 0.2}
+  m_Center: {x: -0.0000019073486, y: 0, z: 0}
 --- !u!1 &102394691
 GameObject:
   m_ObjectHideFlags: 0
@@ -2979,7 +3015,9 @@ GameObject:
   m_Component:
   - component: {fileID: 889945639}
   - component: {fileID: 889945640}
-  m_Layer: 0
+  - component: {fileID: 889945642}
+  - component: {fileID: 889945641}
+  m_Layer: 3
   m_Name: Back Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2995,7 +3033,7 @@ Transform:
   m_GameObject: {fileID: 889945638}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.5, y: -11.2, z: -5.3999996}
+  m_LocalPosition: {x: -13.5, y: -16.999994, z: -5.3999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3056,6 +3094,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &889945641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889945638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c6c4a3d830e7d408875baf31a77e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 1972888904}
+--- !u!65 &889945642
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889945638}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.12, y: 5.12, z: 0.2}
+  m_Center: {x: -0.0000009536743, y: 0, z: 0}
 --- !u!1 &901929244
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,6 +3290,7 @@ MonoBehaviour:
   commandOffset: {x: 0, y: 3, z: 0}
   verticalSpacing: 0.5
   commandChosen: 
+  inventoryUI: {fileID: 1972888904}
 --- !u!114 &974736209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3410,7 +3483,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.5, y: -11.3}
+  m_AnchoredPosition: {x: -0.5, y: -17.1}
   m_SizeDelta: {x: 30, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1074085821
@@ -6122,6 +6195,7 @@ MonoBehaviour:
   commandOffset: {x: 0, y: 1, z: 0}
   verticalSpacing: 0.25
   commandChosen: 
+  inventoryUI: {fileID: 0}
 --- !u!1 &1840931940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6523,6 +6597,7 @@ GameObject:
   - component: {fileID: 1972888901}
   - component: {fileID: 1972888903}
   - component: {fileID: 1972888902}
+  - component: {fileID: 1972888904}
   m_Layer: 3
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -6552,7 +6627,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -5.8, y: 85.1}
-  m_SizeDelta: {x: 60, y: 30}
+  m_SizeDelta: {x: 60, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1972888902
 MonoBehaviour:
@@ -6592,6 +6667,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972888900}
   m_CullTransparentMesh: 1
+--- !u!114 &1972888904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972888900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6707a4d0f6f77a4bbe9bb41789e91fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotsArea: {fileID: 96268288}
+  pageText: {fileID: 1074085821}
+  inventorySlotPrefab: {fileID: 8999956659151213228, guid: 217406fadaa3e5147b80501437e96d8d, type: 3}
+  slotsPerPage: 3
+  pageNumber: 1
 --- !u!1 &1976856887
 GameObject:
   m_ObjectHideFlags: 0
@@ -7067,6 +7159,7 @@ MonoBehaviour:
   commandOffset: {x: 0, y: 10, z: 0}
   verticalSpacing: 3
   commandChosen: 
+  inventoryUI: {fileID: 1972888904}
 --- !u!1 &2021057983
 GameObject:
   m_ObjectHideFlags: 0
@@ -7101,7 +7194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.7}
+  m_AnchoredPosition: {x: 0, y: 15.8}
   m_SizeDelta: {x: 60, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2021057985

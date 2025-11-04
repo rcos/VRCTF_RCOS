@@ -9,8 +9,10 @@ public class MenuCommands : MonoBehaviour
     public Vector3 commandOffset = new Vector3(0f, 2, -2); // offset to the right of the object
     public float verticalSpacing = 0.5f; // spacing between commands
 
+    
     [HideInInspector] public string commandChosen = null;
 
+    public InventoryManager inventoryUI;
     private InspectControllerTest inspectController;
     private GameObject[] commandButtons; // store references to generated buttons
 
@@ -145,6 +147,19 @@ public class MenuCommands : MonoBehaviour
         else if (commandChosen == "Add to Inventory")
         {
             Debug.Log(gameObject.name + " added to inventory!");
+
+            if (inventoryUI != null)
+            {
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                Sprite objSprite = sr ? sr.sprite : null;
+
+                inventoryUI.AddItem(new InventoryItemData(
+                    gameObject.name,
+                    objSprite,
+                    transform.position,
+                    transform.rotation
+                ));
+            }
         }
     }
 }
