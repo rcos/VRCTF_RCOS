@@ -31,9 +31,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class InspectController : MonoBehaviour
 {
-    // Leftovers from sample
-    public Material InactiveMaterial;
-    public Material GazedAtMaterial;
     [SerializeField] private Vector3 inspectPosition;
     [SerializeField] private float inspectScaleMultiplier;
     public UnityEvent onInspect;
@@ -55,6 +52,8 @@ public class InspectController : MonoBehaviour
     private Vector3 _startingScale;
     private Camera _cam;
     private Renderer _myRenderer;
+    private Material[] _outlineMaterials;
+    private Material[] _startingMaterials;
 
     /// <summary>
     /// Start is called before the first frame update.
@@ -70,6 +69,14 @@ public class InspectController : MonoBehaviour
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
         offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
         _myRenderer = GetComponent<Renderer>();
+        _startingMaterials = _myRenderer.materials;
+        _outlineMaterials = new Material[_startingMaterials.Length + 1];
+        for (int i = 0; i < _startingMaterials.Length; i++)
+        {
+            _outlineMaterials[i] = _startingMaterials[i];
+        }
+
+        _outlineMaterials[^1] = Resources.Load<Material>("Materials/Outline");
         SetMaterial(false);
     }
     
@@ -228,9 +235,9 @@ public class InspectController : MonoBehaviour
     
     private void SetMaterial(bool gazedAt) 
     {
-        if (InactiveMaterial != null && GazedAtMaterial != null)
+        if (_startingMaterials != null && _outlineMaterials != null)
         {
-            _myRenderer.material = gazedAt ? GazedAtMaterial : InactiveMaterial;
+            _myRenderer.materials = gazedAt ? _outlineMaterials : _startingMaterials;
         }
     }
 }
