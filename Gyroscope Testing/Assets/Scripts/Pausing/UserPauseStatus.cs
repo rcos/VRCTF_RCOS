@@ -3,31 +3,41 @@ using UnityEngine.InputSystem;
 
 public class UserPauseStatus : MonoBehaviour
 {
-    private PauseBehavior CurrentPauseType;
-    private GameObject progressBar;
-    private Transform fillColor;
+    private PauseBehavior CurrentPauseType = null;
+    private GameObject progressBar = null;
+    private Transform fillColor = null;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CurrentPauseType = new PauseBehavior_HoldInteract();
+        switchControlType(new PauseBehavior_HoldInteract());
         CreateProgressBar();
     }
 
-    void CreateProgressBar() {
+    void switchControlType(PauseBehavior switchTo) {
+        if (CurrentPauseType != null) CurrentPauseType.OnDelete(gameObject);
+        CurrentPauseType = switchTo;
+        CurrentPauseType.OnCreate(gameObject);
+    }
+    private void CreateProgressBar() {
         GameObject prefab = Resources.Load<GameObject>("ProgressBar");
         progressBar = Object.Instantiate(prefab, Camera.main.transform);
         progressBar.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         fillColor = progressBar.transform.Find("FillColor");
-        fillColor.localPosition = new Vector3(0f, 0f, 0f);
     }
-    void updateProgressBar(float fillAmt /* 0.00 - 1.00 */) {
+    private void updateProgressBar(float fillAmt /* 0.00 - 1.00 */) {
+        // fail safes
+        if (fillColor == null && progressBar != null) progressBar.transform.Find("FillColor");
+        if (progressBar == null) CreateProgressBar();
+        
+        
+        // hide if pausing or fill is 0
         if (fillAmt == 0.0f || StaticPausingFunctions.currentlyPaused || StaticPausingFunctions.currentlyUnPausing || StaticPausingFunctions.currentlyPausing) {
-            progressBar.transform.localPosition = new Vector3(0f, 0f, -1f);
+            progressBar.transform.localPosition = new Vector3(999f, 999f, 999f); // hides it
             return;
         }
+        // display with proper fill otherwise
         progressBar.transform.localPosition = new Vector3(0f, -0.05f, 0.6f);
-
         float newX = -0.14f + (fillAmt*0.14f);
         float scaleX = (0.28f*fillAmt);
         fillColor.localPosition = new Vector3(newX, 0f, 0f);
@@ -37,6 +47,7 @@ public class UserPauseStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CurrentPauseType == null) switchControlType(new PauseBehavior_HoldInteract());
         CurrentPauseType.RunEveryFrame(gameObject);
         updateProgressBar(CurrentPauseType.GetProgressBarSize(gameObject));
     }
@@ -44,6 +55,8 @@ public class UserPauseStatus : MonoBehaviour
 
 
 public class PauseBehavior {
+    public virtual void OnCreate(GameObject cur) { Debug.Log("PauseBehavior's OnCreate() function was called"); }
+    public virtual void OnDelete(GameObject cur) { Debug.Log("PauseBehavior's OnDelete() function was called"); }
     public virtual void RunEveryFrame(GameObject cur) { Debug.Log("PauseBehavior's RunEveryFrame() function was called"); }
     public virtual float GetProgressBarSize(GameObject cur) { Debug.Log("PauseBehavior's GetProgressBarSize() function was called"); return 0.9f; }
 }
@@ -53,6 +66,9 @@ public class PauseBehavior_HoldInteract : PauseBehavior {
     public static float totalTimeHoldRequired = 1f; // in seconds
     private float currentTimeHeld = 0.0f;
     private float currentTimeDropped = 0.0f;
+
+    public override void OnCreate(GameObject cur) {}
+    public override void OnDelete(GameObject cur) {}
 
     // Checks if interact is held
     public override void RunEveryFrame(GameObject cur) {
@@ -79,7 +95,7 @@ public class PauseBehavior_HoldInteract : PauseBehavior {
         }
     }
     public override float GetProgressBarSize(GameObject cur) {
-        if (currentTimeHeld < 0.1f) return 0.0f;
+        if (currentTimeHeld < 0.18f) return 0.0f;
         return currentTimeHeld / totalTimeHoldRequired;
     }
 }
