@@ -7,7 +7,7 @@ To pause the game the user is teleported to a specific location, the default bei
 ## Relevant Files
 
 `./Gyroscope Testing/Assets/Scripts/Pausing/PauseMenuButtonScript.cs` - When paused, this is the script attached to the buttons in front of you<br>
-`./Gyroscope Testing/Assets/Scripts/Pausing/PauseOnHoldLogic.cs` - The logic to allow pausing after holding down interact for a second or 2<br>
+`./Gyroscope Testing/Assets/Scripts/Pausing/UserPauseStatus.cs` - The logic to allow pausing. Current implementation allows for pausing after holding down interact for a second. By adding a new class you can  change the pausing behavior<br>
 `./Gyroscope Testing/Assets/Scripts/Pausing/StaticPausingFunctions` - All static functions to allow for pausing and unpausing. Also is used for opening up the settings menu within the pause area.<br><br>
 `./Gyroscope Testing/Assets/Resources/Pausing/IndividualButton.prefab` - the Prefab for the buttons you see on the pause screen such as "Resume"<br>
 `./Gyroscope Testing/Assets/Resources/Pausing/PauseArea.prefab` - the Prefab for the ENTIRE pause area. This is loaded dynamically if not already loaded and reused if already loaded.<br><br>
@@ -15,6 +15,17 @@ To pause the game the user is teleported to a specific location, the default bei
 `./Gyroscope Testing/Assets/Materials/Materials/Pausing` - Contains all materials for the pause area. As of writing this they are all static colors meant to represent everything seen in the pause area.
 
 ## Customize Pausing
+
+### Changing/Adding a pausing algorithm
+
+Relevant File: `./Gyroscope Testing/Assets/Scripts/Pausing/UserPauseStatus.cs` <br><br>
+
+Make a new class that inherits from `PauseBehavior`. It needs four functions, `OnCreate`, `OnDelete`, `RunEveryFrame` and `GetProgressBarSize`. <r>
+`RunEveryFrame` is called every frame. This function should have general logic for handling checks to ensure the condition to pause is checked for and accounted for. `PauseBehavior_HoldInteract` checks to see if the interaction button is pressed and increments a floating point number.
+`OnCreate` is called when we switch to that pause method. Setup everything you need here. `PauseBehavior_HoldInteract` does nothing.
+`OnDelete` is called when we switch out of that pause method. Cleanup everything you need here. `PauseBehavior_HoldInteract` does nothing.
+`GetProgressBarSize` is called to check how the progress bar should be displayed to the user. You need to return a float from 0.0 to 1.0. Returning 0.0 also hides the progress bar from appearing. `PauseBehavior_HoldInteract` returns 0 if you didn't hold for long enough (0.18s), otherwise it returns the percentage complete for how long the interaction button has been held down for.
+
 
 ### Changing Pause Area location
 
