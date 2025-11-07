@@ -50,6 +50,33 @@ public class InventoryManager : MonoBehaviour
         RefreshUI();
     }
 
+    public void RemoveItem(InventoryItemData itemData)
+    {
+        if (itemData == null)
+        {
+            Debug.LogWarning("Tried to remove null item!");
+            return;
+        }
+
+        itemData.originalObject.SetActive(true);
+
+        // Remove from queue
+        List<InventoryItemData> tempList = new List<InventoryItemData>(itemQueue);
+        if (tempList.Remove(itemData))
+        {
+            itemQueue = new Queue<InventoryItemData>(tempList);
+            Debug.Log(itemData.objectName + " removed from inventory.");
+        }
+        else
+        {
+            Debug.LogWarning("Item not found in inventory!");
+        }
+
+        // Refresh UI
+        RefreshUI();
+    }
+
+
     public void RefreshUI()
     {
         // Get items in queue as array
@@ -76,6 +103,12 @@ public class InventoryManager : MonoBehaviour
                 if (txt != null) txt.text = data.objectName;
                 if (img != null) img.sprite = data.objectSprite;
                 slot.SetActive(true);
+
+                CloseButton closeBtn = slot.GetComponentInChildren<CloseButton>(true);
+                if (closeBtn != null)
+                {
+                    closeBtn.Initialize(this, data);
+                }
             }
             else
             {
@@ -90,14 +123,31 @@ public class InventoryManager : MonoBehaviour
     {
         RectTransform areaRect = slotsArea.GetComponent<RectTransform>();
         float width = areaRect.rect.width;
-        float spacing = width / (slotsPerPage + 1);
 
-        for (int i = 0; i < allSlots.Count; i++)
+        // Assuming all slots are the same size
+        if (allSlots.Count == 0) return;
+
+        RectTransform slotRect = allSlots[0].GetComponent<RectTransform>();
+        float slotWidth = slotRect.rect.width;
+
+        int count = Mathf.Min(slotsPerPage, allSlots.Count);
+
+        // Compute total width of all slots + gaps
+        float totalSlotWidth = count * slotWidth;
+        float availableSpace = width - totalSlotWidth;
+        float gap = availableSpace / (count + 1);
+
+        // Start from left edge
+        float x = -width / 2f + gap + slotWidth / 2f;
+
+        for (int i = 0; i < count; i++)
         {
             RectTransform rt = allSlots[i].GetComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2((i + 1) * spacing - width / 2f, 0);
+            rt.anchoredPosition = new Vector2(x, 0);
+            x += slotWidth + gap;
         }
     }
+
 
     // Called externally by Next/Back scripts
     public void NextPage()

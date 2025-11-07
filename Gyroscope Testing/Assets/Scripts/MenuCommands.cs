@@ -110,9 +110,8 @@ public class MenuCommands : MonoBehaviour
     }
 
     
-    private IEnumerator ClearCommandsDelayed()
+    private void ClearCommands()
     {
-        yield return null; // wait one frame
         if (commandButtons != null)
         {
             foreach (var btn in commandButtons)
@@ -123,7 +122,6 @@ public class MenuCommands : MonoBehaviour
                 }
             
             commandButtons = null;
-
             }
         }
     }
@@ -131,8 +129,8 @@ public class MenuCommands : MonoBehaviour
     private void Update()
     {
         if (!string.IsNullOrEmpty(commandChosen))
-        {   
-            StartCoroutine(ClearCommandsDelayed());
+        {    
+            ClearCommands();
             ExecuteCommand();
             commandChosen = null;     
         }
@@ -147,18 +145,24 @@ public class MenuCommands : MonoBehaviour
         else if (commandChosen == "Add to Inventory")
         {
             Debug.Log(gameObject.name + " added to inventory!");
-
+        
             if (inventoryUI != null)
             {
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 Sprite objSprite = sr ? sr.sprite : null;
 
-                inventoryUI.AddItem(new InventoryItemData(
+                InventoryItemData data = new InventoryItemData(
                     gameObject.name,
                     objSprite,
                     transform.position,
-                    transform.rotation
-                ));
+                    transform.rotation,
+                    transform.localScale,
+                    gameObject
+                );
+
+                inventoryUI.AddItem(data);
+
+                gameObject.SetActive(false);
             }
         }
     }
