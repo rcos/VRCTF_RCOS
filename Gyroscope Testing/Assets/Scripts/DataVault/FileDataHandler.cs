@@ -4,35 +4,46 @@ using System.IO;
 
 public class FileDataHandler
 {
-    // Directory path for saving and loading files
-    private string dataDir;
-    private string dataFileName;
+    // Directory for saving and loading data
+    private string persistentDataPath;
+    // File name that contains the data
+    private string persistentDataFileName;
 
-    // XOR-based simple encryption key
+    // XOR-based encryption key
     private bool useEncryption = false;
     private readonly string encryptionKey = "word";
-
-    public FileDataHandler(string dataDir, string dataFileName, bool useEncryption = false)
+    /// <summary>
+    /// Constructor for FileDataHandler. Initializes load/save file path, name, and encryption option. 
+    /// </summary>
+    /// <param name="persistentDataPath">The path to the directory where data files are stored.</param>
+    /// <param name="persistentDataFileName">The name of the file containing the data.</param>
+    /// <param name="useEncryption">Whether to use XOR-based encryption for the data file.</param>
+    public FileDataHandler(string persistentDataPath, string persistentDataFileName, bool useEncryption = false)
     {
-        this.dataDir = dataDir;
-        this.dataFileName = dataFileName;
+        this.persistentDataPath = persistentDataPath;
+        this.persistentDataFileName = persistentDataFileName;
         this.useEncryption = useEncryption;
     }
 
-    public GameData Load()
+    /// <summary>
+    /// Loads the data for all scenarios from the player's persistent data path.
+    /// </summary>
+    /// <returns>A GameDataCollection object containing all loaded game data, or null if no file exists.</returns>
+    public GameDataCollection Load()
     {
-
-        string path = Path.Combine(dataDir, dataFileName);
-        GameData loadedData = null;
+        // Combine the file name and persistent path to generate the full path
+        string path = Path.Combine(persistentDataPath, persistentDataFileName);
+        // Initially starts as null if no file found
+        GameDataCollection loadedGameDataCollection = null;
         if (File.Exists(path))
         {
             try
             {
                 // Loading serialized data from file
                 string jsonData = "";
-                using (FileStream stream = new FileStream(path, FileMode.Open))
+                using (var stream = new FileStream(path, FileMode.Open))
                 {
-                    using (StreamReader reader = new StreamReader(stream))
+                    using (var reader = new StreamReader(stream))
                     {
                         jsonData = reader.ReadToEnd();
                     }
@@ -42,10 +53,11 @@ public class FileDataHandler
                 {
                     jsonData = EncryptDecrypt(jsonData);
                 }
+                // Deserialize the data from JSON back into a GameDataCollection object
+                loadedGameDataCollection = JsonUtility.FromJson<GameDataCollection>(jsonData);
 
-                // Deserialize the data from JSON back into a GameData object
-                loadedData = JsonUtility.FromJson<GameData>(jsonData);
-
+                // Sync the deserialized list data back into the runtime dictionary
+                loadedGameDataCollection.SyncListToDictionary();
             }
 
             catch (Exception e)
@@ -53,48 +65,53 @@ public class FileDataHandler
                 Debug.LogError("Error loading game progress from " + path + ": " + e.Message);
             }
         }
-
-        return loadedData;
-
-
+        return loadedGameDataCollection;
     }
-
-    public void Save(ref GameData data)
+    
+    /// <summary>
+    /// Saves the data for all scenarios to the player's persistent data path.
+    /// </summary>
+    /// <param name="gameDataCollection">The GameDataCollection object containing all game data to be saved.</param>
+    public void Save(ref GameDataCollection gameDataCollection)
     {
-        string path = Path.Combine(dataDir, dataFileName);
-
+        string path = Path.Combine(persistentDataPath, persistentDataFileName);
         try
         {
-            // If the directory DNE, create it 
+            // If this is the player's first time saving, create the directory
             Directory.CreateDirectory(Path.GetDirectoryName(path));
+            
+            // Sync the dictionary data to the serializable list before saving
+            gameDataCollection.SyncDictionaryToList();
 
-            // Serialize GameData object to JSON
-            // Second parameter is for json formatting
-            string dataJson = JsonUtility.ToJson(data, true);
+            // Serialize the data from GameDataCollection object to JSON
+            string jsonData = JsonUtility.ToJson(gameDataCollection, true);
 
-            // Using simple XOR encryption if enabled
             if (useEncryption)
             {
-                dataJson = EncryptDecrypt(dataJson);
+                jsonData = EncryptDecrypt(jsonData);
             }
 
             // Write the serialized data to the file
-            using (FileStream stream = new FileStream(path, FileMode.Create))
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                using (StreamWriter writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream))
                 {
-                    writer.Write(dataJson);
+                    writer.Write(jsonData);
                 }
             }
-
         }
 
         catch (Exception e)
         {
             Debug.LogError("Error saving game progress to " + path + ": " + e.Message);
         }
-    }   
+    }
 
+    /// <summary>
+    /// Simple XOR-based encryption/decryption method.
+    /// </summary>
+    /// <param name=""data">The string to be encrypted or decrypted.</param>
+    /// <returns>The modified string after encryption or decryption.</returns>
     private string EncryptDecrypt(string data)
     {
         string modifiedData = "";

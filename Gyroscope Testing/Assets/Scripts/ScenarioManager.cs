@@ -8,7 +8,7 @@ using UnityEngine.Events;
  Also might need to figure out a way to easily configure custom flags (ex. set beginning description/tip, set finish flag)
  Currently hardcoded for the first scenario - David Li ello
 */
-public class ScenarioManager : MonoBehaviour, IDataManager
+public class ScenarioManager : MonoBehaviour
 {
     [SerializeField] private GameObject endingWindow;
     private bool flagSet; // whether the user has finished the scenario or not might not be needed
@@ -25,7 +25,7 @@ public class ScenarioManager : MonoBehaviour, IDataManager
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void PickUp(GameObject inspect)
@@ -47,19 +47,21 @@ public class ScenarioManager : MonoBehaviour, IDataManager
         // Save progress to persistent file and to database
         flagSet = true;
         endingWindow.SetActive(true);
+
     }
 
-    public void SaveData(ref GameData data)
+    // Getter and Setter for flagSet to be used by additional scenario managers for loading/saving
+    public bool GetFlagStatus()
     {
-        data.scenarioCompleted = flagSet;
+        return flagSet;
     }
-
-    public void LoadData(GameData data)
+    
+    public void ResetFlag()
     {
-        flagSet = data.scenarioCompleted; 
-        if (flagSet)
+        flagSet = false;
+        if (endingWindow != null)
         {
-            endingWindow.SetActive(true);
+            endingWindow.SetActive(false);
         }
     }
 }
