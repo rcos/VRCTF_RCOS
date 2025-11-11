@@ -75,7 +75,6 @@ public class InspectController : MonoBehaviour
         {
             _outlineMaterials[i] = _startingMaterials[i];
         }
-
         _outlineMaterials[^1] = Resources.Load<Material>("Materials/Outline");
         SetMaterial(false);
     }
