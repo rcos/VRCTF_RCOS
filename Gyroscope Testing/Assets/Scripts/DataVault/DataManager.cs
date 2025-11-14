@@ -12,7 +12,9 @@ public class DataManager : MonoBehaviour
     private List<IDataManager> dataManagerObjects;
     private string persistentDataFileName = "data.save";
     private bool useEncryption = true;
-
+    
+    // Option to turn on/off saving
+    [SerializeField] private bool enableSaving = true;
     private FileDataHandler fileDataHandler;
 
     // Firebase-relevant members
@@ -112,7 +114,15 @@ public class DataManager : MonoBehaviour
     /// </summary>
     public void OnApplicationQuit()
     {
-        SaveGame();
+        if (enableSaving)
+        {
+            SaveGame();
+        }
+
+        else
+        {
+            Debug.Log("Saving is disabled. Game data not saved on application quit.");
+        }
     }
 
     /// <summary>

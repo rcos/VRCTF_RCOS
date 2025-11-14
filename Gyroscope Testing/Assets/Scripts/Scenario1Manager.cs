@@ -49,6 +49,11 @@ public class Scenario1Manager : MonoBehaviour, IDataManager
         {
             scenario1Data.scenarioCompleted = true;
         }
+
+        else 
+        {
+            scenario1Data.scenarioCompleted = false;
+        }
         
         gameDataCollection.allGameData["Scenario1"] = scenario1Data;
     }
