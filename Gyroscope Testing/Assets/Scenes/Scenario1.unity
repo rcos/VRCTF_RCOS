@@ -2226,6 +2226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameDataCollection:
     serializedEntries: []
+  enableSaving: 1
 --- !u!4 &971583753
 Transform:
   m_ObjectHideFlags: 0

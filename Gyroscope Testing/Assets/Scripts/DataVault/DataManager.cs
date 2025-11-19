@@ -19,7 +19,7 @@ public class DataManager : MonoBehaviour
 
     // Firebase-relevant members
     private FirebaseFirestore db;
-    private string documentPath = "game_data/SathR12";
+    private string documentPath;
 
     /// <summary>
     /// Awake ensures the singleton pattern for DataManager.
@@ -38,12 +38,13 @@ public class DataManager : MonoBehaviour
 
     /// <summary>
     /// Loads game data at the start of the game.
-    /// </summary>
+    /// </summary>  
     private void Start()
     {
         this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, persistentDataFileName, useEncryption);
         this.dataManagerObjects = FindAllDataManagerObjects();
         this.db = FirebaseFirestore.DefaultInstance;
+        this.documentPath = $"users/{GetOrCreateUserId()}";
         LoadGame();
     }
 
@@ -135,5 +136,21 @@ public class DataManager : MonoBehaviour
         // Note: for this to work, all scripts that implement IDataManager must also inherit from MonoBehaviour
         IEnumerable<IDataManager> dataManagers = FindObjectsOfType<MonoBehaviour>().OfType<IDataManager>();
         return dataManagers.ToList();
+    }
+    /// <summary>
+    /// Generates or retrieves a unique user ID for the player.
+    /// </summary>
+    private string GetOrCreateUserId()
+    {
+        const string key = "USER_ID";
+        // PlayerPrefs is built-in to store data on the local device, permanently until deleted
+        if (!PlayerPrefs.HasKey(key))
+        {
+            string newUserId = System.Guid.NewGuid().ToString();
+            PlayerPrefs.SetString(key, newUserId);
+            return newUserId;
+        }
+
+        return PlayerPrefs.GetString(key);
     }
 }
