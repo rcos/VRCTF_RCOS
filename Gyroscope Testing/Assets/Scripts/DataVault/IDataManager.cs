@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// Interface to describe the DataManager functionality
+/// <summary>
+/// Interface for data management in scenarios.
+/// </summary>
 public interface IDataManager
 {
-    void LoadData(GameData data);
-    // Note: must be passed by ref to update the original data
-    void SaveData(ref GameData data);
-
+    void LoadData(GameDataCollection data);
+    void SaveData(ref GameDataCollection data);
 }

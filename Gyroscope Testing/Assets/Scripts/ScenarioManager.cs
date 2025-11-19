@@ -25,7 +25,7 @@ public class ScenarioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void PickUp(GameObject inspect)
@@ -44,7 +44,24 @@ public class ScenarioManager : MonoBehaviour
 
     public void FlagTriggered()
     {
+        // Save progress to persistent file and to database
         flagSet = true;
         endingWindow.SetActive(true);
+
+    }
+
+    // Getter and Setter for flagSet to be used by additional scenario managers for loading/saving
+    public bool GetFlagStatus()
+    {
+        return flagSet;
+    }
+    
+    public void ResetFlag()
+    {
+        flagSet = false;
+        if (endingWindow != null)
+        {
+            endingWindow.SetActive(false);
+        }
     }
 }

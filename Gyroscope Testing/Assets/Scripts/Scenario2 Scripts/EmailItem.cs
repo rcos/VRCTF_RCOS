@@ -32,7 +32,7 @@ public class EmailItem : MonoBehaviour
     
     public void OnPointerEnter()
     {
-
+        
     }
 }
 
