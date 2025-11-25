@@ -47,7 +47,7 @@ public class DataManager : MonoBehaviour
         this.documentPath = $"users/{GetOrCreateUserId()}";
         LoadGame();
     }
-
+    
     /// <summary>
     /// Starts a new game with a blank game data collection object.
     /// </summary>

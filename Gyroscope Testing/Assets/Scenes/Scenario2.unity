@@ -3138,6 +3138,8 @@ GameObject:
   m_Component:
   - component: {fileID: 901929246}
   - component: {fileID: 901929245}
+  - component: {fileID: 901929248}
+  - component: {fileID: 901929247}
   m_Layer: 0
   m_Name: ScenarioManagerTemp
   m_TagString: GameController
@@ -3173,6 +3175,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &901929247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901929244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d260f7bed5ab21c4183fbf20e22b0a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameDataCollection:
+    serializedEntries: []
+  enableSaving: 1
+--- !u!114 &901929248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901929244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443c74c0d0e7e764c8a72afb8e3975d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &974736198
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class Scenario1Manager : MonoBehaviour, IDataManager
         GameObject player = GameObject.Find("Player");
         if (!gameDataCollection.allGameData.TryGetValue("Scenario1", out var scenario1Data))
         {
+            Debug.Log("No existing data for Scenario 1, creating new data.");
             scenario1Data = new GameData("Scenario1");
             gameDataCollection.allGameData["Scenario1"] = scenario1Data;
         }

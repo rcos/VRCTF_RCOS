@@ -113,8 +113,10 @@ public class HomePageManager : MonoBehaviour
         {
             if (rootObject.name == "Player")
             {
-                player.transform.position = rootObject.transform.position;
-                player.transform.rotation = rootObject.transform.rotation;
+                // Commented out to prevent position reset upon scene load
+                // Note: Position and rotation will be set from saved data in ScenarioXManager
+                // player.transform.position = rootObject.transform.position;
+                // player.transform.rotation = rootObject.transform.rotation;
                 Destroy(rootObject);
                 break;
             }
@@ -129,6 +131,10 @@ public class HomePageManager : MonoBehaviour
             // An error occurred
             Debug.Log("Scene is not Valid");
         }
+
+        // After loading the new scene and moving the player:
+        // DataManager.Instance.ReloadManagers();
+
     }
     
     private void OnSceneUnloaded(AsyncOperation obj)
