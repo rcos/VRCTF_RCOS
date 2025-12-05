@@ -45,6 +45,8 @@ public class InspectController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
+    private AudioClip _audioClip;
+    private AudioSource _audioSource;
     private Vector3 _inspectScale;
     private bool _spinning;
     private Vector3 _startingPosition;
@@ -60,6 +62,8 @@ public class InspectController : MonoBehaviour
     /// </summary>
     public void Start()
     {
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioClip = Resources.Load<AudioClip>("SFX/Click");
         _spinning = false;
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
@@ -201,6 +205,7 @@ public class InspectController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
+        _audioSource.PlayOneShot(_audioClip);
 #if UNITY_EDITOR
         if (_spinning) // Consolidate this into one later
         {

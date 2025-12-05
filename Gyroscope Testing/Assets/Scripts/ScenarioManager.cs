@@ -13,6 +13,8 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private GameObject endingWindow;
     private bool flagSet; // whether the user has finished the scenario or not might not be needed
     private GameObject currentInspect;
+    private AudioSource audioSource;
+    private AudioClip audioClip;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +22,8 @@ public class ScenarioManager : MonoBehaviour
         flagSet = false;
         currentInspect = null;
         endingWindow.SetActive(false);
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioClip = Resources.Load<AudioClip>("SFX/Win");
     }
 
     // Update is called once per frame
@@ -45,6 +49,7 @@ public class ScenarioManager : MonoBehaviour
     public void FlagTriggered()
     {
         flagSet = true;
+        audioSource.PlayOneShot(audioClip);
         endingWindow.SetActive(true);
     }
 }
