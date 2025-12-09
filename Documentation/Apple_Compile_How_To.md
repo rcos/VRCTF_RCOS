@@ -28,7 +28,7 @@ Potentially Helpful?:
 
 ## Continued by Keira Ang
 - (After opening project on XCode) >> Targets >> Unity-iPhone >> Signing & Capabilities 
-    - Automatically manage signing: ON
+    - Automatically manage signing: TRUE
     - Team: Personal Team (this is automatically made when you sign in)
     - create unique bundle identifier
     - repeat for Targets >> UnityFramework
@@ -46,4 +46,3 @@ Potentially Helpful?:
         - on the right side of the arrow, change "Any iOS deice (arm64)" to your iPhone name. This can also work directly on the mac, and it will work. For that, you can choose "My Mac (Designed for iPad)"
     - press run
         - it takes a bit; it's a big project. XCode will still be up, and has a live console for what is being displayed. If you are displaying on the iPhone, the app will open itself. 
-        - YAY!!! make sure you double check everything. otherwise it might not work :0
