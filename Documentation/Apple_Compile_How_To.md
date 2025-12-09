@@ -1,43 +1,48 @@
-# Apple Compile. By Nicholas Busaba
+# Apple Compile. By Nicholas Busaba, Keira Ang
 
 ## Current Status
+By Keire Ang
+From what I've seen, it won't be possible to use build it on your phone and run it on the simulator. For this reason, I've updated this document to say "Device SDK", because otherwise it won't run on the phone at all. Now, on the iPhone itself, it runs. The VR aspect with the camera works. But what doesn't work is the click itself; after the first click is made (which I'm unsure if this is based on what is in the center of the screen, or with the crosshair function), no other clicks are processed. The first interaction does work, though, which means that the SDK probably isn't the problem itself, and it is not crashing as it has in the past.
 
+
+## Past Status
+By Nicholas Busaba
 Can get at least a simulator open with the application, but the window size is too small (black bars around the cardboard view) and no way to use accelerometer/gyroscope sensors in a simulator.<br>
+
 Potentially Helpful?:
  - https://github.com/ColinEberhardt/SimulatorEnhancements
  - https://discussions.unity.com/t/cardboard-vr-game-on-iphone-just-fills-half-the-screen/201641
 
-## How to Compile
+## Xcode Account
  - Get an Apple account
  - Make a developer Apple Account (I think here: https://developer.apple.com/programs/enroll/)
  - Get XCode. Use the Apple store if you can. If on an older mac use https://xcodereleases.com/ to get the right version
  - In XCode you need to set up a team with yourself. I can't remember the process because I did it a while ago now but it should work.
+ 
+ ## Unity
  - Make sure everything is pulled
  - Open the Unity Project
  - Project Settings -> Company Name = RPI RCC
- - Project Settings -> Settings for IOS -> Other Settings -> Bundle Identifier = set the team name correctly. I use com.vrctf.vrctf
+ - Project Settings -> Settings for IOS -> Other Settings -> Bundle Identifier: com.vrctf.vrctf
  - Project Settings -> Settings for IOS -> Other Settings -> Signing Team ID = I think it depends on your XCode team. I use "Personal Team"
- - Project Settings -> Settings for IOS -> Other Settings -> Target Device = set to iPhone Only
- - Project Settings -> Settings for IOS -> Other Settings -> Target SDK = set to Simulator or Device depending on what you want
- - Project Settings -> Settings for IOS -> Other Settings -> Simulator Architecture = Universal
- - Project Settings -> Settings for IOS -> Other Settings -> Enable ProMotion = True
- - Project Settings -> XR Plug-in Management -> Settings for IOS -> Cardboard XR Plugin = True
- - If XCode gives a hard time, with errors chatGPT them. Worked for me. Can't remember the process anymore its been a bit
+ - Project Settings -> Player -> Other Settings -> Identification -> Automatically Sign: True
+ - Project Settings -> Settings for IOS -> Other Settings -> Target Device: iPhone Only
+ - Project Settings -> Settings for IOS -> Other Settings -> Target SDK: Device SDK
+ - Project Settings -> Settings for IOS -> Other Settings -> Enable ProMotion: True
+ - Project Settings -> XR Plug-in Management -> Settings for IOS -> Cardboard XR Plugin: True
+ - Build Profile/Settings -> Build Scenes -> Select Home Scene and Situation 1 (or whichever scenes you want to run)
  - Select an Apple Device and then Compile and Build
+    - Build is saved as "Unity-iPhone.xcodeproj"
+    - If you want to re-build, no need to delete original; save in the same location, and click "Replace" when prompted
 
 
-## Continued by Keira Ang
-- (After opening project on XCode) >> Targets >> Unity-iPhone >> Signing & Capabilities 
+## Xcode
+- Open the project on XCode
+- Targets >> Unity-iPhone >> Signing & Capabilities 
     - Automatically manage signing: TRUE
     - Team: Personal Team (this is automatically made when you sign in)
     - create unique bundle identifier
     - repeat for Targets >> UnityFramework
-- Phone settings:
-    - I chose to run on my iPhone. First, the phone needs to actually be plugged into the laptop through a cable.
-    - Go to Settings >> Privacy & Security >> Security (scroll all the way down) >> Developer Mode: ON
-        - this might ask you to restart your phone. do it.
-    - This direction applies for after the build works, but for this one you hit up Settings >> General >> VPN & Device Management
-        - Tap your developer certificate → Trust.
 - Running
     - Make sure you click on Unity-iPhone in the directory on the left.
     - There is a bar at the top that lets you decide what to run and where you run it. This format is:
@@ -46,3 +51,11 @@ Potentially Helpful?:
         - on the right side of the arrow, change "Any iOS deice (arm64)" to your iPhone name. This can also work directly on the mac, and it will work. For that, you can choose "My Mac (Designed for iPad)"
     - press run
         - it takes a bit; it's a big project. XCode will still be up, and has a live console for what is being displayed. If you are displaying on the iPhone, the app will open itself. 
+
+## Phone Settings 
+- You need to download TestFlight for this to work.
+- I chose to run on my iPhone. First, the phone needs to actually be plugged into the laptop through a cable. This cannot be done wirelessly.
+- Go to Settings >> Privacy & Security >> Security (scroll all the way down) >> Developer Mode: ON
+    - this might ask you to restart your phone. do it.
+- This direction applies for after the build works, but for this one you go to: Settings >> General >> VPN & Device Management
+    - Tap your developer certificate → Trust
