@@ -2,7 +2,8 @@
 
 ## Current Status: 12/10
 By Keire Ang
-From what I've seen, it won't be possible to use build it on your phone and run it on the simulator. For this reason, I've updated this document to say "Device SDK", because otherwise it won't run on the phone at all. Now, on the iPhone itself, it runs. The VR aspect with the camera works. But what doesn't work is the click itself; after the first click is made (which I'm unsure if this is based on what is in the center of the screen, or with the crosshair function), no other clicks are processed. The first interaction does work, though, which means that the SDK probably isn't the problem itself, and it is not crashing as it has in the past.
+From what I've seen, it won't be possible to build it on your phone and run it on the simulator simulatenously. For this reason, I've updated this document to say "Device SDK", because otherwise it won't run on the phone at all. Should someone be able to function it on the simulator, the documentation may be udpated. But the only use of running it on the simulator is for people with a macbook and no iPhone, which usually is not the case; it is easier to just open it on an iPhone.
+On the iPhone itself, the build now runs. The VR aspect with the camera works. But what doesn't work is the click functionality itself; after the first click is made (which I'm unsure if this is based on what is in the center of the screen, or with the crosshair function), no other clicks are processed. The first interaction does work, though, which means that the SDK probably isn't the problem itself, and it is not crashing as it has in the past.
 
 
 ## Past Status
@@ -60,4 +61,4 @@ Potentially Helpful?:
 - This direction applies for after the build works, but for this one you go to: Settings >> General >> VPN & Device Management
     - Tap your developer certificate → Trust
 - This project must be rebuilt on the phone every time; while the app apears on the iPhone as its own app, it will not allow you to open it after too long.
-
+- 
