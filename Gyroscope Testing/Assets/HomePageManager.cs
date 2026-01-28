@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Data;
 
 public class HomePageManager : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class HomePageManager : MonoBehaviour
     {
         ShowHome();
         player = GameObject.Find("Player");
+        UpdateScenarioButtonColors();
     }
 
     public void OnScenario1Clicked()
@@ -82,9 +84,34 @@ public class HomePageManager : MonoBehaviour
     private void ToggleScenarioButtons(bool state)
     {
         scenario1Button.SetActive(state);
+        if (state)
+        {
+            if (DataManager.Instance != null && DataManager.Instance.gameDataCollection.allGameData["Scenario1"].scenarioCompleted)
+            {
+                scenario1Button.GetComponent<Image>().color = Color.green;
+            }
+        }
         // Uncomment when scenarios are ready
         scenario2Button.SetActive(state);
         scenario3Button.SetActive(state);
+    }
+
+    private void UpdateScenarioButtonColors()
+    {
+        if (DataManager.Instance == null) return; 
+
+        var allData = DataManager.Instance.gameDataCollection.allGameData;
+
+        if (allData.TryGetValue("Scenario1", out var scenario1Data) && scenario1Data.scenarioCompleted)
+        {
+            scenario1Button.GetComponent<Image>().color = Color.green;
+        }
+
+        else
+        {
+            scenario1Button.GetComponent<Image>().color = Color.white;
+        }
+        
     }
 
     private void ShowProceedAndBack(bool state)

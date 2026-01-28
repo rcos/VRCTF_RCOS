@@ -2180,6 +2180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingWindow: {fileID: 1366541720}
+  restartWindow: {fileID: 0}
 --- !u!4 &901929246
 Transform:
   m_ObjectHideFlags: 0
@@ -5103,7 +5104,7 @@ Camera:
     height: 1
   near clip plane: 0.03
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

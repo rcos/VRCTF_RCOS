@@ -11,6 +11,7 @@ using UnityEngine.Events;
 public class ScenarioManager : MonoBehaviour
 {
     [SerializeField] private GameObject endingWindow;
+    [SerializeField] private GameObject restartWindow; 
     private bool flagSet; // whether the user has finished the scenario or not might not be needed
     private GameObject currentInspect;
 
@@ -20,6 +21,7 @@ public class ScenarioManager : MonoBehaviour
         flagSet = false;
         currentInspect = null;
         endingWindow.SetActive(false);
+        restartWindow.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,12 +44,17 @@ public class ScenarioManager : MonoBehaviour
         currentInspect = null;
     }
 
+    public void setCompletedFromSave()
+    {
+        flagSet = true;
+    }
+
     public void FlagTriggered()
     {
         // Save progress to persistent file and to database
         flagSet = true;
         endingWindow.SetActive(true);
-
+        restartWindow.SetActive(true);
     }
 
     // Getter and Setter for flagSet to be used by additional scenario managers for loading/saving
@@ -62,6 +69,10 @@ public class ScenarioManager : MonoBehaviour
         if (endingWindow != null)
         {
             endingWindow.SetActive(false);
+        }
+        if (restartWindow != null)
+        {
+            restartWindow.SetActive(false);
         }
     }
 }
