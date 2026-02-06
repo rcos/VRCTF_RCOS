@@ -1,0 +1,1 @@
+The texture for the gear icon was custom created by Nicholas Busaba, so no need to worry about copyright with it.

@@ -1,4 +1,4 @@
-# VRCTF_RCOS
+# VRRPI
 
 # The world’s first cybersecurity VR CTF
 
@@ -11,7 +11,7 @@
 
 ## Running the project in Unity
 1. **Download Unity Hub**: Download [here](https://unity.com/download)
-2. Open the VRCTF_RCOS repository on Github Desktop and switch from the current branch from main to UnityInteractiveSetup
+2. Open the VRPI (VRCTF_RCOS) repository on Github Desktop and switch from the current branch from main to UnityInteractiveSetup
 3. Click Show in Explorer or Ctrl + Shift + F. You should see a RCC Research folder.
 4. Open Unity Hub and go to Projects -> Add -> Add project from disk and choose the RCC Research folder to add the project
 5. There should be an option to download version 6000.0.026f1 from this project
