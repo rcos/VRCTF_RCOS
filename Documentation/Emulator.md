@@ -2,7 +2,7 @@
 
 ## Overview
 
-The scripts in `Assets/Scripts/TestingScripts` and in `./Scripts` allow for testing within the Unity editor. `VREmulator.cs` in in `Assets/Scripts/TestingScripts` allows for camera movement and `Emulator_Add.sh`/`Emulator_Remove.sh` in in `./Scripts` turn on/off interactions. <br> <br>
+The scripts in `Assets/Scripts/TestingScripts` and in `./Scripts` allow for testing within the Unity editor. The `VREmulator.cs` file in `Assets/Scripts/TestingScripts` allows for camera movement and `Emulator_Add.sh`/`Emulator_Remove.sh` in in `./Scripts` turn on/off interactions. <br> <br>
 
 ## Setup
 
