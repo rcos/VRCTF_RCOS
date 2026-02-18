@@ -55,7 +55,6 @@ public class InspectControllerTest : MonoBehaviour
     private Quaternion _startingRotation;
     private Vector3 _startingScale;
     private Camera _cam;
-    private Renderer _myRenderer;
 
     /// <summary>
     /// Start is called before the first frame update.
@@ -70,8 +69,6 @@ public class InspectControllerTest : MonoBehaviour
         _cam = Camera.main;
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
         offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
-        _myRenderer = GetComponent<Renderer>();
-        SetMaterial(false);
     }
     
 
@@ -172,23 +169,6 @@ public class InspectControllerTest : MonoBehaviour
         }
 #endif
     }
-    
-    /// <summary>
-    /// This method is called by the Main Camera when it starts gazing at this GameObject.
-    /// </summary>
-    public void OnPointerEnter()
-    {
-        SetMaterial(true);
-        Debug.Log("HELLo" + transform.name);
-    }
-
-    /// <summary>
-    /// This method is called by the Main Camera when it stops gazing at this GameObject.
-    /// </summary>
-    public void OnPointerExit()
-    {
-        SetMaterial(false);
-    }
 
     /// <summary>
     /// This method is called by the Main Camera when it is gazing at this GameObject and the screen
@@ -225,13 +205,5 @@ public class InspectControllerTest : MonoBehaviour
     public void ForceStop()
     {
         _spinning = false;
-    }
-    
-    private void SetMaterial(bool gazedAt) 
-    {
-        if (InactiveMaterial != null && GazedAtMaterial != null)
-        {
-            _myRenderer.material = gazedAt ? GazedAtMaterial : InactiveMaterial;
-        }
     }
 }

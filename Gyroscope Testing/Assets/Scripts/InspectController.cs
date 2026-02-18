@@ -31,9 +31,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class InspectController : MonoBehaviour
 {
-    // Leftovers from sample
-    public Material InactiveMaterial;
-    public Material GazedAtMaterial;
     [SerializeField] private Vector3 inspectPosition;
     [SerializeField] private float inspectScaleMultiplier;
     public UnityEvent onInspect;
@@ -48,19 +45,22 @@ public class InspectController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
+    private AudioClip _audioClip;
+    private AudioSource _audioSource;
     private Vector3 _inspectScale;
     private bool _spinning;
     private Vector3 _startingPosition;
     private Quaternion _startingRotation;
     private Vector3 _startingScale;
     private Camera _cam;
-    private Renderer _myRenderer;
 
     /// <summary>
     /// Start is called before the first frame update.
     /// </summary>
     public void Start()
     {
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioClip = Resources.Load<AudioClip>("SFX/Click");
         _spinning = false;
         _startingPosition = transform.position;
         _startingRotation = transform.rotation;
@@ -69,8 +69,6 @@ public class InspectController : MonoBehaviour
         _cam = Camera.main;
         onInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PickUp(gameObject));
         offInspect.AddListener(() => GameObject.FindGameObjectWithTag("GameController").GetComponent<ScenarioManager>().PutDown());
-        _myRenderer = GetComponent<Renderer>();
-        SetMaterial(false);
     }
     
 
@@ -171,23 +169,6 @@ public class InspectController : MonoBehaviour
         }
 #endif
     }
-    
-    /// <summary>
-    /// This method is called by the Main Camera when it starts gazing at this GameObject.
-    /// </summary>
-    public void OnPointerEnter()
-    {
-        SetMaterial(true);
-        Debug.Log("HELLo" + transform.name);
-    }
-
-    /// <summary>
-    /// This method is called by the Main Camera when it stops gazing at this GameObject.
-    /// </summary>
-    public void OnPointerExit()
-    {
-        SetMaterial(false);
-    }
 
     /// <summary>
     /// This method is called by the Main Camera when it is gazing at this GameObject and the screen
@@ -195,6 +176,7 @@ public class InspectController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
+        _audioSource.PlayOneShot(_audioClip);
 #if UNITY_EDITOR
         if (_spinning) // Consolidate this into one later
         {
@@ -224,13 +206,5 @@ public class InspectController : MonoBehaviour
     public void ForceStop()
     {
         _spinning = false;
-    }
-    
-    private void SetMaterial(bool gazedAt) 
-    {
-        if (InactiveMaterial != null && GazedAtMaterial != null)
-        {
-            _myRenderer.material = gazedAt ? GazedAtMaterial : InactiveMaterial;
-        }
     }
 }
