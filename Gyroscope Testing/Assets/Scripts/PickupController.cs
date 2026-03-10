@@ -91,6 +91,7 @@ public class PickupController : MonoBehaviour
         _cam.GetComponent<InventoryManagement>().EnterIntoInventory(gameObject);
         gameObject.layer = LayerMask.NameToLayer("Default");
         gameObject.SetActive(false);
+        Debug.Log("Picked up " + gameObject.name);
     }
     
     private void SetMaterial(bool gazedAt) 

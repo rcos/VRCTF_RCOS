@@ -36,7 +36,7 @@ public class ScenarioManager : MonoBehaviour
     {
         if (currentInspect != null)
         {
-            currentInspect.GetComponent<InspectController>().ForceStop();
+            currentInspect.GetComponent<InspectControllerSimple>().ForceStop();
         }
         currentInspect = inspect;
     }

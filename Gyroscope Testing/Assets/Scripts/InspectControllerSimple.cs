@@ -31,10 +31,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class InspectControllerSimple : MonoBehaviour
 {
-    // Leftovers from sample
-    public Material InactiveMaterial;
-    public Material GazedAtMaterial;
-    
     public UnityEvent onInspect;
     public UnityEvent offInspect;
     
