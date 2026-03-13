@@ -16,8 +16,8 @@ public class HomePageManager : MonoBehaviour
 
     private string defaultText = "Welcome to VR RCC Project!\n\nChoose a scenario:";
     private string scenario1Instructions = "Find a way to log in to the computer.\n\nSee what you can do to objects in the room.";
-    private string scenario2Instructions = "Scenario 2 instructions.";
-    private string scenario3Instructions = "Scenario 3 instructions. ";
+    private string scenario2Instructions = "Log into the target's computer and email.\n\nSee what you can find in their emails.";
+    private string scenario3Instructions = "Find a way into the employee room.\n\nWhat do you need to get in?";
 
     private string selectedScenario = ""; // Track which scenario was clicked
     

@@ -7,11 +7,13 @@ An airport hallway with public chairs and tables. Bags, food, drinks, notebooks,
 There is a locked door in the wall with a keycard scanner next to it.
 
 ## Task
-Find a way into the employee room. Pick up the employee keycard left out in the open and use it to open the door.
+
+Get into the employees-only room by picking up the keycard to get access.
 
 ## User Prompt
 
-- Get into the employees-only room.
+Find a way into the employee room. What do you need to get in?
+
 
 ## 
 - **Employee's Keycard**: Can be inspected and put in inventory.
