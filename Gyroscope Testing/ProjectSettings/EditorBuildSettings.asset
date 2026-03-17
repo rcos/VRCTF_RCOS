@@ -23,9 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scenario1.unity
     guid: 7b01f155f3470a2439a56681b358cfa7
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Scenario2.unity
     guid: 89761b85de5df9c4b83c2097cd4c05ec
+  - enabled: 1
+    path: Assets/Scenes/Scenario3.unity
+    guid: 800af61b99fac4d478b89223766565bf
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cc8b055e6fd321343b025a2bad706fe4, type: 2}
