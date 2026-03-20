@@ -139,7 +139,6 @@ public class InspectControllerSimple : MonoBehaviour
         if ((heightDifference > 0 && _cam.transform.rotation.eulerAngles.x > heightDifference && _cam.transform.rotation.eulerAngles.x <= 90f)
             || (heightDifference < 0 && (_cam.transform.rotation.eulerAngles.x <= 90f || _cam.transform.rotation.eulerAngles.x > 360f+heightDifference)))
         {
-            Debug.Log("Reversed > 0");
             combinedAngle = -combinedAngle;
         }
 
