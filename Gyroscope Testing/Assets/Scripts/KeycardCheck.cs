@@ -58,6 +58,7 @@ public class KeycardCheck : MonoBehaviour
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
         manager = GameObject.FindGameObjectWithTag("GameController");
+        Debug.Log(manager.name);
     }
 
     public void Update()
