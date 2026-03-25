@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255686141172",
+    "project_id": "vrpi-2797a",
+    "storage_bucket": "vrpi-2797a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255686141172:android:fce94849756571d6e2aaa1",
+        "android_client_info": {
+          "package_name": "edu.rpi.vrpi.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfMmHdXlfLfQXU5mfTRSmNSUYmziJ-p2k"
+        }
+      ],  
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

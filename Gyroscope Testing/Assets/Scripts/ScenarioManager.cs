@@ -32,6 +32,16 @@ public class ScenarioManager : MonoBehaviour
         
     }
 
+    public void setCompletedFromSave()
+    {
+        flagSet = true;
+    }
+
+    public bool GetFlagStatus()
+    {
+        return flagSet;
+    }
+
     public void PickUp(GameObject inspect)
     {
         if (currentInspect != null)

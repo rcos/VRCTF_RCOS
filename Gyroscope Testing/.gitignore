@@ -71,3 +71,32 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Generated firebase 
+/[Aa]ssets/ExternalDependencyManager/Editor/1.2.177/
+/[Aa]ssets/Firebase/m_generated_config.xml
+/[Aa]ssets/Plugins/Android/Firebase/res/values/google-services.xml
+/[Aa]ssets/Plugins/iOS/Firebase/google-services-desktop.json
+
+# --- Standard Unity Ignore Patterns ---
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]serSettings/
+
+# --- Gradle and Android Specifics ---
+.gradle/
+/[Aa]ssets/Plugins/Android/mainTemplate.gradle
+/[Aa]ssets/Plugins/Android/launcherTemplate.gradle
+/[Aa]ssets/Plugins/Android/gradleTemplate.properties
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
+
+# --- Asset Store and Package Manager ---
+/[Aa]ssets/AssetStoreTools*
