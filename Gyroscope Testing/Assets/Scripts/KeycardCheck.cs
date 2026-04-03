@@ -31,10 +31,10 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class KeycardCheck : MonoBehaviour
 {
-    // Leftovers from sample
     public Material InactiveMaterial;
     public Material GazedAtMaterial;
     [SerializeField] public TMP_Text monitorText;
+    [SerializeField] private UnityEvent result;
     
     // From sample, but good to keep these in mind
     // The objects are about 1 meter in radius, so the min/max target distance are
@@ -47,7 +47,6 @@ public class KeycardCheck : MonoBehaviour
     
     private Camera _cam;
     private Renderer _myRenderer;
-    private GameObject manager;
 
     /// <summary>
     /// Start is called before the first frame update.
@@ -57,7 +56,6 @@ public class KeycardCheck : MonoBehaviour
         _cam = Camera.main;
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
-        manager = GameObject.FindGameObjectWithTag("GameController");
     }
 
     public void Update()
@@ -89,7 +87,7 @@ public class KeycardCheck : MonoBehaviour
     {
         if (_cam.GetComponent<InventoryManagement>().storedItem?.name == "Card")
         {
-            manager.GetComponent<ScenarioManager>().FlagTriggered();
+            result.Invoke();
             monitorText.text = "Logged In!";
         }
         else
