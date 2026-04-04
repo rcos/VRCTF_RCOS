@@ -88,7 +88,7 @@ public class KeycardCheck : MonoBehaviour
         if (_cam.GetComponent<InventoryManagement>().storedItem?.name == "Card")
         {
             result.Invoke();
-            monitorText.text = "Logged In!";
+            monitorText.text = "";
         }
         else
         {
