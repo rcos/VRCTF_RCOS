@@ -29,7 +29,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Controls target objects behaviour.
 /// </summary>
-public class PickupController : MonoBehaviour
+public class gPickupController : MonoBehaviour
 {
     // Leftovers from sample
     public Material InactiveMaterial;
