@@ -6,6 +6,8 @@ public class Socket : MonoBehaviour
     public GameObject[] CanConnectTo = null; // Only these objects can connect to socket
     public bool InvertAboveArray = true; //Now cant connect to above array, connects to everything else
     public Vector3 Offset = Vector3.zero; //where to have wire go to when connected to this socket (offset from center of gameobject)
+    // [SerializeField] private UnityEvent result;
+
 
     public void setWireConnectedTo(GameObject wireEnd)
     {
@@ -32,6 +34,11 @@ public class Socket : MonoBehaviour
         }
         return wireEnd.GetComponent<WireInteraction>().setAttachedToSocket(this.gameObject);
     }
+
+    /*public void activeSocket() // Needs to check if the correct wired is connected
+    {
+        result.Invoke();
+    }*/
 
     void Start() {
         // check if right layer ("WireSocket")

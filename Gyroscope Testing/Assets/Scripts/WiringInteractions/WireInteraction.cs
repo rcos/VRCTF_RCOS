@@ -51,6 +51,7 @@ public class WireInteraction : MonoBehaviour
         previousSocket = socket;
         socket.GetComponent<Socket>().setWireConnectedTo(this.gameObject);
         transform.position = socket.transform.position + socket.GetComponent<Socket>().Offset; // move wire to socket position + offset
+        // socket.activateSocket();
         return true;
     }
     public bool detachFromSocket(bool applyBounceBack = true) {
