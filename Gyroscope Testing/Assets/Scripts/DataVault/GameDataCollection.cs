@@ -4,6 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class GameDataCollection
 {
+    
+    public string playerName; 
+    public int totalScenariosCompleted;
+    public int totalPoints; 
     // Unity can’t serialize dictionaries, so we store entries as a list for serialization
     [System.Serializable]
     public class GameDataEntry
@@ -46,5 +50,18 @@ public class GameDataCollection
             if (!allGameData.ContainsKey(entry.scenarioName))
                 allGameData[entry.scenarioName] = entry.data;
         }
+    }
+
+    public void UpdateSummaryTotals()
+    {
+        int count = 0;
+        foreach (var entry in allGameData.Values)
+        {
+            if (entry.scenarioCompleted)
+                count++;
+                this.totalPoints += (count * 100);
+        }
+
+        this.totalScenariosCompleted = count;
     }
 }

@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using Firebase.Firestore;
+using Firebase.Extensions; 
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
@@ -42,10 +44,15 @@ public class DataManager : MonoBehaviour
     private void Start()
     {
         this.fileDataHandler = new FileDataHandler(Application.persistentDataPath, persistentDataFileName, useEncryption);
-        this.dataManagerObjects = FindAllDataManagerObjects();
         this.db = FirebaseFirestore.DefaultInstance;
         this.documentPath = $"users/{GetOrCreateUserId()}";
-        LoadGame();
+        this.gameDataCollection = this.fileDataHandler.Load();
+        if (this.gameDataCollection == null)
+        {
+            NewGame();
+        }
+        // Force a scan for the very first scene (Home)
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
     
     /// <summary>
@@ -93,6 +100,7 @@ public class DataManager : MonoBehaviour
 
         // Upload to firebase firestore
         this.gameDataCollection.SyncDictionaryToList();
+        this.gameDataCollection.UpdateSummaryTotals();  
         string jsonData = JsonUtility.ToJson(this.gameDataCollection);
 
         var uploadData = new Dictionary<string, object>
@@ -100,12 +108,20 @@ public class DataManager : MonoBehaviour
             {"timestamp", FieldValue.ServerTimestamp },
             {"data", jsonData }
         };
-        
+
+        var leaderboardData = new Dictionary<string, object>
+        {
+            {"playerName", GetOrCreateUserId()},
+            {"totalScenariosCompleted", this.gameDataCollection.totalScenariosCompleted },
+            {"totalPoints", this.gameDataCollection.totalPoints }
+        };
+
          // Upload to Firestore
         if (db != null)
         {
             var docRef = db.Document(documentPath);
             docRef.SetAsync(uploadData);
+            db.Document($"leaderboards/{GetOrCreateUserId()}").SetAsync(leaderboardData);
             Debug.Log("Game data uploaded to firestore at " + documentPath);
         }
     }
@@ -153,4 +169,65 @@ public class DataManager : MonoBehaviour
 
         return PlayerPrefs.GetString(key);
     }
+
+    /// <summary>
+    /// Function to retrieve available levels from the database. This can be used to populate a level select menu or for other purposes.> 
+    /// <summary> 
+    public void GetGlobalLevels(System.Action<List<LevelData>> callback)
+    {
+        if (db == null)
+        {
+            db = FirebaseFirestore.DefaultInstance;
+        }
+
+
+        db.Collection("levels").GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                Debug.LogError("Error getting levels: " + task.Exception);
+                callback(new List<LevelData>());
+                return;
+            }
+
+            List<LevelData> levels = new List<LevelData>();
+            foreach (DocumentSnapshot document in task.Result.Documents)
+            {
+                if (document.Exists)
+                {
+                    LevelData levelData = document.ConvertTo<LevelData>();
+                    levels.Add(levelData);
+                }
+            }
+            callback(levels);
+        });
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // This runs every time you change scenes
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Re-scan for ScenarioManagers in the new scene
+        this.dataManagerObjects = FindAllDataManagerObjects();
+        
+        // Auto-load the data into the new managers
+        foreach (IDataManager scenarioDataManager in dataManagerObjects)
+        {
+            scenarioDataManager.LoadData(this.gameDataCollection);
+        }
+    }
+
+    
+
+
+
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Data;
+using System.Linq;
+using System.Collections.Generic;
 
 public class HomePageManager : MonoBehaviour
 {
@@ -20,13 +23,48 @@ public class HomePageManager : MonoBehaviour
     private string scenario3Instructions = "Scenario 3 instructions. ";
 
     private string selectedScenario = ""; // Track which scenario was clicked
-    
     private GameObject player;
 
     void Start()
     {
         ShowHome();
         player = GameObject.Find("Player");
+
+        // Level availability logic
+        RefreshLevelMenu();
+
+
+    }
+
+    // Comment this out to use hardcoded button visibility instead of dynamic level loading from Firebases
+    public void RefreshLevelMenu()
+    {
+        DataManager.Instance.GetGlobalLevels((availableLevels) =>
+        {
+           StartCoroutine(SafeUpdateUI(availableLevels));
+        });
+    }
+
+    private IEnumerator SafeUpdateUI(List<LevelData> availableLevels)
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay to ensure UI is ready
+
+        scenario1Button.SetActive(availableLevels.Any(l => l.levelID == "Scenario1"));
+        scenario2Button.SetActive(availableLevels.Any(l => l.levelID == "Scenario2"));
+        scenario3Button.SetActive(availableLevels.Any(l => l.levelID == "Scenario3"));
+        
+        // Updates the button text dynamically
+        var s1 = availableLevels.FirstOrDefault(l => l.levelID == "Scenario1");
+        if (s1 != null) 
+        {
+            scenario1Button.GetComponentInChildren<TextMeshProUGUI>().text = s1.levelName;
+        }
+
+        var s2 = availableLevels.FirstOrDefault(l => l.levelID == "Scenario2");
+        if (s2 != null) 
+        {
+            scenario2Button.GetComponentInChildren<TextMeshProUGUI>().text = s2.levelName;
+        }
     }
 
     public void OnScenario1Clicked()
@@ -113,8 +151,11 @@ public class HomePageManager : MonoBehaviour
         {
             if (rootObject.name == "Player")
             {
-                player.transform.position = rootObject.transform.position;
-                player.transform.rotation = rootObject.transform.rotation;
+                // Note: Commented out the following lines because they reset the player position, which affects the position loaded from the load/save system. 
+                // Note: Can be re-enabled if we want the player to always start at the same position in the scenario, regardless of saved position.
+
+                // player.transform.position = rootObject.transform.position;
+                // player.transform.rotation = rootObject.transform.rotation;
                 Destroy(rootObject);
                 break;
             }

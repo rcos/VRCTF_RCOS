@@ -2393,6 +2393,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataManager
   gameDataCollection:
+    playerName: 
+    totalScenariosCompleted: 0
+    totalPoints: 0
     serializedEntries: []
   enableSaving: 1
 --- !u!1 &2143556914
