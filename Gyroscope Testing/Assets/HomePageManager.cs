@@ -11,13 +11,15 @@ public class HomePageManager : MonoBehaviour
     public GameObject scenario1Button;
     public GameObject scenario2Button;
     public GameObject scenario3Button;
+    public GameObject scenario4Button;
     public GameObject proceedButton;
     public GameObject backButton;
 
     private string defaultText = "Welcome to VR RCC Project!\n\nChoose a scenario:";
     private string scenario1Instructions = "Find a way to log in to the computer.\n\nSee what you can do to objects in the room.";
     private string scenario2Instructions = "Log into the target's computer and email.\n\nSee what you can find in their emails.";
-    private string scenario3Instructions = "Find a way into the employee room.\n\nWhat do you need to get in?";
+    private string scenario3Instructions = "Find a way into the employee room.\n\nHold down the action button to see inventory.";
+    private string scenario4Instructions = "An employee room has a private server that is down.\n\nGet in and turn it back on.";
 
     private string selectedScenario = ""; // Track which scenario was clicked
     
@@ -49,6 +51,14 @@ public class HomePageManager : MonoBehaviour
     {
         selectedScenario = "Scenario3";
         mainText.text = scenario3Instructions;
+        ToggleScenarioButtons(false);
+        ShowProceedAndBack(true);
+    }
+    
+    public void OnScenario4Clicked()
+    {
+        selectedScenario = "Scenario4";
+        mainText.text = scenario4Instructions;
         ToggleScenarioButtons(false);
         ShowProceedAndBack(true);
     }
@@ -85,6 +95,7 @@ public class HomePageManager : MonoBehaviour
         // Uncomment when scenarios are ready
         scenario2Button.SetActive(state);
         scenario3Button.SetActive(state);
+        scenario4Button.SetActive(state);
     }
 
     private void ShowProceedAndBack(bool state)

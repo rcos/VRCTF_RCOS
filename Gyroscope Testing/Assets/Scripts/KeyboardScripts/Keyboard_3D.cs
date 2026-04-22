@@ -65,6 +65,7 @@ public static class Keyboard_3D_Static
                 Debug.LogError("Keyboard type not recognized");
                 return;
         }
+        Debug.Log(keyboard.name + " ad");
         keyboard.GetComponent<Keyboard_3D>().invokeKeyboardSpawn(keyboard_type, hor_margin, ver_margin, onKeyPress_func, onSubmit_func, onCancel_func, onDestroy_func);
     }
 
