@@ -5,14 +5,10 @@ public class RoomController : MonoBehaviour
     private GameObject _player;
     public Vector3 teleportPosition;
     public bool requiresCondition;
-
-    void Start()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player");
-    }
     
     public void MovePosition()
     {
+        _player = GameObject.FindGameObjectWithTag("Player");
         FadeOutSquare_Static.makeNewFadeOutSquare(10, 8, 10,
             (GameEnums.FadeOutSquare_CallbackType reason) =>
             {

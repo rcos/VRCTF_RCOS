@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class CabinetController : MonoBehaviour
 {
-    private GameObject _drawer;
     private Vector3 _startPosition;
     private Vector3 _endPosition;
     private bool _open;
     void Start()
     {
-        GameObject drawer = transform.GetChild(0).gameObject;
-        _startPosition = drawer.transform.position;
-        _endPosition = drawer.transform.position + new Vector3(0, 0, 1);
+        _startPosition = transform.position;
+        _endPosition = transform.position + new Vector3(0.7f, 0, 0);
         _open = false;
     }
 
@@ -18,13 +16,12 @@ public class CabinetController : MonoBehaviour
     void OnPointerClick()
     { 
         _open = !_open;
-            
         // Uninspect any active objects inside.
     }
 
     void Update()
     {
-        _drawer.transform.position = Vector3.MoveTowards(_drawer.transform.position, _open ? _endPosition : _startPosition, 0.1f * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _open ? _endPosition : _startPosition, 2f * Time.deltaTime);
     }
     
 }

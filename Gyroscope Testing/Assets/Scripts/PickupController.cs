@@ -48,6 +48,8 @@ public class gPickupController : MonoBehaviour
     private const float MinObjectHeight = 0.5f;
     private const float MaxObjectHeight = 3.5f;
     
+    private AudioClip _audioClip;
+    private AudioSource _audioSource;
     private Camera _cam;
     private Renderer _myRenderer;
 
@@ -56,6 +58,8 @@ public class gPickupController : MonoBehaviour
     /// </summary>
     public void Start()
     {
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _audioClip = Resources.Load<AudioClip>("SFX/Click");
         _cam = Camera.main;
         _myRenderer = GetComponent<Renderer>();
         SetMaterial(false);
@@ -88,9 +92,10 @@ public class gPickupController : MonoBehaviour
     /// </summary>
     public void OnPointerClick()
     {
+        _audioSource.PlayOneShot(_audioClip);
         _cam.GetComponent<InventoryManagement>().EnterIntoInventory(gameObject);
         gameObject.layer = LayerMask.NameToLayer("Default");
-        gameObject.SetActive(false);
+        gameObject.transform.position = new Vector3(-100,100, 100);
         Debug.Log("Picked up " + gameObject.name);
     }
     

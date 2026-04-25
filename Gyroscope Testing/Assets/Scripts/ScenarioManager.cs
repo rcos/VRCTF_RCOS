@@ -50,6 +50,7 @@ public class ScenarioManager : MonoBehaviour
     {
         flagSet = true;
         audioSource.PlayOneShot(audioClip);
+        Debug.Log("Level Cleared");
         endingWindow.SetActive(true);
     }
 }

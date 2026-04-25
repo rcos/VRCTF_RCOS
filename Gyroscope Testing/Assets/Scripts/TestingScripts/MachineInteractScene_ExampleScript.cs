@@ -30,6 +30,7 @@ public class MachineInteractScene_ExampleScript : MonoBehaviour
         detachSocket_FromWire.Enable();
         attachSocket_FromSocket.Enable();
         attachSocket_FromWire.Enable();
+        Debug.Log("WHAT");
     }
 
     void OnDisable()

@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainText: {fileID: 412560026}
   scenario1Button: {fileID: 164546798}
-  scenario2Button: {fileID: 783627135}
+  scenario2Button: {fileID: 0}
   scenario3Button: {fileID: 424904944}
   scenario4Button: {fileID: 2035285181}
   proceedButton: {fileID: 389399303}
@@ -2191,7 +2191,7 @@ GameObject:
   - component: {fileID: 1729557422}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2630,6 +2630,8 @@ GameObject:
   - component: {fileID: 2143556916}
   - component: {fileID: 2143556922}
   - component: {fileID: 2143556923}
+  - component: {fileID: 2143556924}
+  - component: {fileID: 2143556925}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2876,6 +2878,31 @@ MonoBehaviour:
   sensitivity: 0.2
   minTurnAngle: -90
   maxTurnAngle: 90
+--- !u!114 &2143556924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143556914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed21289d3f7972843beb09935992eeb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UserPauseStatus
+--- !u!114 &2143556925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143556914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c3ccef600062147b45c272f2103512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryManagement
+  storedItem: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
