@@ -13,7 +13,14 @@ public static class Keyboard_3D_Static
             Debug.LogError("Prefab \"KeyboardPrefabs/Keyboard_Base\" not found in Resources folder");
             return null;
         }
-        return Object.Instantiate(prefab);
+
+        instance = Object.Instantiate(prefab);
+        if (instance.GetComponent<Keyboard_3D>() == null) {
+            Debug.LogError("Keyboard_3D missing from prefab. Adding at runtime.");
+            instance.AddComponent<Keyboard_3D>();
+        }
+        
+        return instance;
     }
 
     public static GameObject makeNewKeyboardObjectAndKeys(TypeEnum keyboard_type, float hor_margin, float ver_margin, System.Action<string, string> onKeyPress_func,

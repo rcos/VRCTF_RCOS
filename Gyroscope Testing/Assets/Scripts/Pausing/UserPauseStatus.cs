@@ -81,7 +81,7 @@ public class PauseBehavior_HoldInteract : PauseBehavior {
             return;
         }
 
-        bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || Mouse.current.leftButton.isPressed;
+        bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || (Mouse.current != null && Mouse.current.leftButton.isPressed);
         
         currentTimeHeld = (currentTimeHeld > 0.01f || isButtonPressed) ? (currentTimeHeld + Time.deltaTime) : 0;
         currentTimeDropped = (currentTimeHeld > 0.01f && !isButtonPressed) ? (currentTimeDropped + Time.deltaTime) : 0;

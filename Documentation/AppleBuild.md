@@ -36,29 +36,6 @@ Based off Apple Compile By Nicholas Busaba
             if (Google.XR.Cardboard.Api.IsTriggerPressed || (Mouse.current != null && Mouse.current.leftButton.isPressed))
             ```
      - The issue this fixes is allowing a touch to iPhone screen to work as an interaction.
- - Gyroscope Testing/Assets/Scripts/Pausing/UserPauseStatus.cs (is in repository and can be changed there but for now)
-    - In ```RunEveryFrame(GameObject cur)```:
-        - find line 84: 
-            ```
-            bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || Mouse.current.leftButton.isPressed;
-            ```
-        - replace with: 
-            ```
-            bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || (Mouse.current != null && Mouse.current.leftButton.isPressed);
-            ```
-    - The issue this fixes is taking a touch to iPhone screen as a pause invoking interact.
- - Gyroscope Testing/Assets/Scripts/KeyboardScripts/Keyboard_3D.cs (is in repository and can be changed there but for now)
-    - In ```Keyboard_3D_Static::makeNewKeyboardObject()```:
-        - add the following after ```if (prefab == null) {...}```:
-            ```
-            instance = Object.Instantiate(prefab);
-            if (instance.GetComponent<Keyboard_3D>() == null) {
-                Debug.LogError("Keyboard_3D missing from prefab. Adding at runtime.");
-                instance.AddComponent<Keyboard_3D>();
-            }
-            ```
-        - replace: ```return Object.Instantiate(prefab);``` with ```return instance;```
-    - The issue this fixes is for iOS builds, Keyboard_Base.prefab may instantiate without the Keyboard_3D component due to Unity build inconsistencies. This checks and forces the component to be added at runtime. 
 
 **Unity Settings and Build**
  - Edit -> Project Settings -> 
@@ -89,3 +66,29 @@ Based off Apple Compile By Nicholas Busaba
 
 ## Next Steps
  - GitHub actions to perform compliance checks to ensure futher development doesn't break compatibility.
+
+
+## Repo Files Modified
+- Gyroscope Testing/Assets/Scripts/Pausing/UserPauseStatus.cs (is in repository and can be changed there but for now)
+    - In ```RunEveryFrame(GameObject cur)```:
+        - find line 84: 
+            ```
+            bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || Mouse.current.leftButton.isPressed;
+            ```
+        - replace with: 
+            ```
+            bool isButtonPressed = Google.XR.Cardboard.Api.IsTriggerPressed || (Mouse.current != null && Mouse.current.leftButton.isPressed);
+            ```
+    - The issue this fixes is taking a touch to iPhone screen as a pause invoking interact.
+ - Gyroscope Testing/Assets/Scripts/KeyboardScripts/Keyboard_3D.cs (is in repository and can be changed there but for now)
+    - In ```Keyboard_3D_Static::makeNewKeyboardObject()```:
+        - add the following after ```if (prefab == null) {...}```:
+            ```
+            instance = Object.Instantiate(prefab);
+            if (instance.GetComponent<Keyboard_3D>() == null) {
+                Debug.LogError("Keyboard_3D missing from prefab. Adding at runtime.");
+                instance.AddComponent<Keyboard_3D>();
+            }
+            ```
+        - replace: ```return Object.Instantiate(prefab);``` with ```return instance;```
+    - The issue this fixes is for iOS builds, Keyboard_Base.prefab may instantiate without the Keyboard_3D component due to Unity build inconsistencies. This checks and forces the component to be added at runtime. 
