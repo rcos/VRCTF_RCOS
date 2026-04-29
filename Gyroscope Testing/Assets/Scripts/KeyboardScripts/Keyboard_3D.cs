@@ -14,7 +14,7 @@ public static class Keyboard_3D_Static
             return null;
         }
 
-        instance = Object.Instantiate(prefab);
+        GameObject instance = Object.Instantiate(prefab);
         if (instance.GetComponent<Keyboard_3D>() == null) {
             Debug.LogError("Keyboard_3D missing from prefab. Adding at runtime.");
             instance.AddComponent<Keyboard_3D>();

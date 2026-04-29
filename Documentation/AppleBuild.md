@@ -11,7 +11,6 @@ Based off Apple Compile By Nicholas Busaba
  - Make a developer Apple Account (https://developer.apple.com/programs/enroll/)
  - Get XCode. Use the Apple store if you can. If on an older mac use https://xcodereleases.com/ to get the right version
  - In XCode you need to set up a team with yourself. 
-     - I can't remember the process because I did it a while ago now but it should work.
  - Make sure everything is pulled
  - Open the Unity Project
 
