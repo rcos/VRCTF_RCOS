@@ -51,7 +51,7 @@ Based off Apple Compile By Nicholas Busaba
 
 ## XCode Settings and Run
  - Finder -> Build Folder -> Info.plist
-     -  (+) Privacy - Camera Usage Description
+     -  (+) Privacy - NSCameraUsageDescription or Privacy - Camera Usage Description
      - Set string to "Camera is used to scan VR headset QR codes for Cardboard configuration."
      - *This will reset every build but after the first run with it on an iPhone that iPhone won't need it again.*
  - Finder -> Build Folder -> open Unity-iPhone.xcworkspace
